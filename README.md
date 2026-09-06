@@ -36,7 +36,7 @@
 4. **Connect** a physical device (USB debugging) or create an emulator (API 26+)
 5. **Click** the green ▶ Run button
 
-> ⚡ **First launch** takes ~15-30 seconds for PDF extraction & database indexing. Subsequent launches are instant.
+> ⚡ **Instant Launch**: Database comes pre-packaged with 1,838 indexed legal sections and 75 training Q&As (`nyaai_preloaded.db`). First launch and database preparation take **< 100ms**.
 
 ---
 
@@ -58,10 +58,11 @@ Get a key from [Google AI Studio](https://aistudio.google.com/). Gradle automati
 
 ```
 app/src/main/java/com/nyaai/
-├── MainActivity.kt           ← Entry point: sets up DB, AI, Firebase, Compose
+├── MainActivity.kt           ← Entry point: sets up DB (v8), AI, Firebase, Compose
 ├── data/local/
-│   ├── RagDatabase.kt        ← Room DB: documents (FTS4), chat history, training
-│   ├── PdfExtractorService.kt ← Extracts & indexes PDFs on first launch
+│   ├── RagDatabase.kt        ← Room DB: documents (FTS4), bookmarks, chat history, training
+│   ├── DocumentScannerService.kt ← Dual-pipeline OCR (ML Kit) & PDF Parser (PDFBox)
+│   ├── PdfExtractorService.kt ← Fallback indexer for local documents
 │   └── AiService.kt          ← RAG pipeline: retrieval → confidence → Gemini API → fallback
 ├── theme/
 │   ├── Theme.kt              ← Material 3 color schemes (dark/light)
@@ -73,8 +74,8 @@ app/src/main/java/com/nyaai/
     │   ├── SplashScreen.kt    ← Loading screen
     │   ├── WelcomeScreen.kt   ← Onboarding
     │   ├── LoginScreen.kt     ← Google Sign-In
-    │   ├── MainScreen.kt      ← Main hub with bottom nav
-    │   ├── ChatScreen.kt      ← AI chat interface
+    │   ├── MainScreen.kt      ← Main hub with bottom nav & Bookmarks drawer
+    │   ├── ChatScreen.kt      ← AI chat, voice input (STT), OCR document scanner
     │   ├── SettingsScreen.kt  ← Theme, language, privacy settings
     │   └── AboutScreen.kt    ← Vision & Legal SOS helplines
     ├── state/
@@ -96,23 +97,27 @@ User Question → Keyword Extraction → FTS4 Search (Room DB)
     → If API fails → Offline fallback with direct excerpts
 ```
 
-### Legal Documents (Bundled in `app/src/main/assets/`)
-| File | Full Name |
-|------|-----------|
-| `coi.pdf` | Constitution of India |
-| `bns.pdf` | Bharatiya Nyaya Sanhita (Criminal Law) |
-| `bnss.pdf` | Bharatiya Nagarik Suraksha Sanhita (Criminal Procedure) |
-| `bsa.pdf` | Bharatiya Sakshya Adhiniyam (Evidence Act) |
+### Pre-packaged Legal Knowledge Base (`app/src/main/assets/database/nyaai_preloaded.db`)
+| Source Act | Full Name | Indexed Sections |
+|------------|-----------|------------------|
+| `coi.pdf`  | Constitution of India | 448 Articles & Preamble |
+| `bns.pdf`  | Bharatiya Nyaya Sanhita (Criminal Law) | 358 Sections |
+| `bnss.pdf` | Bharatiya Nagarik Suraksha Sanhita (Criminal Procedure) | 531 Sections |
+| `bsa.pdf`  | Bharatiya Sakshya Adhiniyam (Evidence Act) | 170 Sections |
+| Curated Q&A | Pre-trained legal question & answer pairs | 75 Curated pairs |
 
 ---
 
 ## ✨ Key Features
 
 - 🤖 **AI Legal Chat** — Ask any legal question in natural language
-- 📚 **On-device RAG** — Legal knowledge indexed locally, no backend needed
-- 🌐 **5 Languages** — English, Hindi, Bengali, Telugu, Tamil
+- 🎙️ **Voice Input (STT)** — Multi-language speech-to-text with Indian dialect routing (`en-IN`, `hi-IN`, `bn-IN`, `te-IN`, `ta-IN`)
+- 📷 **Legal Document Scanner & OCR** — On-device image text recognition (ML Kit) and PDF parsing (PDFBox)
+- 🔖 **Legal Bookmarks** — Save and organize key sections and AI responses with persistent Room storage
+- 📚 **Instant Startup & Preloaded RAG** — Over 1,800 legal sections pre-packaged for instant < 100ms cold start
+- 🌐 **5 Indian Languages** — English, Hindi, Bengali, Telugu, Tamil
 - 🎨 **Dark/Light Theme** — Material 3 adaptive theming
-- 🔒 **Firebase Auth** — Secure Google Sign-In
+- 🔒 **Firebase Auth** — Secure Google Sign-In with dynamic profile integration
 - 💬 **Chat History** — Persistent conversations with feedback system
 - 🚨 **Legal SOS** — Emergency helpline numbers
 - 📴 **Offline Fallback** — Works without internet (raw excerpts)
