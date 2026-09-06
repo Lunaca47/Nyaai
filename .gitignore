@@ -61,3 +61,12 @@ backend/.env
 .DS_Store
 Thumbs.db
 
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/*.json
+fastlane/*.p12
+Gemfile.lock
+

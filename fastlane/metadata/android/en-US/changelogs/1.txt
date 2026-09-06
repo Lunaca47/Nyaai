@@ -1,0 +1,6 @@
+﻿• Initial Production Release v1.0 of NYAAI
+• Complete offline statutory database for BNS 2023, BNSS 2023, BSA 2023, and Constitution of India
+• Hybrid offline RAG + Google Gemini AI legal assistance
+• On-device OCR document scanner for legal notices and agreements
+• Multilingual speech-to-text and UI in English, Hindi, Bengali, Telugu, and Tamil
+• One-tap bookmarking and PDF chat export

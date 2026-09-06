@@ -1,0 +1,64 @@
+﻿default_platform(:android)
+
+platform :android do
+  desc "Runs all unit tests"
+  lane :test do
+    gradle(
+      task: "test",
+      flags: "--no-daemon"
+    )
+  end
+
+  desc "Build signed production Release APK"
+  lane :build_apk do
+    gradle(
+      task: "assembleRelease",
+      flags: "--no-daemon"
+    )
+  end
+
+  desc "Build signed production Release Android App Bundle (AAB)"
+  lane :build_bundle do
+    gradle(
+      task: "bundleRelease",
+      flags: "--no-daemon"
+    )
+  end
+
+  desc "Build and upload signed App Bundle to Google Play Internal Test Track"
+  lane :internal do
+    test
+    build_bundle
+    upload_to_play_store(
+      track: "internal",
+      skip_upload_metadata: false,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: false,
+      aab: "app/build/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  desc "Promote build from internal track to production"
+  lane :promote_to_production do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: false,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Upload only store listing metadata and release notes without releasing a new binary"
+  lane :upload_metadata do
+    upload_to_play_store(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
