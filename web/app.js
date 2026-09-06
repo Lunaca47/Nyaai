@@ -48,7 +48,7 @@ function initNeuralCanvas() {
       vx: (Math.random() - 0.5) * 0.7,
       vy: (Math.random() - 0.5) * 0.7,
       radius: Math.random() * 2 + 1,
-      color: Math.random() > 0.3 ? "#00F2FE" : "#FFD700"
+      color: Math.random() > 0.3 ? "#818CF8" : "#F59E0B"
     });
   }
 
@@ -64,7 +64,7 @@ function initNeuralCanvas() {
 
         if (dist < maxDistance) {
           const alpha = 1 - dist / maxDistance;
-          ctx.strokeStyle = `rgba(0, 242, 254, ${alpha * 0.22})`;
+          ctx.strokeStyle = `rgba(99, 102, 241, ${alpha * 0.14})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
@@ -602,3 +602,4 @@ function initLanguageSwitcher() {
     if (elBtnScanner) elBtnScanner.textContent = strings.btnScanner;
   });
 }
+

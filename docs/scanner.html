@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Document Scanner & OCR — NYAAI (न्यायAI)</title>
+  <meta name="description" content="On-device optical character recognition for legal notices, contracts, and FIR copies with structured rights extraction.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="bg-pastel-orb orb-1"></div>
+  <div class="bg-pastel-orb orb-2"></div>
+
+  <!-- Navigation -->
+  <nav class="pastel-nav">
+    <a href="index.html" class="brand-logo">
+      <div class="logo-box">⚖</div>
+      <span class="text-gradient">NYAAI</span>
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">// न्यायAI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="terminal.html">AI Terminal</a></li>
+      <li><a href="scanner.html" class="active">Doc Scanner</a></li>
+      <li><a href="codex.html">Statutory Codex</a></li>
+      <li><a href="sos.html">Legal SOS</a></li>
+      <li><a href="download.html">Download</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <select id="langSelect" class="lang-select" aria-label="Select Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="bn">বাংলা (Bengali)</option>
+        <option value="te">తెలుగు (Telugu)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+      </select>
+      <a href="download.html" class="btn-primary" style="padding: 7px 16px; font-size: 0.88rem;">Get App</a>
+    </div>
+  </nav>
+
+  <!-- Scanner Workspace -->
+  <main class="page-container">
+    <div class="page-header">
+      <span class="badge-pastel-gold">📄 On-Device Vision Engine</span>
+      <h1 class="page-title">Legal Document Scanner & OCR</h1>
+      <p class="page-desc">Extract text from paper notices, contracts, and FIRs with zero cloud upload using local Google ML Kit text recognition.</p>
+    </div>
+
+    <div class="scanner-split">
+      <!-- Left: Viewport -->
+      <div class="scanner-viewport">
+        <div id="scannerLaser" class="laser-bar"></div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <button class="sample-tab active" data-sample="notice138" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+            Cheque Bounce (S.138)
+          </button>
+          <button class="sample-tab" data-sample="firReport" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+            Cybercrime FIR (BNSS)
+          </button>
+          <button class="sample-tab" data-sample="ndaBreach" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 0.8rem; font-weight: 600;">
+            NDA Breach Notice
+          </button>
+        </div>
+
+        <div id="docPreview" class="doc-paper">
+          <!-- Populated by JS -->
+        </div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
+          <span class="badge-pastel-sage">
+            <span>●</span> ML Kit On-Device Engine
+          </span>
+          <button id="scanDocBtn" class="btn-primary" style="padding: 9px 20px;">
+            ⚡ Analyze Document
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Structured Report -->
+      <div class="card-pastel" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h2 style="font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+            <span>🔍</span> Structured Legal Extraction
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+            Instant automated parsing of notice types, governing statutory sections, and legal remedy timelines.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: #F8FAFC; border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px;">
+              <div style="font-size: 0.76rem; text-transform: uppercase; font-weight: 700; color: var(--primary-blue); margin-bottom: 4px;">Document Classification</div>
+              <div id="repType" style="font-weight: 600; color: var(--text-primary);">Click 'Analyze Document' to begin...</div>
+            </div>
+
+            <div style="background: #F8FAFC; border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px;">
+              <div style="font-size: 0.76rem; text-transform: uppercase; font-weight: 700; color: var(--primary-gold); margin-bottom: 4px;">Governing Statutory Provisions</div>
+              <div id="repStatutes" class="mono" style="font-weight: 600; color: var(--text-secondary);">—</div>
+            </div>
+
+            <div style="background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 12px; padding: 14px;">
+              <div style="font-size: 0.76rem; text-transform: uppercase; font-weight: 700; color: var(--primary-rose); margin-bottom: 4px;">Critical Statutory Deadlines</div>
+              <div id="repDeadline" style="font-weight: 700; color: var(--primary-rose);">—</div>
+            </div>
+
+            <div style="background: #F8FAFC; border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px;">
+              <div style="font-size: 0.76rem; text-transform: uppercase; font-weight: 700; color: var(--primary-emerald); margin-bottom: 4px;">Recommended Next Steps</div>
+              <div id="repAction" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5;">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 12px;">
+          🔒 <strong>Privacy Assurance:</strong> Document processing runs strictly inside device memory. No photos or text strings are retained or transferred.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="pastel-footer">
+    <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-primary); margin-bottom: 4px;">
+      NYAAI (न्यायAI) LegalTech Platform
+    </div>
+    <div class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="terminal.html">AI Terminal</a>
+      <a href="scanner.html">Doc Scanner</a>
+      <a href="codex.html">Statutory Codex</a>
+      <a href="sos.html">Legal SOS</a>
+      <a href="download.html">Download App</a>
+    </div>
+    <div class="mono" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 10px;">
+      © 2026 NYAAI LegalTech.
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

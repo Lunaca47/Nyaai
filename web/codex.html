@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Statutory Codex — NYAAI (न्यायAI)</title>
+  <meta name="description" content="Searchable library of India's reformed criminal laws: BNS 2023, BNSS 2023, BSA 2023, and Constitution of India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="bg-pastel-orb orb-1"></div>
+  <div class="bg-pastel-orb orb-2"></div>
+
+  <!-- Navigation -->
+  <nav class="pastel-nav">
+    <a href="index.html" class="brand-logo">
+      <div class="logo-box">⚖</div>
+      <span class="text-gradient">NYAAI</span>
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">// न्यायAI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="terminal.html">AI Terminal</a></li>
+      <li><a href="scanner.html">Doc Scanner</a></li>
+      <li><a href="codex.html" class="active">Statutory Codex</a></li>
+      <li><a href="sos.html">Legal SOS</a></li>
+      <li><a href="download.html">Download</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <select id="langSelect" class="lang-select" aria-label="Select Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="bn">বাংলা (Bengali)</option>
+        <option value="te">తెలుగు (Telugu)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+      </select>
+      <a href="download.html" class="btn-primary" style="padding: 7px 16px; font-size: 0.88rem;">Get App</a>
+    </div>
+  </nav>
+
+  <!-- Codex Workspace -->
+  <main class="page-container">
+    <div class="page-header">
+      <span class="badge-pastel-sage">📚 Statutory Knowledge Base</span>
+      <h1 class="page-title">The Indian Statutory Codex</h1>
+      <p class="page-desc">Instant indexed access across 1,838+ sections of India's new criminal codes and constitutional jurisprudence.</p>
+    </div>
+
+    <!-- Live Search Filter -->
+    <div class="codex-search">
+      <input type="text" id="codexSearch" class="codex-input" placeholder="Search by section, keyword, or topic (e.g., murder, bail, FIR, electronic evidence, privacy)..." aria-label="Filter Codex">
+    </div>
+
+    <div id="codexGrid" class="codex-grid-cards">
+      <!-- Populated dynamically via JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="pastel-footer">
+    <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-primary); margin-bottom: 4px;">
+      NYAAI (न्यायAI) LegalTech Platform
+    </div>
+    <div class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="terminal.html">AI Terminal</a>
+      <a href="scanner.html">Doc Scanner</a>
+      <a href="codex.html">Statutory Codex</a>
+      <a href="sos.html">Legal SOS</a>
+      <a href="download.html">Download App</a>
+    </div>
+    <div class="mono" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 10px;">
+      © 2026 NYAAI LegalTech.
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -3,419 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NYAAI (न्यायAI) — The Future of Indian Jurisprudence, Powered by AI</title>
-  <meta name="description" content="India's premier AI-powered legal technology platform with offline statutory retrieval for BNS 2023, BNSS 2023, BSA 2023, and Constitution of India.">
-  
-  <!-- Fonts -->
+  <title>NYAAI (न्यायAI) — Indian Legal AI Assistant</title>
+  <meta name="description" content="India's premier AI legal assistant with offline statutory retrieval for BNS 2023, BNSS 2023, BSA 2023, and Constitution of India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Glowing Mesh Elements -->
-  <div class="bg-glow-orb orb-1"></div>
-  <div class="bg-glow-orb orb-2"></div>
-  <div class="bg-glow-orb orb-3"></div>
+  <!-- Pastel Ambient Meshes -->
+  <div class="bg-pastel-orb orb-1"></div>
+  <div class="bg-pastel-orb orb-2"></div>
+  <div class="bg-pastel-orb orb-3"></div>
 
-  <!-- Cyber Navigation Header -->
-  <nav class="cyber-nav">
-    <a href="#" class="brand-logo">
-      <div class="logo-scales">⚖</div>
+  <!-- Navigation -->
+  <nav class="pastel-nav">
+    <a href="index.html" class="brand-logo">
+      <div class="logo-box">⚖</div>
       <span class="text-gradient">NYAAI</span>
       <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">// न्यायAI</span>
     </a>
 
-    <div class="telemetry-pulse">
-      <span class="pulse-dot"></span>
-      <span class="mono">1,838 SECTIONS ACTIVE • RAG ONLINE</span>
-    </div>
-
     <ul class="nav-links">
-      <li><a href="#terminal">AI Terminal</a></li>
-      <li><a href="#scanner">Doc Scanner</a></li>
-      <li><a href="#codex">Statutory Codex</a></li>
-      <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#sos">Legal SOS</a></li>
-      <li><a href="#download">Download</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="terminal.html">AI Terminal</a></li>
+      <li><a href="scanner.html">Doc Scanner</a></li>
+      <li><a href="codex.html">Statutory Codex</a></li>
+      <li><a href="sos.html">Legal SOS</a></li>
+      <li><a href="download.html">Download</a></li>
     </ul>
 
     <div class="nav-actions">
-      <select id="langSelect" class="lang-select" aria-label="Language Selector">
+      <select id="langSelect" class="lang-select" aria-label="Select Language">
         <option value="en">English</option>
         <option value="hi">हिन्दी (Hindi)</option>
         <option value="bn">বাংলা (Bengali)</option>
         <option value="te">తెలుగు (Telugu)</option>
         <option value="ta">தமிழ் (Tamil)</option>
       </select>
-      <a href="#download" class="btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">Get App</a>
+      <a href="download.html" class="btn-primary" style="padding: 7px 16px; font-size: 0.88rem;">Get App</a>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <header class="hero-section">
+  <header class="hero-wrapper">
     <canvas id="neuralCanvas"></canvas>
-    
-    <div class="hero-content">
-      <div class="badge-tag">
-        <span>Next-Gen Legal Intelligence</span> • 
-        <span class="text-cyan">BNS 2023 Ready</span>
+
+    <div class="badge-pastel-gold" style="margin-bottom: 12px;">
+      <span>🏛️</span>
+      <span>Reformed Criminal Laws • BNS 2023 Ready</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="text-gradient">Simplifying Indian Law with Modern Artificial Intelligence.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Instant statutory retrieval, on-device legal OCR, and plain-language criminal code synthesis across Bharatiya Nyaya Sanhita, BNSS, BSA, and the Constitution of India.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="terminal.html" class="btn-primary">⚡ Launch AI Terminal</a>
+      <a href="scanner.html" class="btn-honey">📄 Try Document Scanner</a>
+      <a href="download.html" class="btn-secondary">📲 Download Android APK</a>
+    </div>
+
+    <!-- Live Telemetry Strip -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-number">1,838+</div>
+        <div class="metric-label">Indexed Legal Sections</div>
       </div>
-
-      <h1 class="hero-title">
-        <span class="text-gradient">The Future of Indian Jurisprudence, Powered by AI.</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Instant statutory retrieval, on-device legal OCR, and intelligent criminal code synthesis under Bharatiya Nyaya Sanhita (BNS 2023), BNSS 2023, BSA 2023, and the Constitution of India.
-      </p>
-
-      <div class="hero-ctas">
-        <a href="#terminal" class="btn-primary">⚡ Launch AI Terminal</a>
-        <a href="#scanner" class="btn-gold">📄 Try Document Scanner</a>
-        <a href="#download" class="btn-outline">📲 Download Android APK</a>
+      <div class="metric-card">
+        <div class="metric-number">4 Acts</div>
+        <div class="metric-label">BNS • BNSS • BSA • COI</div>
       </div>
-
-      <!-- Live Telemetry Strip -->
-      <div class="telemetry-strip">
-        <div class="telemetry-cell">
-          <div class="telemetry-val">1,838+</div>
-          <div class="telemetry-lbl">Indexed Legal Sections</div>
-        </div>
-        <div class="telemetry-cell">
-          <div class="telemetry-val">4 Acts</div>
-          <div class="telemetry-lbl">BNS • BNSS • BSA • COI</div>
-        </div>
-        <div class="telemetry-cell">
-          <div class="telemetry-val">&lt; 100ms</div>
-          <div class="telemetry-lbl">Offline Retrieval Latency</div>
-        </div>
-        <div class="telemetry-cell">
-          <div class="telemetry-val">100%</div>
-          <div class="telemetry-lbl">On-Device Private OCR</div>
-        </div>
+      <div class="metric-card">
+        <div class="metric-number">&lt; 100ms</div>
+        <div class="metric-label">Offline Query Speed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">100%</div>
+        <div class="metric-label">On-Device Private OCR</div>
       </div>
     </div>
   </header>
 
-  <!-- Section 1: Live Interactive AI Terminal -->
-  <section id="terminal" class="section-wrapper">
-    <div class="section-header">
-      <span class="section-tag">Interactive Playground</span>
-      <h2 class="section-title">Live Legal AI Assistant</h2>
-      <p class="section-desc">Experience real-time statutory retrieval with grounded citations across India's reformed criminal acts.</p>
+  <!-- Feature Showcase Grid -->
+  <section class="page-container" style="padding-top: 20px;">
+    <div class="page-header">
+      <span class="badge-pastel-blue">Explore Capabilities</span>
+      <h2 class="page-title">Everything You Need to Navigate Indian Law</h2>
+      <p class="page-desc">Engineered for advocates, law students, police officers, and citizens seeking immediate legal clarity.</p>
     </div>
 
-    <div class="terminal-window glass-panel">
-      <div class="terminal-titlebar">
-        <div class="window-dots">
-          <span class="dot dot-red"></span>
-          <span class="dot dot-yellow"></span>
-          <span class="dot dot-green"></span>
+    <div class="feature-showcase-grid">
+      <!-- Feature 1 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-blue-bg); color: var(--primary-blue);">⚡</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Interactive AI Terminal</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            Ask complex legal questions and receive answers grounded directly in specific statutory sections with confidence metrics, speech synthesis read-aloud, and speech-to-text input.
+          </p>
         </div>
-        <div class="terminal-status mono">
-          <span>●</span> SYSTEM: READY // RAG DUAL ENGINE v1.0
-        </div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">
-          HTTPS ENCRYPTED
-        </div>
+        <a href="terminal.html" class="btn-primary" style="align-self: flex-start;">Open Terminal →</a>
       </div>
 
-      <div class="terminal-body">
-        <div id="chatHistory" class="chat-history">
-          <!-- Initial bot message -->
-          <div class="message-bubble bot-message">
-            <div class="confidence-chip">
-              <span>●</span> 99.8% System Verified
-            </div>
-            <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #FFF;">
-              Welcome to NYAAI Legal AI Engine
-            </div>
-            <p style="color: #CBD5E1;">
-              I am your AI legal research companion, pre-loaded with the complete statutory texts of BNS 2023, BNSS 2023, BSA 2023, and the Constitution of India. Ask any legal question or click a suggested query below:
-            </p>
-          </div>
+      <!-- Feature 2 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-gold-bg); color: var(--primary-gold);">📄</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">On-Device Document Scanner</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            Scan paper legal notices, agreements, and FIR copies. Extract actionable legal deadlines, statutory violation clauses, and recommended steps with zero cloud leakage.
+          </p>
         </div>
-
-        <div class="terminal-suggestions">
-          <button class="suggestion-chip" data-query="What are the bail provisions under Section 482 of BNSS 2023?">
-            ⚖️ Section 482 BNSS Bail
-          </button>
-          <button class="suggestion-chip" data-query="Explain Fundamental Rights under Article 21 and Privacy">
-            📜 Article 21 Privacy
-          </button>
-          <button class="suggestion-chip" data-query="What is the punishment for murder under Section 103 of BNS 2023?">
-            ⚔️ Section 103 BNS Murder
-          </button>
-          <button class="suggestion-chip" data-query="How are electronic records and WhatsApp messages admitted under Section 61 and 63 of BSA 2023?">
-            📱 Electronic Evidence BSA
-          </button>
-          <button class="suggestion-chip" data-query="What are consumer rights regarding defective products and refunds?">
-            🛍️ Consumer Rights & Refunds
-          </button>
-        </div>
-
-        <div class="terminal-input-bar">
-          <input type="text" id="terminalInput" class="terminalInput terminal-input" placeholder="Type a legal question (e.g. bail in non-bailable offences, Article 21, cheque bounce)..." aria-label="Legal Question Input">
-          <button id="micBtn" class="icon-btn" title="Voice Input (Speech to Text)">🎙️</button>
-          <button id="sendBtn" class="btn-primary" style="padding: 8px 16px; font-size: 0.88rem;">Send</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 2: Interactive Document OCR Scanner -->
-  <section id="scanner" class="section-wrapper">
-    <div class="section-header">
-      <span class="section-tag">Vision Intelligence</span>
-      <h2 class="section-title">On-Device Legal Document Scanner</h2>
-      <p class="section-desc">Experience optical text recognition and instant statutory extraction running completely on-device without cloud leakage.</p>
-    </div>
-
-    <div class="scanner-grid">
-      <!-- Left: Scanner Viewport -->
-      <div class="scanner-frame glass-panel">
-        <div id="scannerLaser" class="scanner-laser"></div>
-
-        <div class="doc-sample-selector">
-          <button class="sample-tab active" data-sample="notice138">Cheque Bounce (S.138 NI)</button>
-          <button class="sample-tab" data-sample="firReport">Cyber Crime FIR (BNSS)</button>
-          <button class="sample-tab" data-sample="ndaBreach">NDA Breach Notice</button>
-        </div>
-
-        <div id="docPreview" class="doc-preview-area">
-          <!-- Populated by JS -->
-        </div>
-
-        <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; color: var(--neon-emerald); display: flex; align-items: center; gap: 6px;">
-            <span class="pulse-dot"></span> ML Kit Vision Engine Ready
-          </span>
-          <button id="scanDocBtn" class="btn-gold" style="padding: 8px 18px; font-size: 0.88rem;">
-            ⚡ Analyze Document
-          </button>
-        </div>
+        <a href="scanner.html" class="btn-honey" style="align-self: flex-start;">Scan Document →</a>
       </div>
 
-      <!-- Right: Structured Legal Breakdown -->
-      <div class="analysis-report glass-panel" style="padding: 24px;">
-        <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #FFF; display: flex; align-items: center; gap: 8px;">
-          <span>🔍</span> Structured Legal Extraction
-        </h3>
-        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
-          Instant identification of statutory violations, limitation windows, and actionable rights.
-        </p>
-
-        <div class="report-item">
-          <div class="report-item-title">Document Classification</div>
-          <div id="repType" class="report-item-val text-gold">Click 'Analyze Document' to scan...</div>
+      <!-- Feature 3 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-sage-bg); color: var(--primary-emerald);">📚</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Indian Statutory Codex</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            Searchable, structured repository of the complete new criminal laws (BNS 2023, BNSS 2023, BSA 2023) and the Constitution of India. Search sections by keywords instantly.
+          </p>
         </div>
+        <a href="codex.html" class="btn-secondary" style="align-self: flex-start;">Browse Codex →</a>
+      </div>
 
-        <div class="report-item">
-          <div class="report-item-title">Governing Statutory Provisions</div>
-          <div id="repStatutes" class="report-item-val mono text-cyan">—</div>
+      <!-- Feature 4 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-rose-bg); color: var(--primary-rose);">🚨</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">National Legal SOS</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            One-touch access to official toll-free emergency legal helplines across India (NALSA free legal aid, NCW Women helpline, National Cybercrime, and Childline).
+          </p>
         </div>
+        <a href="sos.html" class="btn-secondary" style="align-self: flex-start;">View Helplines →</a>
+      </div>
 
-        <div class="report-item">
-          <div class="report-item-title">Critical Statutory Limitation / Deadlines</div>
-          <div id="repDeadline" class="report-item-val" style="color: var(--danger); font-weight: 700;">—</div>
+      <!-- Feature 5 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-purple-bg); color: var(--pastel-purple-text);">🔒</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Zero-Knowledge Privacy</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            Local SQLite FTS4 preloaded knowledge base and on-device ML Kit OCR guarantee that private legal consultations, photos, and voice data never leave your device.
+          </p>
         </div>
+        <span class="badge-pastel-sage" style="align-self: flex-start;">✓ 100% On-Device</span>
+      </div>
 
-        <div class="report-item">
-          <div class="report-item-title">Recommended Legal Action</div>
-          <div id="repAction" class="report-item-val" style="color: #CBD5E1; font-size: 0.92rem;">—</div>
+      <!-- Feature 6 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-icon" style="background: var(--pastel-blue-bg); color: var(--primary-blue);">📲</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Production Android App</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+            Signed production APK (11.47 MB) with R8 minification, verified with APK Signature Scheme v2. Download and sideload directly on any Android 7.0+ device.
+          </p>
         </div>
+        <a href="download.html" class="btn-primary" style="align-self: flex-start;">Download APK →</a>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: 3D Statutory Codex -->
-  <section id="codex" class="section-wrapper">
-    <div class="section-header">
-      <span class="section-tag">Statutory Knowledge Base</span>
-      <h2 class="section-title">The Indian Statutory Codex</h2>
-      <p class="section-desc">Search through India's complete new criminal and constitutional acts with instant keyword indexing.</p>
+  <!-- Footer -->
+  <footer class="pastel-footer">
+    <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-primary); margin-bottom: 4px;">
+      NYAAI (न्यायAI) LegalTech Platform
     </div>
-
-    <div class="codex-search-bar">
-      <span class="codex-search-icon">🔍</span>
-      <input type="text" id="codexSearch" class="codex-search-input" placeholder="Filter acts by section, topic, or keyword (e.g., murder, bail, FIR, privacy, evidence)..." aria-label="Codex Search">
-    </div>
-
-    <div id="codexGrid" class="codex-grid">
-      <!-- Cards rendered dynamically via JS -->
-    </div>
-  </section>
-
-  <!-- Section 4: Architecture & Security -->
-  <section id="architecture" class="section-wrapper">
-    <div class="section-header">
-      <span class="section-tag">Zero-Knowledge Security</span>
-      <h2 class="section-title">Privacy-Preserving Legal Tech Architecture</h2>
-      <p class="section-desc">Designed from first principles to guarantee privacy for sensitive legal discussions and client documents.</p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
-      <div class="glass-card">
-        <div style="font-size: 2rem; margin-bottom: 12px;">🛡️</div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">100% Local RAG Engine</h3>
-        <p style="color: var(--text-secondary); font-size: 0.88rem;">
-          Over 1,800 statutory sections are embedded directly in an on-device SQLite FTS4 database. Sub-second searches execute locally without internet.
-        </p>
-      </div>
-
-      <div class="glass-card">
-        <div style="font-size: 2rem; margin-bottom: 12px;">🔒</div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">On-Device ML Kit OCR</h3>
-        <p style="color: var(--text-secondary); font-size: 0.88rem;">
-          Paper legal notices and FIR copies are processed locally on your phone's processor. Zero scanned images or raw text strings are uploaded to external tracking servers.
-        </p>
-      </div>
-
-      <div class="glass-card">
-        <div style="font-size: 2rem; margin-bottom: 12px;">🧠</div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">Google Gemini 2.5 Flash</h3>
-        <p style="color: var(--text-secondary); font-size: 0.88rem;">
-          When deep cross-statute synthesis is requested, sanitized statutory queries are dispatched over encrypted TLS 1.3 / HTTPS to Google AI Studio.
-        </p>
-      </div>
-
-      <div class="glass-card">
-        <div style="font-size: 2rem; margin-bottom: 12px;">🔑</div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">Cryptographically Signed</h3>
-        <p style="color: var(--text-secondary); font-size: 0.88rem;">
-          Every production release binary is secured with 2048-bit RSA keys and verified under APK Signature Scheme v2 for tamper-proof Android distribution.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 5: Legal SOS Radar -->
-  <section id="sos" class="section-wrapper">
-    <div class="section-header">
-      <span class="section-tag" style="color: var(--danger);">Emergency Legal Support</span>
-      <h2 class="section-title">National Legal SOS Helplines</h2>
-      <p class="section-desc">Instant access to toll-free emergency and legal aid assistance provided by the Government of India.</p>
-    </div>
-
-    <div class="sos-grid">
-      <div class="sos-card">
-        <div class="sos-label">National Legal Services (NALSA)</div>
-        <div class="sos-number">15100</div>
-        <div class="sos-desc">Free legal aid for eligible citizens & undertrials</div>
-      </div>
-
-      <div class="sos-card">
-        <div class="sos-label">Women in Distress Helpline</div>
-        <div class="sos-number">1091</div>
-        <div class="sos-desc">24/7 National Commission for Women support</div>
-      </div>
-
-      <div class="sos-card">
-        <div class="sos-label">National Cybercrime Reporting</div>
-        <div class="sos-number">1930</div>
-        <div class="sos-desc">Financial cyber fraud & online crime redressal</div>
-      </div>
-
-      <div class="sos-card">
-        <div class="sos-label">National Childline Emergency</div>
-        <div class="sos-number">1098</div>
-        <div class="sos-desc">Emergency support for minors & child protection</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: App Download & Release Hub -->
-  <section id="download" class="section-wrapper">
-    <div class="download-box">
-      <div class="download-info">
-        <div class="badge-tag" style="background: rgba(0, 242, 254, 0.08); border-color: var(--border-glow); color: var(--neon-cyan); margin-bottom: 12px;">
-          Production Release v1.0
-        </div>
-        <h2 style="font-size: 2.2rem; margin-bottom: 10px;">Get NYAAI on Android</h2>
-        <p style="color: var(--text-secondary); max-width: 540px; font-size: 0.95rem;">
-          Download the production-signed, R8-obfuscated Android APK directly or explore the Google Play Store bundle. Experience instant offline Indian legal reasoning today.
-        </p>
-
-        <div class="download-badges">
-          <span class="metric-pill">📦 Size: 11.47 MB (APK)</span>
-          <span class="metric-pill">🔒 APK Signature v2: Valid</span>
-          <span class="metric-pill">⚡ Min SDK: Android 7.0 (API 24+)</span>
-        </div>
-
-        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
-          <a href="../release_package/binaries/app-release.apk" download="app-release.apk" class="btn-primary">
-            ⬇️ Download Signed APK (11.47 MB)
-          </a>
-          <a href="https://github.com/Lunaca47/Nyaai_" target="_blank" rel="noopener noreferrer" class="btn-outline">
-            ⭐ View on GitHub
-          </a>
-        </div>
-      </div>
-
-      <div class="qr-card">
-        <div class="qr-placeholder">
-          <!-- Stylized QR Code SVG -->
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" fill="white"/>
-            <!-- Outer Markers -->
-            <rect x="10" y="10" width="25" height="25" rx="3" fill="#0A1128"/>
-            <rect x="14" y="14" width="17" height="17" fill="white"/>
-            <rect x="18" y="18" width="9" height="9" fill="#0A1128"/>
-
-            <rect x="65" y="10" width="25" height="25" rx="3" fill="#0A1128"/>
-            <rect x="69" y="14" width="17" height="17" fill="white"/>
-            <rect x="73" y="18" width="9" height="9" fill="#0A1128"/>
-
-            <rect x="10" y="65" width="25" height="25" rx="3" fill="#0A1128"/>
-            <rect x="14" y="69" width="17" height="17" fill="white"/>
-            <rect x="18" y="73" width="9" height="9" fill="#0A1128"/>
-
-            <!-- Data Dots -->
-            <rect x="42" y="14" width="6" height="6" fill="#0A1128"/>
-            <rect x="52" y="14" width="6" height="6" fill="#0A1128"/>
-            <rect x="42" y="24" width="6" height="6" fill="#0A1128"/>
-            <rect x="52" y="24" width="6" height="6" fill="#0A1128"/>
-
-            <rect x="42" y="42" width="16" height="16" rx="2" fill="#00F2FE"/>
-            <rect x="14" y="45" width="6" height="6" fill="#0A1128"/>
-            <rect x="24" y="45" width="6" height="6" fill="#0A1128"/>
-            <rect x="65" y="45" width="8" height="8" fill="#0A1128"/>
-            <rect x="78" y="45" width="8" height="8" fill="#0A1128"/>
-
-            <rect x="42" y="65" width="6" height="6" fill="#0A1128"/>
-            <rect x="52" y="65" width="6" height="6" fill="#0A1128"/>
-            <rect x="65" y="65" width="10" height="10" fill="#0A1128"/>
-            <rect x="80" y="65" width="10" height="10" fill="#0A1128"/>
-            <rect x="65" y="80" width="10" height="10" fill="#0A1128"/>
-            <rect x="80" y="80" width="10" height="10" fill="#0A1128"/>
-          </svg>
-        </div>
-        <span class="mono" style="font-size: 0.76rem; color: var(--neon-cyan);">Scan to Install APK</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Cyber Footer -->
-  <footer class="cyber-footer">
-    <div style="font-weight: 700; font-size: 1.1rem; color: #FFF; margin-bottom: 6px;">
-      NYAAI (न्यायAI) LegalTech Ecosystem
-    </div>
-    <p style="max-width: 680px; margin: 0 auto; font-size: 0.82rem; color: var(--text-muted);">
-      Disclaimer: NYAAI is an educational and informational legal AI research platform. It does not constitute formal legal advice and does not create an advocate-client relationship. Always consult a licensed advocate for binding legal proceedings.
+    <p style="max-width: 650px; margin: 0 auto; font-size: 0.82rem; color: var(--text-muted);">
+      Disclaimer: NYAAI is an educational and legal research intelligence platform. It does not constitute formal legal counsel. For specific litigation, always consult a licensed advocate.
     </p>
 
-    <div class="footer-links">
-      <a href="../PRIVACY_POLICY.md">Privacy Policy</a>
-      <a href="../DATA_SAFETY_GUIDE.md">Data Safety</a>
-      <a href="../release_package/HANDOFF_README.md">Handoff Docs</a>
+    <div class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="terminal.html">AI Terminal</a>
+      <a href="scanner.html">Doc Scanner</a>
+      <a href="codex.html">Statutory Codex</a>
+      <a href="sos.html">Legal SOS</a>
+      <a href="download.html">Download App</a>
       <a href="https://github.com/Lunaca47/Nyaai_" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
     </div>
 
-    <div class="mono" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 14px;">
-      © 2026 NYAAI LegalTech. Developed with Jetpack Compose, Room FTS4, ML Kit & Google Gemini.
+    <div class="mono" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 10px;">
+      © 2026 NYAAI LegalTech. Native Jetpack Compose, Room FTS4, ML Kit & Google Gemini.
     </div>
   </footer>
 
