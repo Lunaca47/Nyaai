@@ -1,4 +1,4 @@
-import java.util.Properties
+﻿import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -13,6 +13,10 @@ if (localPropsFile.exists()) {
     localProps.load(localPropsFile.inputStream())
 }
 val geminiApiKey = localProps.getProperty("gemini.api.key", "") ?: ""
+val releaseKeystoreFile = localProps.getProperty("release.keystore.file")
+val releaseKeystorePassword = localProps.getProperty("release.keystore.password")
+val releaseKeyAlias = localProps.getProperty("release.key.alias")
+val releaseKeyPassword = localProps.getProperty("release.key.password")
 
 android {
     namespace = "com.nyaai"
@@ -32,9 +36,28 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val keyFile = if (!releaseKeystoreFile.isNullOrBlank()) {
+                val f = file(releaseKeystoreFile)
+                if (f.exists()) f else rootProject.file(releaseKeystoreFile)
+            } else null
+
+            if (keyFile != null && keyFile.exists() && !releaseKeystorePassword.isNullOrBlank() && !releaseKeyAlias.isNullOrBlank() && !releaseKeyPassword.isNullOrBlank()) {
+                storeFile = keyFile
+                storePassword = releaseKeystorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            val releaseSigning = signingConfigs.getByName("release")
+            signingConfig = if (releaseSigning.storeFile != null) releaseSigning else signingConfigs.getByName("debug")
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -95,3 +118,4 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }
+

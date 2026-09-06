@@ -1,4 +1,4 @@
-# Proguard rules for NYAAI
+﻿# Proguard rules for NYAAI
 
 # Room
 -keep class androidx.room.** { *; }
@@ -24,3 +24,17 @@
 -keepclassmembers class kotlinx.coroutines.** {
     volatile <fields>;
 }
+
+# Google Generative AI SDK
+-keep class com.google.ai.client.generativeai.** { *; }
+-dontwarn com.google.ai.client.generativeai.**
+
+# ML Kit Vision & Text Recognition
+-keep class com.google.mlkit.vision.** { *; }
+-dontwarn com.google.mlkit.vision.**
+-keep class com.google.android.gms.vision.** { *; }
+-dontwarn com.google.android.gms.vision.**
+
+# Desugared JDK Libraries
+-dontwarn java.time.**
+-dontwarn j$.**
