@@ -1,0 +1,173 @@
+[
+    {
+        "id": "NY-WOM-003",
+        "category": "Women Protection Laws",
+        "source_act": "Section 12, Maternity Benefit (Amendment) Act, 2017",
+        "user_query": "I am 8 months pregnant. I applied for my legally mandated maternity leave, but my HR manager at this private startup told me to either resign or they will terminate me tomorrow because 'they can't afford paying me to sit at home'.",
+        "legal_text_raw": "Dismissal during absence or pregnancy.—(1) When a woman absents herself from work in accordance with the provisions of this Act, it shall be unlawful for her employer to discharge or dismiss her during or on account of such absence...",
+        "layman_explanation": "This is completely illegal. An employer is strictly prohibited from firing a woman on account of pregnancy or while she is on maternity leave. You have the right to 26 weeks of paid leave. You can drag the company to the Labour Commissioner and file a civil suit for compensation and reinstatement.",
+        "keywords": [
+            "pregnancy termination",
+            "maternity leave denied",
+            "HR fired me pregnant",
+            "Maternity Benefit Act",
+            "illegal dismissal",
+            "paid leave mandatory"
+        ]
+    },
+    {
+        "id": "NY-WOM-004",
+        "category": "Women Protection Laws",
+        "source_act": "Section 78, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "A guy from my gym has started following my auto-rickshaw every day to my office. Even when I change routes, he is there. He hasn't spoken to me, but he just stares. I feel extremely unsafe.",
+        "legal_text_raw": "Whoever follows a woman and contacts, or attempts to contact such woman to foster personal interaction repeatedly despite a clear indication of disinterest by such woman... commits the offence of stalking...",
+        "layman_explanation": "This behavior absolutely qualifies as the criminal offense of 'Stalking' under Section 78 BNS. You do not need to wait for him to touch or speak to you. Take photos/videos of him following you, note his bike number, and file a police complaint or call the women's helpline 1091.",
+        "keywords": [
+            "stalking",
+            "following to office",
+            "gym guy following",
+            "staring at me",
+            "feeling unsafe",
+            "Section 78 BNS",
+            "women helpline 1091"
+        ]
+    },
+    {
+        "id": "NY-CON-006",
+        "category": "Consumer Rights",
+        "source_act": "Consumer Protection Act, 2019 & DGCA CAR Guidelines",
+        "user_query": "I had a confirmed flight ticket to Mumbai. At the airport, the airline staff said the flight is 'overbooked' and refused to let me board, causing me to miss a critical job interview. They offered no compensation.",
+        "legal_text_raw": "Where a passenger is denied boarding against his/her will, the airline shall not be liable for any compensation in case alternate flight is arranged that is scheduled to depart within one hour. Otherwise... compensation up to INR 20000 or 400% of booked one-way basic fare plus airline fuel charge...",
+        "layman_explanation": "Airlines frequently overbook, but under DGCA guidelines, denying boarding to a confirmed passenger requires them to provide huge mandatory compensation (up to ₹20,000) immediately. Since you also missed an interview, you can file a case in the Consumer Court for 'deficiency in service' and claim heavy damages.",
+        "keywords": [
+            "denied boarding",
+            "flight overbooked",
+            "missed flight",
+            "DGCA rules",
+            "airline compensation",
+            "Consumer Protection Act",
+            "deficiency of service"
+        ]
+    },
+    {
+        "id": "NY-CON-007",
+        "category": "Consumer Rights",
+        "source_act": "Section 84, Consumer Protection Act, 2019 (Product Liability)",
+        "user_query": "I bought an expensive electric scooter (EV) two months ago. Yesterday, while charging, the battery exploded and burned down half of my garage. The company says 'battery issues are not covered in warranty'.",
+        "legal_text_raw": "A product manufacturer shall be liable in a product liability action, if... the product contains a manufacturing defect; or the product is defective in design; or there is a deviation from manufacturing specifications... even if he proves that he was not negligent or fraudulent in making the express warranty.",
+        "layman_explanation": "Warranty clauses do not save them from 'Product Liability'. Under the new Consumer Protection Act, if a defective product causes destruction to property or injury, the manufacturer is strictly liable to pay massive compensation. Send a legal notice demanding damages for the scooter and the garage.",
+        "keywords": [
+            "EV fire",
+            "battery exploded",
+            "product liability",
+            "electric scooter fire",
+            "warranty denied",
+            "Section 84 CPA",
+            "manufacturer liability",
+            "property damage"
+        ]
+    },
+    {
+        "id": "NY-CON-008",
+        "category": "Consumer Rights",
+        "source_act": "Consumer Protection Act, 2019",
+        "user_query": "I paid ₹1.5 Lakhs to an IAS coaching center in Karol Bagh. After three days, I realized the teachers were terrible and the AC didn't work. I asked to withdraw, but they pointed to a paper I signed saying 'Fees Once Paid is 100% Non-Refundable'.",
+        "legal_text_raw": "Charging advance fees for the entire course and refusing to refund the remaining amount on withdrawal of a student mid-course constitutes an 'unfair trade practice'... contracts cannot contain unconscionable clauses.",
+        "layman_explanation": "Indian Consumer Courts have repeatedly ruled that 'Fee Non-Refundable' clauses by coaching institutes are illegal and qualify as 'Unfair Trade Practices'. They can only deduct fees for the days you attended. File a case in the District Consumer Forum directly; you will win.",
+        "keywords": [
+            "coaching fee refund",
+            "IAS coaching fraud",
+            "non-refundable fee",
+            "unfair trade practice",
+            "Consumer court coaching",
+            "contract illegal",
+            "student rights"
+        ]
+    },
+    {
+        "id": "NY-PROP-004",
+        "category": "Property & Civil Law",
+        "source_act": "Section 49, Registration Act, 1908",
+        "user_query": "I am a landlord. My tenant has a rent agreement for 3 years, but we just signed it on a ₹100 stamp paper and had it notarized, we didn't register it in court. Now he is refusing to vacate or pay rent. Can I use the agreement to evict him?",
+        "legal_text_raw": "No document required by section 17 to be registered shall... affect any immovable property comprised therein, or be received as evidence of any transaction affecting such property... unless it has been registered.",
+        "layman_explanation": "By Indian law, any lease agreement exceeding 11 months MUST be legally registered at the Sub-Registrar's office. Because yours is only notarized, it is legally invalid as a 3-year lease. Legally, it's considered a strict month-to-month tenancy, making eviction slightly different. Hire an eviction lawyer.",
+        "keywords": [
+            "unregistered rent agreement",
+            "tenant eviction",
+            "11 month lease",
+            "notarized agreement",
+            "Registration Act",
+            "month-to-month tenancy",
+            "landlord tenant dispute"
+        ]
+    },
+    {
+        "id": "NY-PROP-005",
+        "category": "Property & Civil Law",
+        "source_act": "Easements Act, 1882",
+        "user_query": "My house is at the back of a large plot. The only path to the main road goes through my neighbor's land. We have used this path for 30 years. Yesterday, he suddenly built a brick wall blocking my only exit!",
+        "legal_text_raw": "An easement is a right which the owner or occupier of certain land possesses... to do and continue to do something, or to prevent and continue to prevent something being done, in or upon, or in respect of, certain other land... Easement of necessity.",
+        "layman_explanation": "You have a legal 'Easement of Necessity' and possibly a 'Prescriptive Easement' (due to 30 continuous years of use). He cannot legally landlock you. Immediately file an urgent suit for 'Mandatory Injunction' in civil court to get a judge to order the wall's immediate demolition.",
+        "keywords": [
+            "blocked path",
+            "easement of necessity",
+            "neighbor built wall",
+            "Easements Act",
+            "right of way",
+            "mandatory injunction",
+            "landlocked property"
+        ]
+    },
+    {
+        "id": "NY-CON-009",
+        "category": "Constitution & Fundamental Rights",
+        "source_act": "Article 19(1)(g), Constitution of India",
+        "user_query": "I started a small cloud kitchen from my legally owned apartment. The RWA (Resident Welfare Association) chairman is threatening to cut my water supply saying 'commercial activities are strictly banned in societies'.",
+        "legal_text_raw": "All citizens shall have the right... to practice any profession, or to carry on any occupation, trade or business. (Subject to reasonable restrictions by the State - but RWAs are not the State).",
+        "layman_explanation": "An RWA has no statutory power to disconnect basic amenities like water or electricity—that is illegal and a violation of your rights. However, running a cloud kitchen depends on municipal zoning laws, not just RWA rules. Send the RWA a legal notice warning against disconnecting amenities.",
+        "keywords": [
+            "RWA cut water",
+            "cloud kitchen society",
+            "commercial activity home",
+            "Article 19",
+            "RWA chairman threat",
+            "housing society rules",
+            "right to business"
+        ]
+    },
+    {
+        "id": "NY-CON-010",
+        "category": "Constitution & Fundamental Rights",
+        "source_act": "Article 22 & Section 50 BNSS",
+        "user_query": "The police arrested my husband at 9 AM yesterday over a financial dispute. It has been 36 hours and they are still holding him in the police station lockup without taking him to a judge.",
+        "legal_text_raw": "Every person who is arrested and detained in custody shall be produced before the nearest magistrate within a period of twenty-four hours of such arrest excluding the time necessary for the journey from the place of arrest to the court of the magistrate...",
+        "layman_explanation": "This is entirely illegal. It is a fundamental constitutional right that an arrested person must be presented before a Magistrate within 24 hours. The police are guilty of illegal detention. Your lawyer must file an urgent Habeas Corpus petition or complain to the Magistrate immediately.",
+        "keywords": [
+            "24 hours limit",
+            "illegal detention",
+            "police lockup",
+            "Article 22",
+            "magistrate production",
+            "Section 50 BNSS",
+            "habeas corpus"
+        ]
+    },
+    {
+        "id": "NY-WOM-005",
+        "category": "Women Protection Laws",
+        "source_act": "Section 85 & 86, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "My husband and mother-in-law don't beat me, but they constantly taunt my skin color, tell me my parents gave them 'garbage' in dowry, and starve me for entire days if the house isn't perfectly clean. This is destroying my mental health.",
+        "legal_text_raw": "Whoever, being the husband or the relative of the husband of a woman, subjects such woman to cruelty shall be punished with imprisonment for a term which may extend to three years and shall also be liable to fine. Cruelty includes... mental/physical harm... driven to suicide...",
+        "layman_explanation": "Cruelty is not just physical violence. Willful conduct that drives a woman to severe mental injury, deliberate starvation, and constant dowry taunts firmly fall under 'Cruelty by Husband or Relatives' (previously IPC 498A, now BNS 85/86). You can file a strong police case against them.",
+        "keywords": [
+            "mental cruelty",
+            "dowry taunts",
+            "starvation",
+            "mother in law harassment",
+            "Section 85 BNS",
+            "Section 86 BNS",
+            "emotional abuse",
+            "IPC 498A equivalent"
+        ]
+    }
+]

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "487753685540",
+    "project_id": "nyaai-8ce6d",
+    "storage_bucket": "nyaai-8ce6d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487753685540:android:f024ff5e5a1019318716b1",
+        "android_client_info": {
+          "package_name": "com.nyaai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487753685540-2akl2pbqiuckjfkmgmllnfg4favqnv73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nyaai",
+            "certificate_hash": "4409a66c3e6cc121e463f54bf402144e91e75286"
+          }
+        },
+        {
+          "client_id": "487753685540-7o8elu3riccm8ebcbf59mmbho569dqpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nyaai",
+            "certificate_hash": "8a3aa6698283d5fddbee1893a843fde194777375"
+          }
+        },
+        {
+          "client_id": "487753685540-eej3nmg7n7e6r02dsfkj0i5otucpeb7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7tA-RkcKZ8vvtlQC7kiUOIfhNd8mqrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487753685540-eej3nmg7n7e6r02dsfkj0i5otucpeb7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

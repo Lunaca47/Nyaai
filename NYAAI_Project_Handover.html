@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NYAAI — Project Handover Document</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #1E3A8A;
+    --primary-light: #3B82F6;
+    --bg: #FFFFFF;
+    --text: #1a1a2e;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --code-bg: #f1f5f9;
+    --table-header: #1E3A8A;
+    --table-stripe: #f8fafc;
+    --blockquote-bg: #eff6ff;
+    --blockquote-border: #3B82F6;
+    --warning-bg: #fef3c7;
+    --warning-border: #f59e0b;
+    --tip-bg: #ecfdf5;
+    --tip-border: #10b981;
+    --note-bg: #eff6ff;
+    --note-border: #3B82F6;
+    --important-bg: #f3e8ff;
+    --important-border: #8b5cf6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    font-size: 14px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 50px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 30px 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--primary);
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 28px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+
+  p { margin: 8px 0; }
+
+  blockquote {
+    margin: 12px 0;
+    padding: 12px 16px;
+    border-left: 4px solid var(--blockquote-border);
+    background: var(--blockquote-bg);
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+  }
+
+  /* GitHub-style alerts */
+  blockquote p:first-child strong:first-child {
+    display: inline;
+  }
+
+  /* WARNING alerts */
+  blockquote:has(p:first-child > strong:first-child) {
+    background: var(--note-bg);
+    border-left-color: var(--note-border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+
+  thead th {
+    background: var(--table-header);
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+  }
+
+  thead th:first-child { border-radius: 6px 0 0 0; }
+  thead th:last-child { border-radius: 0 6px 0 0; }
+
+  tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr:nth-child(even) { background: var(--table-stripe); }
+
+  code {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: #be185d;
+  }
+
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  ul, ol {
+    margin: 8px 0;
+    padding-left: 24px;
+  }
+
+  li { margin: 4px 0; }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  a {
+    color: var(--primary-light);
+    text-decoration: none;
+  }
+
+  strong { font-weight: 600; }
+
+  /* Print styles */
+  @media print {
+    body {
+      padding: 20px 30px;
+      font-size: 12px;
+      max-width: none;
+    }
+    h1 { font-size: 24px; }
+    h2 { font-size: 17px; page-break-after: avoid; }
+    h3 { font-size: 14px; page-break-after: avoid; }
+    pre { page-break-inside: avoid; font-size: 11px; }
+    table { page-break-inside: avoid; font-size: 11.5px; }
+    blockquote { page-break-inside: avoid; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+<h1>📋 NYAAI — Project Handover Document</h1>
+
+<blockquote>
+  <p><strong>Project:</strong> Nyaai — AI-Powered Indian Legal Assistant<br />
+  <strong>Platform:</strong> Android (Native — Kotlin + Jetpack Compose)<br />
+  <strong>Date:</strong> May 2026</p>
+</blockquote>
+
+<hr />
+
+<h2>📌 What is Nyaai?</h2>
+
+<p>Nyaai is an <strong>AI-powered legal assistant</strong> Android app that helps everyday Indian citizens understand their legal rights in <strong>simple language</strong>. It uses:</p>
+
+<ul>
+<li><strong>On-device RAG (Retrieval Augmented Generation)</strong> — Extracts and indexes legal PDFs (Constitution of India, BNS, BNSS, BSA) into a local SQLite/Room FTS4 database</li>
+<li><strong>Google Gemini API</strong> (<code>gemini-2.5-flash</code>) — Generates human-friendly answers grounded in retrieved legal context</li>
+<li><strong>Multi-language support</strong> — English, Hindi, Bengali, Telugu, Tamil</li>
+<li><strong>Firebase Authentication</strong> — Google Sign-In for user accounts</li>
+<li><strong>Chat History</strong> — Persistent chat sessions stored locally via Room DB</li>
+</ul>
+
+<hr />
+
+<h2>🛠️ Prerequisites (What You Need Installed)</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Tool</th>
+  <th>Version</th>
+  <th>Download</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Android Studio</strong></td>
+  <td>Latest stable (Ladybug+)</td>
+  <td><a href="https://developer.android.com/studio">developer.android.com</a></td>
+</tr>
+<tr>
+  <td><strong>JDK</strong></td>
+  <td>17 (bundled with Android Studio)</td>
+  <td>Included in Android Studio JBR</td>
+</tr>
+<tr>
+  <td><strong>Android SDK</strong></td>
+  <td>API 34 (compileSdk)</td>
+  <td>Via Android Studio SDK Manager</td>
+</tr>
+<tr>
+  <td><strong>Kotlin</strong></td>
+  <td>1.9.22</td>
+  <td>Bundled via Gradle plugin</td>
+</tr>
+<tr>
+  <td><strong>Internet</strong></td>
+  <td>Required</td>
+  <td>For Gemini API calls &amp; Firebase Auth</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+  <p>[!IMPORTANT]<br />
+  <strong>No Python backend is needed to run the app.</strong> The app works standalone — all RAG retrieval and AI generation happen via on-device Room DB + remote Gemini API calls. The <code>backend/</code> folder contains an optional Python RAG server (not required for the Android app to function).</p>
+</blockquote>
+
+<hr />
+
+<h2>🚀 How to Open &amp; Run the Project</h2>
+
+<h3>Step 1: Open in Android Studio</h3>
+
+<ol>
+<li>Launch <strong>Android Studio</strong></li>
+<li>Click <strong>File → Open</strong></li>
+<li>Navigate to the project folder: <code>nyaai_app testing/</code></li>
+<li>Select the root folder (the one containing <code>settings.gradle.kts</code>) and click <strong>OK</strong></li>
+<li>Wait for Gradle sync to complete (may take 2-5 minutes on first load)</li>
+</ol>
+
+<h3>Step 2: Fix <code>local.properties</code> (If Needed)</h3>
+
+<p>The file <code>local.properties</code> contains the Android SDK path specific to the original developer's machine. If Gradle sync fails:</p>
+
+<ol>
+<li>Open <code>local.properties</code> in the project root</li>
+<li>Replace the <code>sdk.dir</code> value with <strong>your</strong> Android SDK path:<br />
+<pre><code>sdk.dir=C\:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk<br />
+</code></pre><br />
+Or on macOS/Linux:<br />
+<pre><code>sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk<br />
+</code></pre></li>
+</ol>
+
+<h3>Step 3: Fix <code>gradle.properties</code> (If Needed)</h3>
+
+<p>The <code>gradle.properties</code> file points to a specific JDK location. If it fails:</p>
+
+<ol>
+<li>Open <code>gradle.properties</code></li>
+<li>Either <strong>remove</strong> the <code>org.gradle.java.home</code> line, or update it to your Android Studio JBR path:<br />
+<pre><code>org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr<br />
+</code></pre></li>
+</ol>
+
+<h3>Step 4: Run the App</h3>
+
+<ol>
+<li>Connect a <strong>physical Android device</strong> (USB debugging enabled) <strong>OR</strong> create an <strong>AVD emulator</strong> (API 26+)</li>
+<li>Click the green <strong>▶ Run</strong> button in Android Studio</li>
+<li>Select your target device</li>
+<li>Wait for build &amp; installation (~1-2 minutes first time)</li>
+</ol>
+
+<blockquote>
+  <p>[!TIP]<br />
+  <strong>First launch takes ~15-30 seconds</strong> because the app extracts and indexes 4 legal PDF files into the Room database on first run. Subsequent launches are instant.</p>
+</blockquote>
+
+<hr />
+
+<h2>🔑 API Key Configuration</h2>
+
+<p>The app uses the <strong>Google Gemini API</strong> for AI-powered responses. The API key is located in:</p>
+
+<pre><code>app/src/main/java/com/nyaai/MainActivity.kt  (Line 35)
+</code></pre>
+
+<pre><code>val apiKey = "AIzaSyCkcB0Dhs_z0l7DbwCcRgmMoJgcu1x4ncg"
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]<br />
+  This is a development/testing API key. For production use, replace it with your own key from <a href="https://aistudio.google.com/">Google AI Studio</a>.</p>
+</blockquote>
+
+<p><strong>If the API key is expired or rate-limited</strong>, the app will automatically fall back to <strong>offline mode</strong> — showing direct excerpts from legal documents instead of AI-generated answers.</p>
+
+<hr />
+
+<h2>🏗️ Project Architecture</h2>
+
+<pre><code>nyaai_app testing/
+├── app/                          ← Main Android module
+│   ├── build.gradle.kts          ← Dependencies &amp; build config
+│   ├── google-services.json      ← Firebase config
+│   └── src/main/
+│       ├── AndroidManifest.xml   ← App permissions &amp; entry point
+│       ├── assets/               ← Legal PDF files (bundled with app)
+│       │   ├── coi.pdf           ← Constitution of India
+│       │   ├── bns.pdf           ← Bharatiya Nyaya Sanhita (Criminal Law)
+│       │   ├── bnss.pdf          ← Bharatiya Nagarik Suraksha Sanhita (Criminal Procedure)
+│       │   └── bsa.pdf           ← Bharatiya Sakshya Adhiniyam (Evidence Act)
+│       ├── java/com/nyaai/
+│       │   ├── MainActivity.kt   ← App entry point (sets up everything)
+│       │   ├── data/local/       ← Data layer (AI + Database)
+│       │   ├── theme/            ← Material 3 theming
+│       │   └── ui/               ← All UI code
+│       └── res/                  ← Android resources (icons, etc.)
+├── backend/                      ← (OPTIONAL) Python RAG server
+├── assets/                       ← Project assets (icons, fonts, data)
+├── scripts/                      ← Utility scripts (data generation)
+├── build.gradle.kts              ← Root Gradle config (plugin versions)
+├── settings.gradle.kts           ← Module declaration
+├── gradle.properties             ← JVM &amp; build settings
+└── local.properties              ← SDK path (machine-specific)
+</code></pre>
+
+<hr />
+
+<h2>📦 Package-by-Package Breakdown</h2>
+
+<h3>1. <code>com.nyaai</code> — Root Package</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>MainActivity.kt</code></strong></td>
+  <td>The <strong>single entry point</strong> of the app. Initializes Firebase, Room database, PDF extractor, AI service, and sets up Jetpack Compose with all CompositionLocal providers (theme, language, auth state, etc.).</td>
+</tr>
+</tbody>
+</table>
+
+<h3>2. <code>com.nyaai.data.local</code> — Data Layer</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>RagDatabase.kt</code></strong></td>
+  <td>Defines the <strong>Room database</strong> with 4 tables: <code>documents</code> (FTS4 full-text search), <code>chat_sessions</code>, <code>chat_messages</code>, and <code>training_examples</code>. Also defines the <code>RagDao</code> interface with all SQL queries.</td>
+</tr>
+<tr>
+  <td><strong><code>PdfExtractorService.kt</code></strong></td>
+  <td>On first launch, extracts text from the 4 legal PDFs in <code>assets/</code>, chunks them by Article/Section boundaries, cleans gazette headers, and inserts them into the Room FTS4 <code>documents</code> table.</td>
+</tr>
+<tr>
+  <td><strong><code>AiService.kt</code></strong></td>
+  <td>The <strong>core AI engine</strong>. Implements a RAG pipeline: (1) keyword-based FTS4 retrieval from Room DB → (2) confidence scoring → (3) Gemini API call with grounded prompt → (4) offline fallback if API fails. Includes retry logic with exponential backoff for rate limiting.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>3. <code>com.nyaai.ui.screens</code> — Screen Composables</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>SplashScreen.kt</code></strong></td>
+  <td>Brief loading screen shown on app launch. Routes to Home (if logged in) or Welcome (if first time).</td>
+</tr>
+<tr>
+  <td><strong><code>WelcomeScreen.kt</code></strong></td>
+  <td>Onboarding screen with app introduction. Navigates to Login.</td>
+</tr>
+<tr>
+  <td><strong><code>LoginScreen.kt</code></strong></td>
+  <td>Firebase Authentication with Google Sign-In.</td>
+</tr>
+<tr>
+  <td><strong><code>MainScreen.kt</code></strong></td>
+  <td>The <strong>main hub</strong> with bottom navigation (Chat, About, Settings). Contains the chat interface with suggested questions, chat input, and message display.</td>
+</tr>
+<tr>
+  <td><strong><code>ChatScreen.kt</code></strong></td>
+  <td>The detailed chat interface. Displays conversation messages, handles user input, calls <code>AiService.generateAnswer()</code>, shows AI responses with confidence indicators, and supports message feedback (Good/Average/Poor).</td>
+</tr>
+<tr>
+  <td><strong><code>SettingsScreen.kt</code></strong></td>
+  <td>Full settings page: Theme (Light/Dark/System), App Language, AI Response Language, Notifications toggle, Low Bandwidth Mode, Clear Chat History, Privacy Policy, Logout.</td>
+</tr>
+<tr>
+  <td><strong><code>AboutScreen.kt</code></strong></td>
+  <td>About page with the vision behind Nyaai, Legal SOS helplines, and team information.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>4. <code>com.nyaai.ui.navigation</code> — Navigation</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>AppNavigation.kt</code></strong></td>
+  <td>Defines all app routes (<code>SPLASH</code>, <code>WELCOME</code>, <code>LOGIN</code>, <code>HOME</code>, <code>ABOUT</code>, <code>SETTINGS</code>) and the Jetpack Compose Navigation graph with transitions.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>5. <code>com.nyaai.ui.state</code> — State Management</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>AppState.kt</code></strong></td>
+  <td>Defines <code>AppTheme</code> enum (Light/System/Dark), <code>AppLanguage</code> enum (English/Hindi/Bengali/Telugu/Tamil), and 13 <code>CompositionLocal</code> providers for sharing state across all Composables (theme, language, auth, AI service, notifications, etc.).</td>
+</tr>
+</tbody>
+</table>
+
+<h3>6. <code>com.nyaai.ui.strings</code> — Internationalization (i18n)</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>AppStrings.kt</code></strong></td>
+  <td>Contains the <code>AppStrings</code> data class with all UI text, plus full translations for all 5 languages. The <code>stringsFor()</code> factory function returns the correct string set based on selected language.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>7. <code>com.nyaai.theme</code> — Material 3 Theme</h3>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>Theme.kt</code></strong></td>
+  <td>Defines dark and light color schemes (navy/steel-blue palette) and the <code>NyaaiTheme</code> composable wrapper.</td>
+</tr>
+<tr>
+  <td><strong><code>Type.kt</code></strong></td>
+  <td>Typography definitions for the app.</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>⚙️ How the RAG Pipeline Works (Step by Step)</h2>
+
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     USER ASKS A QUESTION                        │
+│              e.g. "What are my rights if arrested?"              │
+└────────────────────────┬────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  STEP 1: KEYWORD EXTRACTION                                     │
+│  • Strips special characters, filters words ≥ 3 chars           │
+│  • Extracts numbers (for article/section references)            │
+└────────────────────────┬────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  STEP 2: FTS4 RETRIEVAL (Room Database)                         │
+│  • Phrase search → Number search → Wildcard search              │
+│  • Searches across all 4 legal PDFs (COI, BNS, BNSS, BSA)      │
+│  • Returns top 5 unique document chunks                         │
+└────────────────────────┬────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  STEP 3: CONFIDENCE SCORING                                     │
+│  • 3+ matches → 0.92  │  2 matches → 0.85                      │
+│  • 1 match   → 0.70   │  0 matches → 0.40                      │
+│  • Bonus +0.05 if article number found in results               │
+└────────────────────────┬────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  STEP 4: GEMINI API CALL                                        │
+│  • Model: gemini-2.5-flash                                      │
+│  • Prompt includes: retrieved legal context + user question      │
+│  • Instructions: "explain like talking to a friend"              │
+│  • Auto-detects language, replies in same language               │
+│  • 3 retries with 5s exponential backoff for rate limits         │
+└────────────────────────┬────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  STEP 5: RESPONSE OR FALLBACK                                   │
+│  • If API succeeds → AI-generated friendly legal answer         │
+│  • If API fails → Offline fallback with direct document excerpts │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+
+<hr />
+
+<h2>📱 App Flow (User Journey)</h2>
+
+<pre><code>flowchart TD
+    A[App Launch] --&gt; B[Splash Screen]
+    B --&gt;|First time user| C[Welcome Screen]
+    B --&gt;|Already logged in| E[Main Screen / Chat]
+    C --&gt; D[Login Screen&lt;br/&gt;Google Sign-In]
+    D --&gt; E
+    E --&gt; F{Bottom Navigation}
+    F --&gt;|Chat tab| G[Chat Interface&lt;br/&gt;Ask legal questions]
+    F --&gt;|About tab| H[About Screen&lt;br/&gt;Vision &amp; Legal SOS]
+    F --&gt;|Settings tab| I[Settings Screen]
+    G --&gt;|Type question| J[RAG Retrieval + Gemini AI]
+    J --&gt; K[Display AI Answer&lt;br/&gt;with confidence score]
+    I --&gt; L[Theme / Language /&lt;br/&gt;Clear History / Logout]
+</code></pre>
+
+<hr />
+
+<h2>🗂️ Key Dependencies</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Library</th>
+  <th>Version</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Jetpack Compose</td>
+  <td>BOM 2023.10.01</td>
+  <td>Modern declarative UI framework</td>
+</tr>
+<tr>
+  <td>Material 3</td>
+  <td>Latest via BOM</td>
+  <td>Material Design 3 components</td>
+</tr>
+<tr>
+  <td>Navigation Compose</td>
+  <td>2.7.6</td>
+  <td>Screen-to-screen navigation</td>
+</tr>
+<tr>
+  <td>Room + FTS4</td>
+  <td>2.6.1</td>
+  <td>Local SQLite database with full-text search</td>
+</tr>
+<tr>
+  <td>Firebase Auth</td>
+  <td>via BOM 32.7.1</td>
+  <td>Google Sign-In authentication</td>
+</tr>
+<tr>
+  <td>Play Services Auth</td>
+  <td>20.7.0</td>
+  <td>Google account integration</td>
+</tr>
+<tr>
+  <td>PDFBox Android</td>
+  <td>2.0.27.0</td>
+  <td>Extract text from PDF files</td>
+</tr>
+<tr>
+  <td>Generative AI SDK</td>
+  <td>0.9.0</td>
+  <td>Google Gemini API client</td>
+</tr>
+<tr>
+  <td>Desugaring</td>
+  <td>2.0.4</td>
+  <td>Java 8+ API support on older Android</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🔥 Firebase Setup</h2>
+
+<p>The app uses Firebase for <strong>Google Sign-In authentication only</strong>. The config file is at:</p>
+
+<pre><code>app/google-services.json
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]<br />
+  If you need to use your own Firebase project, create one at <a href="https://console.firebase.google.com/">Firebase Console</a>, enable <strong>Authentication → Google Sign-In</strong>, download a new <code>google-services.json</code>, and replace the existing file.</p>
+</blockquote>
+
+<hr />
+
+<h2>📂 Legal PDFs (Bundled Data)</h2>
+
+<p>These PDFs are stored in <code>app/src/main/assets/</code> and are automatically extracted &amp; indexed on first launch:</p>
+
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>Full Name</th>
+  <th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>coi.pdf</code></td>
+  <td>Constitution of India</td>
+  <td>Fundamental rights, directive principles, articles</td>
+</tr>
+<tr>
+  <td><code>bns.pdf</code></td>
+  <td>Bharatiya Nyaya Sanhita</td>
+  <td>New criminal law (replaces IPC)</td>
+</tr>
+<tr>
+  <td><code>bnss.pdf</code></td>
+  <td>Bharatiya Nagarik Suraksha Sanhita</td>
+  <td>Criminal procedure (replaces CrPC)</td>
+</tr>
+<tr>
+  <td><code>bsa.pdf</code></td>
+  <td>Bharatiya Sakshya Adhiniyam</td>
+  <td>Evidence law (replaces Indian Evidence Act)</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🐛 Troubleshooting</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Problem</th>
+  <th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Gradle sync fails</strong></td>
+  <td>Check <code>local.properties</code> SDK path and <code>gradle.properties</code> JDK path (see Steps 2 &amp; 3 above)</td>
+</tr>
+<tr>
+  <td><strong>"API key invalid" or no AI responses</strong></td>
+  <td>The API key may be expired. Get a new one from <a href="https://aistudio.google.com/">AI Studio</a> and update <code>MainActivity.kt</code> line 35</td>
+</tr>
+<tr>
+  <td><strong>App crashes on first launch</strong></td>
+  <td>Ensure the device has enough storage (~50MB for PDF extraction). Check Logcat for <code>PdfExtractor</code> errors</td>
+</tr>
+<tr>
+  <td><strong>"Rate limited" (429 errors)</strong></td>
+  <td>The Gemini API has free-tier rate limits. Wait 60 seconds and retry, or upgrade the API plan</td>
+</tr>
+<tr>
+  <td><strong>Firebase login fails</strong></td>
+  <td>Verify <code>google-services.json</code> matches the Firebase project, and SHA-1 fingerprint is registered</td>
+</tr>
+<tr>
+  <td><strong>Build fails on <code>kapt</code></strong></td>
+  <td>Run <strong>Build → Clean Project</strong>, then <strong>Build → Rebuild Project</strong></td>
+</tr>
+<tr>
+  <td><strong>Slow first launch</strong></td>
+  <td>Normal — PDF extraction + Room DB indexing happens once. Subsequent launches are instant</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🧪 How to Test</h2>
+
+<ol>
+<li><strong>Launch the app</strong> → Should see Splash → Welcome → Login flow</li>
+<li><strong>Sign in with Google</strong> → Should redirect to Chat screen</li>
+<li><strong>Ask a question</strong> like:
+<ul>
+<li>"What is Article 21?"</li>
+<li>"What are my rights if arrested?"</li>
+<li>"What is the punishment for theft?"</li>
+</ul></li>
+<li><strong>Check AI response</strong> → Should get a friendly, bullet-pointed answer with source references</li>
+<li><strong>Test offline fallback</strong> → Turn off internet → Ask a question → Should get direct document excerpts</li>
+<li><strong>Switch language</strong> → Settings → Change to Hindi → UI text should change</li>
+<li><strong>Toggle theme</strong> → Settings → Try Light/Dark/System modes</li>
+</ol>
+
+<hr />
+
+<h2>📝 Summary for Quick Reference</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Aspect</th>
+  <th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Language</strong></td>
+  <td>Kotlin</td>
+</tr>
+<tr>
+  <td><strong>UI Framework</strong></td>
+  <td>Jetpack Compose + Material 3</td>
+</tr>
+<tr>
+  <td><strong>AI Model</strong></td>
+  <td>Google Gemini 2.5 Flash (via REST API)</td>
+</tr>
+<tr>
+  <td><strong>Database</strong></td>
+  <td>Room with FTS4 full-text search</td>
+</tr>
+<tr>
+  <td><strong>Auth</strong></td>
+  <td>Firebase Google Sign-In</td>
+</tr>
+<tr>
+  <td><strong>Min SDK</strong></td>
+  <td>24 (Android 7.0)</td>
+</tr>
+<tr>
+  <td><strong>Target SDK</strong></td>
+  <td>34 (Android 14)</td>
+</tr>
+<tr>
+  <td><strong>Entry Point</strong></td>
+  <td><code>MainActivity.kt</code></td>
+</tr>
+<tr>
+  <td><strong>AI Engine</strong></td>
+  <td><code>AiService.kt</code></td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<blockquote>
+  <p><strong>Note:</strong> This project does NOT require any Python backend to run. The entire AI pipeline (retrieval + generation) works standalone on the Android device via on-device Room DB + remote Gemini API calls.</p>
+</blockquote>
+
+</body>
+</html>
