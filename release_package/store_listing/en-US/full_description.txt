@@ -1,0 +1,36 @@
+﻿NYAAI is India's premier AI-powered legal assistant and research companion, designed for advocates, law students, judiciary aspirants, and citizens seeking instant legal clarity under Indian law.
+
+NYAAI combines an ultra-fast offline legal database with advanced generative AI to provide accurate, section-by-section statutory insights, legal notice analysis, and document summaries—even without an active internet connection.
+
+🏛️ COMPREHENSIVE STATUTORY COVERAGE
+Access complete, unabridged statutory texts and citations updated for India's reformed criminal justice framework:
+• Bharatiya Nyaya Sanhita, 2023 (BNS)
+• Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)
+• Bharatiya Sakshya Adhiniyam, 2023 (BSA)
+• Constitution of India, 1950 (COI)
+
+⚡ DUAL AI REASONING (OFFLINE + ONLINE)
+• Instant Offline RAG: Over 1,800 pre-indexed legal sections and curated legal Q&As enable sub-second responses completely offline.
+• Cloud AI Mode: Powered by Google Gemini for nuanced legal drafting assistance, clause breakdowns, and cross-statute syntheses.
+
+📄 ON-DEVICE LEGAL OCR & DOCUMENT SCANNER
+• Scan paper legal notices, agreements, FIR copies, and contracts directly using your camera or gallery photos.
+• Extract text locally on-device with zero cloud exposure using Google ML Kit.
+• Instantly generate structured summaries, relevant statutory sections, and rights analysis from scanned legal documents.
+
+🎙️ MULTILINGUAL VOICE SEARCH
+• Ask legal questions hands-free in your native language using voice input.
+• Full UI and query support across English, Hindi (हिन्दी), Bengali (বাংলা), Telugu (తెలుగు), and Tamil (தமிழ்).
+
+📑 BOOKMARKS & CHAT EXPORT
+• Save crucial legal sections, precedents, and AI explanations with a single tap.
+• Review saved bookmarks anytime from the offline drawer.
+• Export case notes and research threads directly to styled PDF documents for client meetings and court preparation.
+
+🔒 PRIVACY & SECURITY FIRST
+• No legal documents, photos, or voice recordings are uploaded to external tracking servers.
+• Offline queries execute 100% locally on your device.
+• Fast, secure Google Firebase authentication with zero third-party data broker sharing.
+
+⚠️ DISCLAIMER
+NYAAI is an educational and informational legal technology tool. It does not constitute legal advice and does not create an attorney-client relationship. For specific legal disputes, always consult a licensed advocate.

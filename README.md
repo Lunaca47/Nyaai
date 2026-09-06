@@ -124,6 +124,34 @@ User Question → Keyword Extraction → FTS4 Search (Room DB)
 
 ---
 
+## 📦 Production Release & Play Store Deployment
+
+The repository includes a turnkey production distribution bundle at [`release_package/`](release_package/):
+
+- **Signed Production APK (`release_package/binaries/app-release.apk`)**: 11.47 MB (R8 minified and resource shrunk).
+- **Signed Production App Bundle (`release_package/binaries/app-release.aab`)**: 14.70 MB ready for Google Play Console.
+- **Cryptographic Verification**: Verified via `apksigner` with APK Signature Scheme v2. Checksums in [`release_package/checksums.txt`](release_package/checksums.txt).
+- **Store Metadata**: Character-compliant titles, descriptions, and changelogs in English (`en-US`) and Hindi (`hi-IN`).
+- **Graphic Assets**: 512x512 App Icon, 1024x500 Feature Graphic, and 4 high-resolution 1080x1920 phone screenshots.
+- **Compliance**: Full `PRIVACY_POLICY.md`, `DATA_SAFETY_GUIDE.md`, and `PLAY_STORE_CHECKLIST.md`.
+
+### Build Commands
+```bash
+# Run unit tests
+.\gradlew.bat test --no-daemon
+
+# Build signed release APK
+.\gradlew.bat assembleRelease --no-daemon
+
+# Build signed release App Bundle
+.\gradlew.bat bundleRelease --no-daemon
+
+# Deploy to Google Play via Fastlane
+bundle exec fastlane android internal
+```
+
+---
+
 ## 🧪 Testing Suggestions
 
 1. Sign in → Ask "What is Article 21?" → Verify AI response
