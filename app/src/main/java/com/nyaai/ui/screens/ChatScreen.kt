@@ -62,6 +62,8 @@ fun ChatScreen(
     sessionId: Long? = null,
     onMenuClick: () -> Unit = {},
     onNewChat: () -> Unit = {},
+    onOpenSettings: () -> Unit = {},
+    onOpenBookmarks: () -> Unit = {},
     ragDao: RagDao? = null,
     bottomPadding: androidx.compose.ui.unit.Dp = 0.dp
 ) {
@@ -216,20 +218,49 @@ fun ChatScreen(
     // ── UI ────────────────────────────────────────────────────────────────────
     Box(modifier = Modifier.fillMaxSize().background(colors.background)) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Outlined.Menu, "Menu", tint = colors.onBackground, modifier = Modifier.size(24.dp).clickable { onMenuClick() })
-                Spacer(Modifier.width(10.dp)); Icon(Icons.Outlined.Balance, "Logo", tint = colors.onSurfaceVariant, modifier = Modifier.size(22.dp))
-                Spacer(Modifier.width(6.dp)); Text("Nyaai", color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.width(6.dp)); Text("✳", color = Color(0xFFE53935), fontSize = 18.sp, modifier = Modifier.clickable { showSosSheet = true })
-                Spacer(Modifier.weight(1f))
-                Box(modifier = Modifier.size(32.dp)) {
-                    Icon(Icons.Outlined.Notifications, "Notifications", tint = colors.onSurfaceVariant, modifier = Modifier.size(22.dp).align(Alignment.Center).clickable { showNotifSheet = true; unreadCount = 0 })
-                    if (unreadCount > 0) { Box(Modifier.size(16.dp).align(Alignment.TopEnd).clip(CircleShape).background(Color(0xFFE53935)), contentAlignment = Alignment.Center) { Text(unreadCount.toString(), color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Bold) } }
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onMenuClick) {
+                    Icon(Icons.Outlined.Menu, "Menu", tint = colors.onBackground, modifier = Modifier.size(24.dp))
                 }
+                Spacer(Modifier.width(2.dp))
+                Icon(Icons.Outlined.Balance, "Logo", tint = colors.onSurfaceVariant, modifier = Modifier.size(22.dp))
+                Spacer(Modifier.width(6.dp))
+                Text("Nyaai", color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.width(4.dp))
+                Text("✳", color = Color(0xFFE53935), fontSize = 18.sp, modifier = Modifier.clickable { showSosSheet = true })
+                Spacer(Modifier.weight(1f))
+                
+                // Bookmarks Button
+                IconButton(onClick = onOpenBookmarks) {
+                    Icon(Icons.Outlined.BookmarkBorder, "Bookmarks", tint = colors.onSurfaceVariant)
+                }
+
+                // Settings Button
+                IconButton(onClick = onOpenSettings) {
+                    Icon(Icons.Outlined.Settings, "Settings", tint = colors.onSurfaceVariant)
+                }
+
+                // Export & Bookmark Entire Chat
                 var showExportMenu by remember { mutableStateOf(false) }
                 Box {
                     IconButton(onClick = { showExportMenu = true }) { Icon(Icons.Outlined.IosShare, "Export", tint = colors.onSurfaceVariant) }
                     DropdownMenu(expanded = showExportMenu, onDismissRequest = { showExportMenu = false }) {
+                        DropdownMenuItem(
+                            text = { Text("🔖 Bookmark Entire Chat") },
+                            onClick = {
+                                showExportMenu = false
+                                if (messages.isEmpty()) {
+                                    Toast.makeText(context, "No messages to bookmark", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    scope.launch {
+                                        val firstQuery = messages.firstOrNull { it.isUser }?.text?.take(40) ?: "Legal Chat"
+                                        val fullChat = messages.joinToString("\n\n") { (if(it.isUser) "User: " else "Nyaai: ") + it.text }
+                                        ragDao?.insertBookmark(BookmarkEntity(title = firstQuery, content = fullChat, source = "Chat Thread"))
+                                        Toast.makeText(context, "Entire chat bookmarked!", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        )
                         DropdownMenuItem(text = { Text("Export as Text") }, onClick = { showExportMenu = false; exportTextLauncher.launch("Nyaai_Chat_${System.currentTimeMillis()}.txt") })
                         DropdownMenuItem(text = { Text("Export as PDF") }, onClick = { showExportMenu = false; exportPdfLauncher.launch("Nyaai_Chat_${System.currentTimeMillis()}.pdf") })
                     }
@@ -394,25 +425,40 @@ private fun ChatBubble(
         }
         if (!isUser && !message.isTyping && message.id != 0L) {
             Row(
-                modifier = Modifier.padding(start = 40.dp, top = 4.dp),
+                modifier = Modifier.padding(start = 40.dp, top = 6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 FeedbackButton("Good", message.feedback == "GOOD", colors) { onFeedback("GOOD") }
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(6.dp))
                 FeedbackButton("Average", message.feedback == "AVERAGE", colors) { onFeedback("AVERAGE") }
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(6.dp))
                 FeedbackButton("Poor", message.feedback == "POOR", colors) { onFeedback("POOR") }
-                Spacer(Modifier.width(12.dp))
-                IconButton(
+                Spacer(Modifier.width(10.dp))
+                Surface(
                     onClick = onToggleBookmark,
-                    modifier = Modifier.size(24.dp)
+                    shape = RoundedCornerShape(50.dp),
+                    color = if (message.isBookmarked) colors.primary.copy(alpha = 0.15f) else colors.surfaceVariant.copy(alpha = 0.5f),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, if (message.isBookmarked) colors.primary else colors.outline.copy(alpha = 0.5f)),
+                    modifier = Modifier.height(26.dp)
                 ) {
-                    Icon(
-                        if (message.isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
-                        contentDescription = "Bookmark",
-                        tint = if (message.isBookmarked) colors.primary else colors.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        Icon(
+                            if (message.isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                            contentDescription = "Bookmark",
+                            tint = if (message.isBookmarked) colors.primary else colors.onSurfaceVariant,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            text = if (message.isBookmarked) "Saved ✓" else "Bookmark",
+                            color = if (message.isBookmarked) colors.primary else colors.onSurfaceVariant,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
                 }
             }
         }

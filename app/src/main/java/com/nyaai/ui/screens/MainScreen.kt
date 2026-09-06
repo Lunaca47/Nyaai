@@ -31,10 +31,13 @@ import com.nyaai.data.local.RagDao
 import com.nyaai.ui.state.LocalStrings
 import kotlinx.coroutines.launch
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 enum class MainTab { CHAT, ABOUT, SETTINGS }
 
 @Suppress("UNUSED_PARAMETER")
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
     var selectedTab by remember { mutableStateOf(MainTab.CHAT) }
@@ -65,11 +68,104 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                 drawerContentColor   = colors.onBackground,
                 modifier             = Modifier.width(320.dp)
             ) {
-                Spacer(Modifier.height(48.dp))
+                Spacer(Modifier.height(40.dp))
+
+                // ── Brand Header ──
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(horizontal = 20.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(colors.primaryContainer),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Outlined.Gavel,
+                            contentDescription = null,
+                            tint = colors.onPrimaryContainer,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(14.dp))
+                    Column {
+                        Text(
+                            "Nyaai",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colors.onBackground
+                        )
+                        Text(
+                            "Your Legal Companion",
+                            fontSize = 12.sp,
+                            color = colors.onSurfaceVariant
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(8.dp))
+
+                // ── App Navigation Links ──
+                NavigationDrawerItem(
+                    label = { Text(strings.navChat, fontWeight = FontWeight.Medium) },
+                    selected = selectedTab == MainTab.CHAT,
+                    onClick = {
+                        selectedTab = MainTab.CHAT
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Outlined.ChatBubbleOutline, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text(strings.bookmarksTitle, fontWeight = FontWeight.Medium) },
+                    selected = drawerSection == 1,
+                    badge = {
+                        if (bookmarks.isNotEmpty()) {
+                            Badge { Text("${bookmarks.size}") }
+                        }
+                    },
+                    onClick = {
+                        drawerSection = 1
+                    },
+                    icon = { Icon(Icons.Outlined.BookmarkBorder, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text(strings.navSettings, fontWeight = FontWeight.Medium) },
+                    selected = selectedTab == MainTab.SETTINGS,
+                    onClick = {
+                        selectedTab = MainTab.SETTINGS
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text(strings.navAbout, fontWeight = FontWeight.Medium) },
+                    selected = selectedTab == MainTab.ABOUT,
+                    onClick = {
+                        selectedTab = MainTab.ABOUT
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                Divider(color = colors.outlineVariant.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+
+                // ── History / Bookmarks Toggle ──
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(colors.surfaceVariant)
                         .padding(4.dp)
@@ -100,16 +196,21 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            strings.bookmarksTitle,
+                            strings.bookmarksTitle + if (bookmarks.isNotEmpty()) " (${bookmarks.size})" else "",
                             color = if (drawerSection == 1) colors.onPrimary else colors.onSurfaceVariant,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold
                         )
                     }
                 }
-                Divider(color = colors.outline, thickness = 1.dp, modifier  = Modifier.padding(horizontal = 16.dp))
+                Divider(color = colors.outline.copy(alpha = 0.3f), thickness = 1.dp, modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
                 
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(16.dp)
+                ) {
                     if (drawerSection == 0) {
                         if (chatSessions.isEmpty()) {
                             Text("No history yet", color = colors.onSurfaceVariant, fontSize = 14.sp)
@@ -193,11 +294,16 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                             sessionId = currentSessionId,
                             onMenuClick = { scope.launch { drawerState.open() } },
                             onNewChat = { currentSessionId = null },
+                            onOpenSettings = { selectedTab = MainTab.SETTINGS },
+                            onOpenBookmarks = {
+                                drawerSection = 1
+                                scope.launch { drawerState.open() }
+                            },
                             ragDao = ragDao,
                             bottomPadding = if (isKeyboardOpen) 4.dp else 84.dp
                         )
-                        MainTab.ABOUT    -> AboutScreen()
-                        MainTab.SETTINGS -> SettingsScreen(ragDao = ragDao)
+                        MainTab.ABOUT    -> AboutScreen(onBack = { selectedTab = MainTab.CHAT })
+                        MainTab.SETTINGS -> SettingsScreen(ragDao = ragDao, onBack = { selectedTab = MainTab.CHAT })
                     }
                 }
                 if (!isKeyboardOpen && selectedTab != MainTab.CHAT) {
@@ -210,10 +316,10 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(horizontal = 32.dp, vertical = 20.dp)
+                        .padding(horizontal = 24.dp, vertical = 18.dp)
                         .clip(RoundedCornerShape(50.dp))
                         .background(colors.surface)
-                        .padding(horizontal = 20.dp, vertical = 8.dp)
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
                 ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -228,11 +334,14 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                         onClick  = { selectedTab = MainTab.CHAT }
                     )
                     NavBarItem(
-                        icon     = Icons.Outlined.Info,
-                        label    = strings.navAbout,
-                        selected = selectedTab == MainTab.ABOUT,
+                        icon     = Icons.Outlined.BookmarkBorder,
+                        label    = strings.bookmarksTitle,
+                        selected = drawerState.isOpen && drawerSection == 1,
                         colors   = colors,
-                        onClick  = { selectedTab = MainTab.ABOUT }
+                        onClick  = {
+                            drawerSection = 1
+                            scope.launch { drawerState.open() }
+                        }
                     )
                     NavBarItem(
                         icon     = Icons.Outlined.Settings,
@@ -240,6 +349,13 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                         selected = selectedTab == MainTab.SETTINGS,
                         colors   = colors,
                         onClick  = { selectedTab = MainTab.SETTINGS }
+                    )
+                    NavBarItem(
+                        icon     = Icons.Outlined.Info,
+                        label    = strings.navAbout,
+                        selected = selectedTab == MainTab.ABOUT,
+                        colors   = colors,
+                        onClick  = { selectedTab = MainTab.ABOUT }
                     )
                 }
             }

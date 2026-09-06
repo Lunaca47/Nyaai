@@ -24,8 +24,10 @@ import com.nyaai.data.local.RagDao
 import com.nyaai.ui.state.LocalRagDao
 import com.nyaai.ui.state.LocalStrings
 
+import androidx.compose.material.icons.outlined.ArrowBack
+
 @Composable
-fun AboutScreen() {
+fun AboutScreen(onBack: () -> Unit = {}) {
     val scrollState = rememberScrollState()
     val strings     = LocalStrings.current
     val colors      = MaterialTheme.colorScheme
@@ -51,15 +53,28 @@ fun AboutScreen() {
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(horizontal = 20.dp)
-                .padding(top = 48.dp, bottom = 16.dp)
+                .padding(top = 40.dp, bottom = 16.dp)
         ) {
-            // ── Header ──────────────────────────────────────────────────────
-            Text(
-                text       = strings.aboutTitle,
-                color      = colors.onBackground,
-                fontSize   = 28.sp,
-                fontWeight = FontWeight.Bold
-            )
+            // ── Header with Back Navigation ─────────────────────────────────
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        Icons.Outlined.ArrowBack,
+                        contentDescription = "Back to Chat",
+                        tint = colors.onBackground
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text       = strings.aboutTitle,
+                    color      = colors.onBackground,
+                    fontSize   = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text     = strings.aboutSubtitle,

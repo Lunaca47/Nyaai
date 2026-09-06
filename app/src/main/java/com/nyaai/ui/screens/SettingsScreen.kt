@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(ragDao: RagDao? = null) {
+fun SettingsScreen(ragDao: RagDao? = null, onBack: () -> Unit = {}) {
     val strings             = LocalStrings.current
     val currentTheme        = LocalAppTheme.current
     val updateTheme         = LocalThemeUpdater.current
@@ -76,16 +76,29 @@ fun SettingsScreen(ragDao: RagDao? = null) {
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(horizontal = 16.dp)
-                .padding(top = 48.dp, bottom = 100.dp)
+                .padding(top = 40.dp, bottom = 100.dp)
         ) {
-            // ── Header ──────────────────────────────────────────────────────
-            Text(
-                text       = strings.settingsTitle,
-                color      = colors.onBackground,
-                fontSize   = 28.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(20.dp))
+            // ── Header with Back Navigation ─────────────────────────────────
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        Icons.Outlined.ArrowBack,
+                        contentDescription = "Back to Chat",
+                        tint = colors.onBackground
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text       = strings.settingsTitle,
+                    color      = colors.onBackground,
+                    fontSize   = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
 
             // ── Profile Card ─────────────────────────────────────────────────
             Row(
