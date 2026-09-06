@@ -1,4 +1,4 @@
-﻿# 🌐 NYAAI — Futuristic Web Application
+# 🌐 NYAAI — Futuristic Web Application
 
 This directory (`web/`) contains the standalone, futuristic web application for **NYAAI (न्यायAI)**. It is completely isolated from the Android mobile application codebase (`app/`), allowing it to be hosted on GitHub Pages, Vercel, Netlify, or any static web hosting service.
 

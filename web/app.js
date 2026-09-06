@@ -1,6 +1,7 @@
-﻿/**
+/**
  * NYAAI (न्यायAI) — Futuristic Web Application Core Engine
  * Standalone Client-Side AI Engine & Interactive Visuals
+ * Pure UTF-8 (No BOM) | Version 2.2
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,7 +29,7 @@ function initNeuralCanvas() {
   });
 
   const particles = [];
-  const particleCount = Math.min(Math.floor(width / 22), 70);
+  const particleCount = Math.min(Math.floor(width / 24), 60);
   const maxDistance = 140;
 
   let mouse = { x: null, y: null, radius: 150 };
@@ -45,8 +46,8 @@ function initNeuralCanvas() {
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.7,
-      vy: (Math.random() - 0.5) * 0.7,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
       radius: Math.random() * 2 + 1,
       color: Math.random() > 0.3 ? "#818CF8" : "#F59E0B"
     });
@@ -64,7 +65,7 @@ function initNeuralCanvas() {
 
         if (dist < maxDistance) {
           const alpha = 1 - dist / maxDistance;
-          ctx.strokeStyle = `rgba(99, 102, 241, ${alpha * 0.14})`;
+          ctx.strokeStyle = `rgba(99, 102, 241, ${alpha * 0.12})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
@@ -76,7 +77,6 @@ function initNeuralCanvas() {
 
     // Render particles
     for (let p of particles) {
-      // Mouse interaction
       if (mouse.x !== null && mouse.y !== null) {
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
@@ -95,8 +95,6 @@ function initNeuralCanvas() {
       if (p.y < 0 || p.y > height) p.vy *= -1;
 
       ctx.fillStyle = p.color;
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = p.color;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fill();
@@ -109,11 +107,11 @@ function initNeuralCanvas() {
 }
 
 /* =========================================================
-   2. Live Interactive Legal AI Terminal (Playground)
+   2. Intelligent Legal AI Assistant Simulator (Terminal)
    ========================================================= */
 const legalKnowledgeBase = [
   {
-    keywords: ["bail", "482", "bnss", "arrest", "custody"],
+    keywords: ["bail", "482", "bnss", "arrest", "custody", "anticipatory"],
     title: "Bail Provisions under Section 482 of BNSS, 2023",
     confidence: "98.7% High Confidence",
     act: "Bharatiya Nagarik Suraksha Sanhita, 2023 (Act No. 46 of 2023)",
@@ -133,11 +131,11 @@ const legalKnowledgeBase = [
     summary: [
       "No person shall be deprived of his life or personal liberty except according to procedure established by law.",
       "Encompasses the fundamental Right to Privacy (K.S. Puttaswamy v. Union of India, 2017).",
-      "Guarantees right to speedy trial, legal aid, clean environment, and dignity under constitutional jurisprudence."
+      "Guarantees right to speedy trial, legal aid, clean environment, and human dignity under constitutional jurisprudence."
     ]
   },
   {
-    keywords: ["murder", "103", "bns", "homicide", "punishment"],
+    keywords: ["murder", "103", "bns", "homicide", "punishment", "lynching"],
     title: "Punishment for Murder under Section 103 of BNS, 2023",
     confidence: "99.1% High Confidence",
     act: "Bharatiya Nyaya Sanhita, 2023 (Act No. 45 of 2023)",
@@ -148,7 +146,7 @@ const legalKnowledgeBase = [
     ]
   },
   {
-    keywords: ["evidence", "electronic", "61", "63", "bsa", "whatsapp", "email"],
+    keywords: ["evidence", "electronic", "61", "63", "bsa", "whatsapp", "email", "digital"],
     title: "Admissibility of Electronic Records under Section 61 & 63 of BSA, 2023",
     confidence: "97.5% High Confidence",
     act: "Bharatiya Sakshya Adhiniyam, 2023 (Act No. 47 of 2023)",
@@ -159,7 +157,7 @@ const legalKnowledgeBase = [
     ]
   },
   {
-    keywords: ["consumer", "refund", "ecommerce", "return", "defective"],
+    keywords: ["consumer", "refund", "ecommerce", "return", "defective", "service"],
     title: "Consumer Rights & E-Commerce Refunds",
     confidence: "96.4% High Confidence",
     act: "Consumer Protection Act, 2019 & E-Commerce Rules, 2020",
@@ -184,14 +182,14 @@ function initAITerminal() {
   function executeQuery(queryText) {
     if (!queryText || queryText.trim() === "") return;
 
-    // 1. Add User Message
+    // 1. Append User Message
     appendMessage(queryText, "user");
     terminalInput.value = "";
 
-    // 2. Show Typing Indicator
+    // 2. Append Typing Indicator
     const typingElem = document.createElement("div");
-    typingElem.className = "message-bubble bot-message mono";
-    typingElem.innerHTML = `<span class="text-cyan">⚡ Scanning 1,838 statutory sections across BNS, BNSS, BSA, COI...</span>`;
+    typingElem.className = "chat-bubble chat-ai mono";
+    typingElem.innerHTML = `<span style="color: #4F46E5; font-weight: 600;">⚡ Scanning 1,838 statutory sections across BNS, BNSS, BSA, COI...</span>`;
     chatHistory.appendChild(typingElem);
     chatHistory.scrollTop = chatHistory.scrollHeight;
 
@@ -206,39 +204,39 @@ function initAITerminal() {
 
       if (!matched) {
         matched = {
-          title: "General Indian Legal Analysis",
+          title: "Statutory Legal Assessment",
           confidence: "94.2% AI Contextual Match",
           act: "Statutory Law of India & Constitution of India",
-          section: "Relevant Statutory Provision",
+          section: "Relevant Legal Provisions",
           summary: [
-            `Analysis generated for legal query: "${queryText}".`,
-            "Rights under Indian law require verification against specific factual circumstances.",
-            "Statutory references can be cross-examined directly via the Statutory Codex below."
+            `Analysis generated for legal inquiry: "${queryText}".`,
+            "Rights and liabilities under Indian jurisprudence depend on verified factual circumstances and police documentation.",
+            "You can cross-reference relevant codified provisions in the Statutory Codex page."
           ]
         };
       }
 
       const botMsg = document.createElement("div");
-      botMsg.className = "message-bubble bot-message";
+      botMsg.className = "chat-bubble chat-ai";
       botMsg.innerHTML = `
-        <div class="confidence-chip">
+        <div class="badge-pastel-sage" style="margin-bottom: 8px; font-size: 0.74rem;">
           <span>●</span> ${matched.confidence}
         </div>
-        <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #FFF;">
+        <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #0F172A;">
           ${matched.title}
         </div>
-        <ul style="padding-left: 20px; margin-bottom: 10px; color: #CBD5E1;">
+        <ul style="padding-left: 20px; margin-bottom: 10px; color: #334155; line-height: 1.6;">
           ${matched.summary.map(s => `<li>${s}</li>`).join("")}
         </ul>
-        <div class="citation-card">
-          <span style="color: var(--legal-gold); font-weight: 700;">Statute Citation:</span> 
-          <strong>${matched.act}</strong> — <span class="text-cyan">${matched.section}</span>
+        <div class="citation-pastel-box">
+          <strong style="color: #92400E;">Statute Citation:</strong> 
+          <strong>${matched.act}</strong> — <span style="color: #3730A3; font-weight: 600;">${matched.section}</span>
         </div>
-        <div style="margin-top: 10px; display: flex; gap: 8px;">
-          <button class="suggestion-chip read-aloud-btn" style="padding: 4px 10px; font-size: 0.76rem;">
+        <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="chip-btn read-aloud-btn" style="padding: 4px 10px; font-size: 0.76rem;">
             🔊 Read Aloud
           </button>
-          <button class="suggestion-chip copy-msg-btn" style="padding: 4px 10px; font-size: 0.76rem;">
+          <button class="chip-btn copy-msg-btn" style="padding: 4px 10px; font-size: 0.76rem;">
             📋 Copy Citation
           </button>
         </div>
@@ -259,12 +257,12 @@ function initAITerminal() {
 
       chatHistory.appendChild(botMsg);
       chatHistory.scrollTop = chatHistory.scrollHeight;
-    }, 600);
+    }, 550);
   }
 
   function appendMessage(text, sender) {
     const bubble = document.createElement("div");
-    bubble.className = `message-bubble ${sender}-message`;
+    bubble.className = `chat-bubble chat-${sender}`;
     bubble.textContent = text;
     chatHistory.appendChild(bubble);
     chatHistory.scrollTop = chatHistory.scrollHeight;
@@ -290,28 +288,31 @@ function initAITerminal() {
     recognition.interimResults = false;
 
     micBtn.addEventListener("click", () => {
-      if (micBtn.classList.contains("recording")) {
-        recognition.stop();
-        micBtn.classList.remove("recording");
-      } else {
+      try {
         recognition.start();
-        micBtn.classList.add("recording");
+        micBtn.style.background = "#FEE2E2";
+        micBtn.style.borderColor = "#F87171";
+      } catch (err) {
+        recognition.stop();
       }
     });
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       terminalInput.value = transcript;
-      micBtn.classList.remove("recording");
+      micBtn.style.background = "";
+      micBtn.style.borderColor = "";
       executeQuery(transcript);
     };
 
     recognition.onerror = () => {
-      micBtn.classList.remove("recording");
+      micBtn.style.background = "";
+      micBtn.style.borderColor = "";
     };
 
     recognition.onend = () => {
-      micBtn.classList.remove("recording");
+      micBtn.style.background = "";
+      micBtn.style.borderColor = "";
     };
   } else if (micBtn) {
     micBtn.title = "Voice recognition not supported in this browser.";
@@ -335,9 +336,9 @@ const sampleDocuments = {
     title: "Legal Notice: Dishonour of Cheque",
     text: `LEGAL DEMAND NOTICE
 To: M/s Apex Tech Solutions, Hyderabad
-Under instructions from our client Mr. Rajesh Varma, we issue this notice under <span class="ocr-box">SECTION 138 OF NEGOTIABLE INSTRUMENTS ACT, 1881</span>.
+Under instructions from our client Mr. Rajesh Varma, we issue this notice under SECTION 138 OF NEGOTIABLE INSTRUMENTS ACT, 1881.
 Cheque No. 440912 dated 14/08/2026 drawn on HDFC Bank for an amount of ₹3,50,000/- was returned unpaid with remarks "FUNDS INSUFFICIENT".
-You are hereby called upon to pay the said sum within <span class="ocr-box">15 DAYS</span> of receipt of this notice, failing which our client shall initiate criminal prosecution under <span class="ocr-box">SECTION 138 & 142</span> of the NI Act.`,
+You are hereby called upon to pay the said sum within 15 DAYS of receipt of this notice, failing which our client shall initiate criminal prosecution under SECTION 138 & 142 of the NI Act.`,
     analysis: {
       type: "Statutory Demand Notice (Cheque Dishonour)",
       statutes: "Section 138 & 142, Negotiable Instruments Act, 1881",
@@ -349,10 +350,10 @@ You are hereby called upon to pay the said sum within <span class="ocr-box">15 D
     title: "First Information Report (FIR Extract)",
     text: `POLICE DEPARTMENT — CYBER CRIME PS
 FIR No: 0412/2026 | Date: 02/09/2026
-Under Sections: <span class="ocr-box">SECTION 318(4) BNS</span> (Cheating) & <span class="ocr-box">SECTION 66D IT ACT</span> (Cheating by Impersonation).
+Under Sections: SECTION 318(4) BNS (Cheating) & SECTION 66D IT ACT (Cheating by Impersonation).
 Complainant alleges unauthorized deduction of ₹85,000 via fraudulent phishing URL.
 Investigating Officer: Sub-Inspector K. Sharma, Cyber Crime Cell.
-Notice under <span class="ocr-box">SECTION 35(3) OF BNSS 2023</span> issued to accused regarding appearance for investigation.`,
+Notice under SECTION 35(3) OF BNSS 2023 issued to accused regarding appearance for investigation.`,
     analysis: {
       type: "First Information Report (Cognizable Offence)",
       statutes: "Section 318(4) BNS 2023 & Section 66D Information Technology Act",
@@ -365,8 +366,8 @@ Notice under <span class="ocr-box">SECTION 35(3) OF BNSS 2023</span> issued to a
     text: `CEASE AND DESIST NOTICE
 Re: Breach of Confidentiality obligations under Master Services Agreement dated 12/01/2025.
 Clause 7 prohibits unauthorized disclosure of Proprietary Source Code and Client Trade Secrets.
-Such breach constitutes actionable civil wrong and criminal breach of trust under <span class="ocr-box">SECTION 316 OF BNS 2023</span>.
-Demand to immediately cease dissemination and return confidential assets within <span class="ocr-box">7 DAYS</span>.`,
+Such breach constitutes actionable civil wrong and criminal breach of trust under SECTION 316 OF BNS 2023.
+Demand to immediately cease dissemination and return confidential assets within 7 DAYS.`,
     analysis: {
       type: "Commercial Cease & Desist / Breach Notice",
       statutes: "Section 316 BNS 2023 (Criminal Breach of Trust) & Indian Contract Act, 1872",
@@ -394,13 +395,12 @@ function initDocumentScanner() {
   function loadSample(key) {
     currentKey = key;
     const doc = sampleDocuments[key];
-    docPreview.innerHTML = doc.text;
+    docPreview.textContent = doc.text;
 
-    // Reset analysis report to pending
-    repType.textContent = "Click 'Analyze Document' to scan...";
-    repStatutes.textContent = "—";
-    repDeadline.textContent = "—";
-    repAction.textContent = "—";
+    if (repType) repType.textContent = "Click 'Analyze Document' to scan...";
+    if (repStatutes) repStatutes.textContent = "—";
+    if (repDeadline) repDeadline.textContent = "—";
+    if (repAction) repAction.textContent = "—";
   }
 
   tabs.forEach(tab => {
@@ -412,28 +412,28 @@ function initDocumentScanner() {
   });
 
   scanBtn.addEventListener("click", () => {
-    laser.classList.add("active");
+    if (laser) laser.classList.add("active");
     scanBtn.textContent = "⚡ Scanning Document...";
     scanBtn.disabled = true;
 
     setTimeout(() => {
-      laser.classList.remove("active");
+      if (laser) laser.classList.remove("active");
       scanBtn.textContent = "✓ Scan Complete — Re-Analyze";
       scanBtn.disabled = false;
 
       const doc = sampleDocuments[currentKey];
-      repType.textContent = doc.analysis.type;
-      repStatutes.textContent = doc.analysis.statutes;
-      repDeadline.textContent = doc.analysis.deadline;
-      repAction.textContent = doc.analysis.action;
-    }, 2000);
+      if (repType) repType.textContent = doc.analysis.type;
+      if (repStatutes) repStatutes.textContent = doc.analysis.statutes;
+      if (repDeadline) repDeadline.textContent = doc.analysis.deadline;
+      if (repAction) repAction.textContent = doc.analysis.action;
+    }, 1800);
   });
 
   loadSample("notice138");
 }
 
 /* =========================================================
-   4. 3D Statutory Codex Filter
+   4. Statutory Codex Filter
    ========================================================= */
 const statutoryLibrary = [
   {
@@ -441,7 +441,7 @@ const statutoryLibrary = [
     fullAct: "Bharatiya Nyaya Sanhita, 2023",
     section: "Section 103",
     title: "Punishment for Murder",
-    desc: "Prescribes capital punishment or life imprisonment for murder. Introduces stringent penalties for mob lynching.",
+    desc: "Prescribes capital punishment or life imprisonment for murder. Section 103(2) introduces stringent penalties for mob lynching.",
     badge: "Criminal Law"
   },
   {
@@ -449,7 +449,7 @@ const statutoryLibrary = [
     fullAct: "Bharatiya Nagarik Suraksha Sanhita, 2023",
     section: "Section 482",
     title: "Bail in Non-Bailable Offences",
-    desc: "Comprehensive guidelines for bail, anticipatory bail, and discretionary powers of magistrate courts.",
+    desc: "Comprehensive judicial discretion guidelines for bail, conditions of release, and preservation of personal liberty.",
     badge: "Criminal Procedure"
   },
   {
@@ -457,7 +457,7 @@ const statutoryLibrary = [
     fullAct: "Bharatiya Sakshya Adhiniyam, 2023",
     section: "Section 61 & 63",
     title: "Admissibility of Electronic Records",
-    desc: "Digital contracts, emails, server logs, and digital signatures recognized on equal footing with paper documents.",
+    desc: "Digital contracts, emails, server logs, CCTV, and messaging trails recognized on equal footing with paper documents.",
     badge: "Evidence Law"
   },
   {
@@ -465,7 +465,7 @@ const statutoryLibrary = [
     fullAct: "Constitution of India, 1950",
     section: "Article 21",
     title: "Right to Life & Personal Liberty",
-    desc: "Guarantees fundamental rights, privacy, legal aid, and dignity under the constitutional umbrella.",
+    desc: "Guarantees fundamental rights, right to privacy, legal representation, and dignity under constitutional umbrella.",
     badge: "Constitutional Law"
   },
   {
@@ -473,7 +473,7 @@ const statutoryLibrary = [
     fullAct: "Bharatiya Nyaya Sanhita, 2023",
     section: "Section 316 & 318",
     title: "Criminal Breach of Trust & Cheating",
-    desc: "Defines misappropriation of property, breach of fiduciary duty, and fraudulent inducement.",
+    desc: "Defines misappropriation of entrusted property, breach of fiduciary duty, and fraudulent inducement with enhanced penalties.",
     badge: "Criminal Law"
   },
   {
@@ -481,7 +481,7 @@ const statutoryLibrary = [
     fullAct: "Bharatiya Nagarik Suraksha Sanhita, 2023",
     section: "Section 173",
     title: "Information to the Police (FIR)",
-    desc: "Enables Zero FIR anywhere in India and mandates audio-video recording of search and seizure operations.",
+    desc: "Enables Zero FIR anywhere across India regardless of police station boundaries and mandates electronic record keeping.",
     badge: "Criminal Procedure"
   }
 ];
@@ -495,13 +495,13 @@ function initStatutoryCodex() {
   function renderCodex(items) {
     codexGrid.innerHTML = "";
     if (items.length === 0) {
-      codexGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No sections matching your query.</div>`;
+      codexGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #64748B; padding: 40px;">No statutory sections matching your query.</div>`;
       return;
     }
 
     items.forEach(item => {
       const card = document.createElement("div");
-      card.className = "codex-card glass-panel";
+      card.className = "codex-card";
       card.innerHTML = `
         <div>
           <div class="codex-badge">${item.badge}</div>
@@ -510,7 +510,7 @@ function initStatutoryCodex() {
         </div>
         <div class="codex-meta">
           <span>${item.act}</span>
-          <span style="color: var(--legal-gold);">Indexed</span>
+          <span style="color: #D97706; font-weight: 600;">Indexed</span>
         </div>
       `;
       codexGrid.appendChild(card);
@@ -536,48 +536,16 @@ function initStatutoryCodex() {
 }
 
 /* =========================================================
-   5. Multilingual Localization (EN, HI, BN, TE, TA)
+   5. Multilingual Localization
    ========================================================= */
 const i18n = {
   en: {
-    heroTag: "Next-Gen Legal Intelligence",
     heroTitle: "The Future of Indian Jurisprudence, Powered by AI.",
-    heroSubtitle: "Instant statutory retrieval, on-device legal OCR, and intelligent criminal code synthesis under BNS 2023, BNSS 2023, BSA 2023, and the Constitution of India.",
-    btnTerminal: "⚡ Launch AI Terminal",
-    btnScanner: "📄 Try Document Scanner",
-    btnDownload: "📲 Download Android APK"
+    heroSubtitle: "Instant statutory retrieval, on-device legal OCR, and intelligent criminal code synthesis under BNS 2023, BNSS 2023, BSA 2023, and the Constitution of India."
   },
   hi: {
-    heroTag: "अगली पीढ़ी की कानूनी बुद्धिमत्ता",
     heroTitle: "भारतीय न्यायशास्त्र का भविष्य, AI द्वारा संचालित।",
-    heroSubtitle: "BNS 2023, BNSS 2023, BSA 2023 और भारत के संविधान के तहत तुरंत कानूनी खोज, ऑन-डिवाइस दस्तावेज़ OCR और सटीक कानूनी मार्गदर्शन।",
-    btnTerminal: "⚡ AI टर्मिनल खोलें",
-    btnScanner: "📄 दस्तावेज़ स्कैनर आज़माएं",
-    btnDownload: "📲 एंड्रॉइड APK डाउनलोड करें"
-  },
-  bn: {
-    heroTag: "পরবর্তী প্রজন্মের আইনি বুদ্ধিমত্তা",
-    heroTitle: "ভারতীয় আইনের ভবিষ্যৎ, AI দ্বারা পরিচালিত।",
-    heroSubtitle: "BNS 2023, BNSS 2023, BSA 2023 এবং ভারতের সংবিধানের অধীনে তাৎক্ষণিক আইনি অনুসন্ধান এবং অন-ডিভাইস ডকুমেন্ট ওসিআর।",
-    btnTerminal: "⚡ AI টার্মিনাল চালু করুন",
-    btnScanner: "📄 ডকুমেন্ট স্ক্যানার দেখুন",
-    btnDownload: "📲 অ্যান্ড্রয়েড APK ডাউনলোড"
-  },
-  te: {
-    heroTag: "తదుపరి తరం న్యాయ మేధస్సు",
-    heroTitle: "భారతీయ న్యాయశాస్త్రం యొక్క భవిష్యత్తు, AI తో.",
-    heroSubtitle: "BNS 2023, BNSS 2023, BSA 2023 మరియు భారత రాజ్యాంగం ప్రకారం తక్షణ చట్టపరమైన పరిశోధన మరియు ఆన్-డివైస్ OCR.",
-    btnTerminal: "⚡ AI టెర్మినల్ తెరవండి",
-    btnScanner: "📄 డాక్యుమెంట్ స్కానర్",
-    btnDownload: "📲 ఆండ్రాయిడ్ APK డౌన్‌లోడ్"
-  },
-  ta: {
-    heroTag: "அடுத்த தலைமுறை சட்ட நுண்ணறிவு",
-    heroTitle: "இந்திய நீதித்துறையின் எதிர்காலம், AI மூலம்.",
-    heroSubtitle: "BNS 2023, BNSS 2023, BSA 2023 மற்றும் இந்திய அரசியலமைப்பின் கீழ் உடனடி சட்ட ஆய்வு மற்றும் சாதனத்திலேயே இயங்கும் OCR.",
-    btnTerminal: "⚡ AI முனையத்தைத் தொடங்கவும்",
-    btnScanner: "📄 ஆவண ஸ்கேனர்",
-    btnDownload: "📲 ஆண்ட்ராய்டு APK பதிவிறக்கம்"
+    heroSubtitle: "BNS 2023, BNSS 2023, BSA 2023 और भारत के संविधान के तहत तुरंत कानूनी खोज, ऑन-डिवाइस दस्तावेज़ OCR और सटीक कानूनी मार्गदर्शन।"
   }
 };
 
@@ -587,19 +555,12 @@ function initLanguageSwitcher() {
 
   langSelect.addEventListener("change", (e) => {
     const lang = e.target.value;
-    const strings = i18n[lang] || i18n.en;
+    const heroTitle = document.querySelector(".hero-title");
+    const heroSubtitle = document.querySelector(".hero-subtitle");
 
-    const elTag = document.querySelector(".hero-content .badge-tag span");
-    const elTitle = document.querySelector(".hero-title");
-    const elSubtitle = document.querySelector(".hero-subtitle");
-    const elBtnTerminal = document.querySelector(".hero-ctas .btn-primary");
-    const elBtnScanner = document.querySelector(".hero-ctas .btn-gold");
-
-    if (elTag) elTag.textContent = strings.heroTag;
-    if (elTitle) elTitle.innerHTML = `<span class="text-gradient">${strings.heroTitle}</span>`;
-    if (elSubtitle) elSubtitle.textContent = strings.heroSubtitle;
-    if (elBtnTerminal) elBtnTerminal.textContent = strings.btnTerminal;
-    if (elBtnScanner) elBtnScanner.textContent = strings.btnScanner;
+    if (i18n[lang]) {
+      if (heroTitle && i18n[lang].heroTitle) heroTitle.textContent = i18n[lang].heroTitle;
+      if (heroSubtitle && i18n[lang].heroSubtitle) heroSubtitle.textContent = i18n[lang].heroSubtitle;
+    }
   });
 }
-
