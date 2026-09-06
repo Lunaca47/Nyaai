@@ -4,6 +4,12 @@
 *.ap_
 *.aab
 
+# Allow distribution release binaries
+!docs/*.apk
+!web/*.apk
+!release_package/binaries/*.apk
+
+
 # Files for the ART/Dalvik VM
 *.dex
 

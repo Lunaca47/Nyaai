@@ -55,7 +55,7 @@ Double-click `web/index.html` to open it in Chrome, Edge, Brave, or Firefox.
 2. In GitHub, navigate to **Settings → Pages**.
 3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
 4. Select `main` branch and folder `/web`.
-5. Click **Save**. Your site will be live at `https://Lunaca47.github.io/Nyaai_/`.
+5. Click **Save**. Your site will be live at `https://Lunaca47.github.io/Nyaai/`.
 
 ### Deploying to Vercel or Netlify
 1. Connect your GitHub repository.
