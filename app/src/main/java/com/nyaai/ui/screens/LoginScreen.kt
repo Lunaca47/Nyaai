@@ -65,6 +65,7 @@ fun LoginScreen(onBack: () -> Unit, onLoginSuccess: () -> Unit) {
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
+        isLoading = false
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
@@ -74,18 +75,44 @@ fun LoginScreen(onBack: () -> Unit, onLoginSuccess: () -> Unit) {
                     val credential = GoogleAuthProvider.getCredential(idToken, null)
                     auth.signInWithCredential(credential).addOnCompleteListener { authResult ->
                         if (authResult.isSuccessful) {
+                            val prefs = context.getSharedPreferences("nyaai_preferences", Context.MODE_PRIVATE)
+                            prefs.edit().putBoolean("guest_mode", false).apply()
                             updateAuth(true)
                             onLoginSuccess()
                         } else {
-                            Toast.makeText(context, "Firebase Auth Failed", Toast.LENGTH_SHORT).show()
+                            val err = authResult.exception?.message ?: "Authentication failed"
+                            Toast.makeText(context, "Firebase Auth Failed: $err", Toast.LENGTH_LONG).show()
                         }
                     }
                 } else {
                     Toast.makeText(context, "Google Sign-In: idToken is missing", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: ApiException) {
+                val hint = when (e.statusCode) {
+                    10 -> "\nHint: Release SHA-1 fingerprint must be added to Firebase Console."
+                    12500 -> "\nHint: Enable Google provider in Firebase Console > Authentication > Sign-in method."
+                    else -> ""
+                }
+                Toast.makeText(context, "Google Sign-In Failed [${e.statusCode}]: ${e.message}$hint", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
-                Toast.makeText(context, "Google Sign-In Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Google Sign-In Failed: ${e.message}", Toast.LENGTH_LONG).show()
             }
+        } else {
+            if (result.data != null) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    task.getResult(ApiException::class.java)
+                } catch (e: ApiException) {
+                    val hint = when (e.statusCode) {
+                        10 -> " (Developer Error: Release SHA-1 must be registered in Firebase)"
+                        12500 -> " (Google sign-in provider disabled in Firebase)"
+                        else -> ""
+                    }
+                    Toast.makeText(context, "Google Sign-In [${e.statusCode}]$hint", Toast.LENGTH_LONG).show()
+                    return@rememberLauncherForActivityResult
+                }
+            }
+            Toast.makeText(context, "Google Sign-In canceled", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -129,7 +156,13 @@ fun LoginScreen(onBack: () -> Unit, onLoginSuccess: () -> Unit) {
 
                 override fun onVerificationFailed(e: FirebaseException) {
                     isLoading = false
-                    Toast.makeText(context, "Verification Failed: ${e.message}", Toast.LENGTH_LONG).show()
+                    val msg = e.message ?: ""
+                    val customMsg = if (msg.contains("not allowed", ignoreCase = true) || msg.contains("operation-not-allowed", ignoreCase = true)) {
+                        "Phone Auth is disabled in Firebase Console. Enable Phone in Authentication > Sign-in method, or tap 'Continue as Guest' below!"
+                    } else {
+                        "Verification Failed: $msg"
+                    }
+                    Toast.makeText(context, customMsg, Toast.LENGTH_LONG).show()
                 }
 
                 override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
@@ -257,6 +290,26 @@ fun LoginScreen(onBack: () -> Unit, onLoginSuccess: () -> Unit) {
                     Spacer(modifier = Modifier.width(12.dp))
                     Text("Continue with Google", color = colors.onSurface, fontSize = 16.sp)
                 }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            TextButton(
+                onClick = {
+                    val prefs = context.getSharedPreferences("nyaai_preferences", Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("guest_mode", true).apply()
+                    updateAuth(true)
+                    onLoginSuccess()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading
+            ) {
+                Text(
+                    text = "Continue as Guest / Explore App →",
+                    color = colors.primary,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
         }
     }

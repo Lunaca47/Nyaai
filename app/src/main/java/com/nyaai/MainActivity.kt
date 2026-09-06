@@ -68,11 +68,13 @@ class MainActivity : ComponentActivity() {
             var currentLanguage by remember { mutableStateOf(initialLang) }
             var aiLanguage      by remember { mutableStateOf(initialAiLang) }
             var notificationsEnabled by remember { mutableStateOf(initialNotifs) }
-            var isLoggedIn by remember { mutableStateOf(auth.currentUser != null) }
+            val isGuest = prefs.getBoolean("guest_mode", false)
+            var isLoggedIn by remember { mutableStateOf(auth.currentUser != null || isGuest) }
 
             DisposableEffect(auth) {
                 val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-                    isLoggedIn = firebaseAuth.currentUser != null
+                    val currentlyGuest = prefs.getBoolean("guest_mode", false)
+                    isLoggedIn = firebaseAuth.currentUser != null || currentlyGuest
                 }
                 auth.addAuthStateListener(listener)
                 onDispose { auth.removeAuthStateListener(listener) }
