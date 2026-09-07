@@ -1,120 +1,115 @@
-# ⚖️ Nyaai (न्यायAI) — Indian Law, Explained in Plain Human
+# Nyaai (न्यायAI) — Indian Law, Explained in Plain English
 
-> Ever tried reading an official legal notice or statutory section and felt like you needed a law degree just to understand what was going on? Yeah, us too.
->
-> When the reformed criminal codes (**Bharatiya Nyaya Sanhita**, **BNSS**, and **BSA**) rolled out to replace the 160-year-old IPC and CrPC, navigating your rights didn't get any simpler for the average person.
->
-> **Nyaai** is an open-source, on-device legal AI assistant designed to take all that complex legal jargon and translate it into clear, everyday language. Whether you're a law student studying for exams, an advocate looking up citations on the go, or a citizen trying to understand an FIR or consumer refund rights—Nyaai has your back.
+Ever tried reading an official legal notice or statutory section and felt like you needed a law degree just to understand what was going on?
 
----
+When India's reformed criminal codes (Bharatiya Nyaya Sanhita, BNSS, and BSA) rolled out to replace the 160-year-old IPC and CrPC, navigating personal rights didn't get any simpler for everyday citizens.
 
-## ⚡ Try It Right Now
-
-You don't even need Android Studio to test it out:
-
-- 🌐 **Live Web Playground**: [Try Nyaai Web Terminal & Scanner](https://lunaca47.github.io/Nyaai/)
-- 📲 **Get the Android App**: Grab the signed production build directly from [`web/app-release.apk`](web/app-release.apk) (11.4 MB) and sideload it onto any Android phone.
+Nyaai is an open-source, on-device legal assistant designed to take complex legal jargon and translate it into clear, everyday language. Whether you are a law student, an advocate looking for quick citations, or someone trying to understand a police notice, consumer refund rights, or bail procedures, Nyaai helps you find grounded answers quickly.
 
 ---
 
-## 💡 What Makes Nyaai Cool?
+## Try It
 
-- 💬 **Speaks Plain Language**: Ask a question like *"My landlord won't return my security deposit"* or *"What happens if police arrest someone without a warrant?"*, and get back an easy-to-read explanation with actual section citations.
-- 📴 **Works Even Without Internet**: Nobody has high-speed Wi-Fi in a rural courtroom or basement police station. Nyaai bundles a preloaded SQLite database with **1,838 statutory sections** and **10,240 verified Q&As**. If your network drops, it immediately falls back to on-device statutory retrieval.
-- 🎙️ **Voice Search in 5 Indian Languages**: Supports English, हिन्दी (Hindi), বাংলা (Bengali), తెలుగు (Telugu), and தமிழ் (Tamil) with native dialect speech-to-text.
-- 📄 **Snap & Scan Legal Documents**: Point your phone camera at a paper legal notice, contract, or FIR copy. On-device Google ML Kit OCR extracts the key statutory clauses, legal deadlines, and actionable next steps without your private files ever leaving your phone.
-- 🚨 **National Legal SOS**: One-touch access to official emergency toll-free numbers like NALSA (free legal aid), NCW women helpline, National Cybercrime (`1930`), and child protection.
-- 🔒 **Privacy-First**: No tracking, zero cloud data leakage for OCR, and you can even bypass login using the in-app **Guest Mode**.
+You can test Nyaai without setting up Android Studio:
+
+- Web Version: [Launch Web Terminal and Scanner](https://lunaca47.github.io/Nyaai/)
+- Android App: Download the signed APK directly from [web/app-release.apk](web/app-release.apk) (11.4 MB) and install it on your device.
 
 ---
 
-## 🛠️ Tech Stack at a Glance
+## Highlights
 
-| Layer | What We Used | Why |
+- Plain-Language Answers: Ask practical questions like "What happens if police arrest someone without a warrant?" or "How do I deal with a cheque bounce notice?", and receive clear explanations with specific statutory citations.
+- Works Offline: You do not need an active internet connection for basic statutory research. Nyaai comes with a preloaded local database containing 1,838 sections across reformed penal laws and the Constitution of India.
+- Voice Search in 5 Languages: Supports voice input in English, Hindi, Bengali, Telugu, and Tamil.
+- Document Scanner: Snap a photo of a legal notice, agreement, or FIR copy. On-device text recognition extracts key deadlines, relevant sections, and recommended next steps without uploading your documents to third-party servers.
+- Emergency Legal Helplines: Direct access to verified national numbers including NALSA (free legal aid), NCW women helpline, and National Cybercrime reporting (1930).
+- Privacy-Focused: No tracking, no forced logins. A guest mode is available directly from the welcome screen.
+
+---
+
+## Tech Stack
+
+| Component | Technology | Purpose |
 |:---|:---|:---|
-| **OS / UI** | Android (Kotlin) + Jetpack Compose | Smooth Material 3 design, fast 60fps animations |
-| **Brain (Online)** | Google Gemini 2.5 Flash | Lightning-fast conversational legal synthesis |
-| **Brain (Offline)** | Pre-packaged SQLite FTS4 (`nyaai_preloaded.db`) | Cold-start queries in under 50ms with zero internet |
-| **Document Vision** | Google ML Kit OCR + Android PDFBox | 100% private, on-device document text extraction |
-| **Web Client** | Modern Vanilla JS + CSS Grid | Lightweight, zero-dependency browser client |
-| **Auth** | Firebase Google Sign-In + Guest Mode | Hassle-free login or instant guest bypass |
+| Mobile App | Kotlin + Jetpack Compose | Material 3 interface with adaptive light/dark theme |
+| Online AI | Google Gemini 2.5 Flash | Conversational synthesis grounded in retrieved statutes |
+| Offline Retrieval | SQLite FTS4 | Instant keyword and section search (< 50ms) |
+| OCR and Vision | Google ML Kit + Android PDFBox | On-device private document parsing |
+| Web Client | Vanilla JavaScript + CSS | Lightweight static client hosted on GitHub Pages |
+| Authentication | Firebase Auth + Guest Mode | Optional Google Sign-In or one-tap guest access |
 
 ---
 
-## 🚀 Running the Project Locally
+## Running Locally
 
-Getting the Android app running on your machine is straightforward:
+### Prerequisites
+- Android Studio (recent version)
+- JDK 17 (included with Android Studio)
+- Android device or emulator running Android 7.0 (API 24) or newer
 
-### 1. Prerequisites
-- [Android Studio](https://developer.android.com/studio) (recent version like Hedgehog / Iguana / Ladybug)
-- JDK 17 (comes bundled inside Android Studio as JBR)
-- An Android device or emulator (Android 7.0 / API 24 or newer)
+### Setup Steps
 
-### 2. Clone and Open
-```bash
-git clone https://github.com/Lunaca47/Nyaai.git
-```
-Open the folder in Android Studio via **File → Open**. Let Gradle do its initial sync.
-
-### 3. Add Your Gemini API Key (Optional)
-The app works completely offline right out of the box using local statutory retrieval. But if you want full AI synthesis via Google Gemini:
-
-1. Grab a free API key from [Google AI Studio](https://aistudio.google.com/).
-2. Create or edit `local.properties` in your project root and add:
-   ```properties
-   gemini.api.key=YOUR_GEMINI_KEY_HERE
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Lunaca47/Nyaai.git
    ```
-3. Hit the green **▶ Run** button in Android Studio. That's it!
+
+2. Open the project in Android Studio and let Gradle complete its initial sync.
+
+3. Optional: Configure Gemini API Key
+   The app works offline out of the box using local database retrieval. If you want full online AI responses:
+   - Get an API key from Google AI Studio.
+   - Add the following line to `local.properties` in your project root:
+     ```properties
+     gemini.api.key=YOUR_GEMINI_API_KEY
+     ```
+
+4. Connect your device and click Run.
 
 ---
 
-## 🧠 How the RAG Pipeline Works
-
-When you ask a question, here is what happens under the hood:
+## How It Works
 
 ```text
-Your Question ("Can police search my house without a warrant?")
+Your Question
    │
-   ├─► 1. Keyword & Multi-Token Extraction (strips stopwords, finds section numbers)
+   ├── 1. Keyword extraction and section number detection
    │
-   ├─► 2. Local FTS4 Search across 1,838 sections (BNS, BNSS, BSA, Constitution)
+   ├── 2. Local full-text search (FTS4) across 1,838 sections
    │
-   ├─► 3. Relevant statutory chunks retrieved + confidence score calculated
+   ├── 3. Retrieval of relevant legal chunks with confidence score
    │
-   ├─► 4. If Internet is available:
-   │       Pipes verified citations into Gemini 2.5 Flash → Returns conversational summary
+   ├── 4. Online: Grounded synthesis via Gemini 2.5 Flash
    │
-   └─► 5. If Offline / No API Key:
-           Instantly renders the exact verified statutory sections directly from local DB
+   └── 5. Offline fallback: Direct excerpts from statutory database
 ```
 
-### Indexed Legal Codex
+### Covered Acts
 
-- 📜 **Constitution of India (1950)** — Fundamental rights (Article 14, 19, 21), writ remedies (Article 32 & 226), and governance.
-- ⚖️ **Bharatiya Nyaya Sanhita, 2023 (BNS)** — Reformed substantive penal law (replaces IPC 1860).
-- 🚔 **Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)** — Criminal procedure, arrest rights, bail provisions (replaces CrPC 1973).
-- 🔍 **Bharatiya Sakshya Adhiniyam, 2023 (BSA)** — Evidence law, digital evidence admissibility & certificates (replaces IEA 1872).
+- Constitution of India (1950): Fundamental rights, writ remedies, constitutional structure.
+- Bharatiya Nyaya Sanhita, 2023 (BNS): Substantive penal code (replaces IPC 1860).
+- Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS): Criminal procedure, arrest rights, bail (replaces CrPC 1973).
+- Bharatiya Sakshya Adhiniyam, 2023 (BSA): Rules of evidence and electronic records (replaces IEA 1872).
 
 ---
 
-## 📁 Repository Structure
+## Project Structure
 
 ```text
 nyaai/
-├── app/                  # Native Android Kotlin app
-│   ├── src/main/assets/  # Preloaded SQLite FTS4 DB (10,240 Q&As, 1,838 sections)
-│   └── src/main/java/    # Jetpack Compose UI, Room DB, Gemini RAG, ML Kit OCR
-├── web/                  # Complete web client (Terminal, Scanner, Codex, SOS)
-├── docs/                 # GitHub Pages static bundle
-├── scripts/              # Python tools for database bundling and dataset validation
-└── release_package/      # Signed APKs, Play Store metadata, and screenshots
+├── app/                  # Android Kotlin source code and assets
+├── web/                  # Web application source files
+├── docs/                 # GitHub Pages deployment bundle
+├── scripts/              # Dataset generation and indexing scripts
+└── release_package/      # Signed release binaries and store assets
 ```
 
 ---
 
-## 🧪 Building from the Command Line
+## Build Commands
 
-If you prefer the terminal:
+From the project root:
 
 ```bash
 # Run unit tests
@@ -123,22 +118,18 @@ If you prefer the terminal:
 # Build debug APK
 ./gradlew assembleDebug
 
-# Build optimized, R8-minified release APK
+# Build release APK
 ./gradlew assembleRelease
 ```
 
-Generated APKs will be located under `app/build/outputs/apk/`.
+---
+
+## Disclaimer
+
+Nyaai is an educational research and legal literacy tool. It provides information based on codified statutes and AI synthesis, but does not constitute formal legal counsel or create an attorney-client relationship. For specific litigation or legal disputes, consult a licensed advocate.
 
 ---
 
-## ⚠️ Friendly Legal Disclaimer
+## Contributing
 
-*Nyaai is an educational research and legal literacy tool powered by artificial intelligence and codified statutory texts. It is designed to help you understand your rights and procedures, but **it does not constitute formal legal counsel or create an advocate-client relationship**. If you are facing litigation, criminal proceedings, or court deadlines, always consult a licensed advocate.*
-
----
-
-## 🤝 Contributing & Feedback
-
-Have ideas to make Indian legal information even easier to understand? Found a section that needs better plain-language summaries? 
-
-Feel free to open an issue, submit a pull request, or drop suggestions. Contributions of all kinds—from code to legal prompt refinements—are warmly welcome! 🇮🇳
+Contributions, bug reports, and suggestions are welcome. Feel free to open an issue or submit a pull request on GitHub.
