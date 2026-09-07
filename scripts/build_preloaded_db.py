@@ -21,7 +21,15 @@ def clean_legal_text(text):
     return re.sub(r'\s+', ' ', full).strip()
 
 def build_database():
+    existing_docs = []
     if os.path.exists(DB_PATH):
+        try:
+            old_conn = sqlite3.connect(DB_PATH)
+            existing_docs = old_conn.execute("SELECT sourcePath, content FROM documents").fetchall()
+            old_conn.close()
+            print(f"Found {len(existing_docs)} existing document records in current DB.")
+        except Exception:
+            existing_docs = []
         os.remove(DB_PATH)
         print(f"Removed existing DB at {DB_PATH}")
 
@@ -38,9 +46,14 @@ def build_database():
     cursor.execute("""INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '969b174290f4e5a39b0a611d265ce172');""")
     conn.commit()
 
+    if existing_docs:
+        cursor.executemany("INSERT INTO documents(sourcePath, content) VALUES(?, ?)", existing_docs)
+        conn.commit()
+        print(f"Restored {len(existing_docs)} existing document chunks.")
+
     # 1. Process PDFs
     pdf_files = ["coi.pdf", "bns.pdf", "bnss.pdf", "bsa.pdf"]
-    chunk_count = 0
+    chunk_count = len(existing_docs)
 
     chunk_pattern = re.compile(r'(?=(?:ARTICLE|SECTION|Part)\s+\d+)', re.IGNORECASE)
 
@@ -87,7 +100,8 @@ def build_database():
     # 2. Process QA Batches into training_examples
     training_count = 0
     training_batch = []
-    for batch_num in range(2, 7):
+    all_queries_export = []
+    for batch_num in range(2, 11):
         batch_file = os.path.join(SCRIPTS_DIR, f"batch{batch_num}.json")
         if os.path.exists(batch_file):
             print(f"Loading {batch_file}...")
@@ -101,6 +115,13 @@ def build_database():
                         domain = item.get("category", "Indian Law").strip()
                         if q and a:
                             training_batch.append((q, a, src, domain, 1))
+                            all_queries_export.append({
+                                "question": q,
+                                "answer": a,
+                                "sourcePath": src,
+                                "legalDomain": domain,
+                                "reasoningQuality": 1
+                            })
                             training_count += 1
             except Exception as e:
                 print(f"  Error reading {batch_file}: {e}")
@@ -108,6 +129,15 @@ def build_database():
     if training_batch:
         cursor.executemany("INSERT INTO training_examples(question, answer, sourcePath, legalDomain, reasoningQuality) VALUES(?, ?, ?, ?, ?)", training_batch)
         conn.commit()
+
+    # Also export all training queries to assets for runtime seeding fallback
+    export_json_path = os.path.join("app", "src", "main", "assets", "preloaded_training_queries.json")
+    try:
+        with open(export_json_path, "w", encoding="utf-8") as f:
+            json.dump(all_queries_export, f, indent=2, ensure_ascii=False)
+        print(f"Exported {len(all_queries_export)} training queries to {export_json_path}")
+    except Exception as e:
+        print(f"Warning: Failed to export {export_json_path}: {e}")
 
     print(f"Total training examples inserted: {training_count}")
 

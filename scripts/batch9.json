@@ -1,0 +1,827 @@
+[
+    {
+        "id": "NY-BNS-036",
+        "category": "Criminal Law (BNS/BNSS)",
+        "source_act": "Section 47 & Section 53, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "What are my legal rights if the police stop or arrest me in India?",
+        "legal_text_raw": "Under Section 47 BNSS, every person arrested without warrant has the right to be informed of full grounds of arrest and right to bail. Section 53 BNSS mandates medical examination by a medical officer within 48 hours. Supreme Court in D.K. Basu established strict arrest guidelines.",
+        "layman_explanation": "Under BNSS 2023 and the landmark D.K. Basu judgment, citizens have 4 fundamental arrest protections:\n• Right to Know Grounds: The police officer must wear clear identification and immediately inform you of the exact offence and whether it is bailable.\n• Right to Inform Family: You have the right to have a relative or friend informed of your arrest and location immediately.\n• Right to Legal Counsel & Medical Exam: You can consult an advocate of your choice during interrogation and undergo mandatory medical examination within 48 hours.\n• Presentation within 24 Hours: Police must produce you before the nearest Magistrate within 24 hours (excluding travel time).",
+        "keywords": [
+            "rights upon arrest",
+            "police arrest rules india",
+            "dk basu guidelines",
+            "section 47 bnss",
+            "bailable offence arrest"
+        ]
+    },
+    {
+        "id": "NY-BNS-037",
+        "category": "Criminal Law (BNS/BNSS)",
+        "source_act": "Section 173, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "The local police station is refusing to file an FIR because the crime happened outside their area. What is a Zero FIR?",
+        "legal_text_raw": "Section 173 BNSS codifies Zero FIR provisions. Information relating to commission of a cognizable offence can be registered irrespective of the territorial jurisdiction of the police station, numbered as '0' and subsequently transferred to the competent jurisdiction police station.",
+        "layman_explanation": "Police CANNOT refuse to register an FIR based on territorial jurisdiction:\n• A 'Zero FIR' allows any police station in India to register a cognizable crime report regardless of where the incident occurred.\n• The station registers the complaint under number '0', initiates initial investigation/medical examination, and transfers it to the proper police station.\n• If police refuse, escalate in writing to the Superintendent of Police under Section 173(4) BNSS or approach the Judicial Magistrate under Section 175(3) BNSS.",
+        "keywords": [
+            "zero fir",
+            "police refuse fir",
+            "section 173 bnss",
+            "jurisdiction fir refusal",
+            "how to file zero fir"
+        ]
+    },
+    {
+        "id": "NY-BNS-038",
+        "category": "Criminal Law (BNS/BNSS)",
+        "source_act": "Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "I have apprehension that my business rival might file a false criminal complaint against me. Can I apply for Anticipatory Bail?",
+        "legal_text_raw": "Section 482 BNSS empowers the High Court and Court of Session to grant anticipatory bail to any person who has reason to believe that they may be arrested on accusation of having committed a non-bailable offence.",
+        "layman_explanation": "Yes, you can apply for 'Anticipatory Bail' before arrest:\n• Under Section 482 BNSS, you can approach the Sessions Court or High Court through an advocate.\n• If granted, the court issues a protective order stating that in the event of arrest, the police must release you immediately on bail bonds.\n• The court will assess the genuineness of apprehension, nature of accusation, and ensure you do not flee or tamper with evidence.",
+        "keywords": [
+            "anticipatory bail",
+            "section 482 bnss",
+            "fear of false arrest",
+            "sessions court anticipatory bail",
+            "pre arrest bail"
+        ]
+    },
+    {
+        "id": "NY-BNS-039",
+        "category": "Criminal Law (BNS/BNSS)",
+        "source_act": "Section 63, Bharatiya Sakshya Adhiniyam, 2023",
+        "user_query": "Are WhatsApp chats, voice notes, and CCTV footage valid evidence in an Indian court under the new evidence act?",
+        "legal_text_raw": "Section 61 and Section 63 BSA 2023 stipulate that electronic records shall have the same legal effect as paper documents. Section 63 outlines required certificate conditions for the admissibility of digital devices, emails, server logs, and smartphone messages without requiring physical server custody.",
+        "layman_explanation": "Yes, electronic records are fully admissible under Bharatiya Sakshya Adhiniyam, 2023:\n• WhatsApp messages, emails, digital photographs, and CCTV video have equal legal status as paper documents.\n• To present them in court, you must provide a statutory Certificate under Section 63 BSA identifying the device, verifying its integrity, and confirming lawful custody.\n• Preserve the original device without altering or deleting the application data.",
+        "keywords": [
+            "whatsapp chat evidence court",
+            "section 63 bsa",
+            "electronic evidence certificate",
+            "cctv footage admissibility",
+            "digital evidence india"
+        ]
+    },
+    {
+        "id": "NY-BNS-040",
+        "category": "Constitutional Law",
+        "source_act": "Article 39A, Constitution of India & Legal Services Authorities Act, 1987",
+        "user_query": "I cannot afford an expensive private lawyer to fight my case. Can I get a free government lawyer in India?",
+        "legal_text_raw": "Article 39A mandates the State to provide free legal aid to ensure equal justice. Under Section 12 of Legal Services Authorities Act, women, children, members of SC/ST, undertrial prisoners, and individuals with annual income below statutory limits are entitled to free legal services through NALSA.",
+        "layman_explanation": "Yes, you are constitutionally entitled to free legal aid:\n• Article 39A and NALSA provide free qualified advocates for court representation across all District Courts, High Courts, and Supreme Court.\n• Who qualifies: Women, children, SC/ST citizens, undertrial prisoners, victims of disasters, and persons with annual income below the state ceiling (usually ₹3 Lakhs).\n• How to apply: Call toll-free helpline 15100 or visit the District Legal Services Authority (DLSA) in your local district court complex.",
+        "keywords": [
+            "free legal aid",
+            "nalsa helpline 15100",
+            "article 39a",
+            "government lawyer free",
+            "dlsa legal assistance"
+        ]
+    },
+    {
+        "id": "NY-BNS-041",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 103(2), Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What is the penalty for mob lynching under the new criminal law?",
+        "legal_text_raw": "Provisions under Section 103(2), Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 103(2), Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Under Section 103(2) BNS, murder committed by a group of five or more persons on grounds of race, caste, sex, or religion is punishable with death or life imprisonment.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "mob lynching punishment",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-042",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 69, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Is sexual intercourse under false promise of marriage or deceitful employment promise a separate crime?",
+        "legal_text_raw": "Provisions under Section 69, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 69, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 69 BNS specifically penalizes sexual intercourse by deceitful means (including false promise of marriage, employment, or concealment of identity) with up to 10 years imprisonment.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "false promise of marriage rape law",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-043",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 105, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Does police have to video record house searches and seizures under BNSS?",
+        "legal_text_raw": "Provisions under Section 105, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 105, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Yes, Section 105 BNSS mandates audio-video recording of search and seizure operations, including preparation of list of seized items, to prevent fabricated evidence.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "audio video recording search seizure",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-044",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 43(3), Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Can police arbitrarily handcuff an arrested person in public?",
+        "legal_text_raw": "Provisions under Section 43(3), Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 43(3), Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Handcuffing is permissible only for habitual, repeat offenders or those accused of serious heinous crimes (murder, rape, terrorism, organized crime) under judicial guidelines.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "handcuffing rules under bnss",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-045",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 479, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "What is the new maximum period an undertrial can be detained before bail?",
+        "legal_text_raw": "Provisions under Section 479, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 479, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 479 BNSS allows first-time offenders who have served one-third of the maximum sentence to be released on personal bond, and general undertrials upon serving one-half.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "first bail hearing for undertrials",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-046",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 34 to 44, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Can I legally use physical force to defend myself from a violent knife attack in my house?",
+        "legal_text_raw": "Provisions under Section 34 to 44, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 34 to 44, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Right of private defense extends to causing death if there is reasonable apprehension that the attack will cause death, grievous hurt, or rape under Section 38-40 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "private self defense rights",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-047",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 21 & Section 198 BNS",
+        "user_query": "Police beat my brother in lockup during interrogation. What legal action can we take?",
+        "legal_text_raw": "Provisions under Article 21 & Section 198 BNS define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 21 & Section 198 BNS, codified rules protect individual rights and ensure due process.\n• Essential Step: Custodial torture violates Article 21. Approach the Judicial Magistrate immediately for independent medical examination and file complaint under Section 198 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "police torture custodial violence",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-048",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 356, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What is the punishment for criminal defamation under BNS?",
+        "legal_text_raw": "Provisions under Section 356, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 356, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 356 BNS punishes defamation with simple imprisonment up to 2 years, fine, or community service. Truth published for public good is a complete defense.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "defamation criminal law",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-049",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 316 & 318, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What is the difference between simple breach of contract and criminal cheating?",
+        "legal_text_raw": "Provisions under Section 316 & 318, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 316 & 318, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Breach of contract is a civil dispute unless fraudulent intention existed from the very inception of the agreement, which constitutes criminal cheating under Section 318 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "cheating criminal breach of trust",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-050",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 152, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Has the sedition law been removed in India?",
+        "legal_text_raw": "Provisions under Section 152, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 152, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Old Section 124A IPC is repealed. Section 152 BNS penalizes acts endangering sovereignty, unity, and integrity of India through subversive activities, armed rebellion, or separatism.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "sedition law replacement treason",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-051",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 106(2), Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What should a driver do after an accident to avoid severe hit-and-run penalties?",
+        "legal_text_raw": "Provisions under Section 106(2), Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 106(2), Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: The driver must report the accident immediately to a police officer or Magistrate. Failure to report carries punishment up to 10 years and fine under Section 106(2) BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "hit and run law accident report",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-052",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 308, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Someone is threatening to kill my family unless I pay ₹5 Lakhs protection money.",
+        "legal_text_raw": "Provisions under Section 308, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 308, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Extortion by putting person in fear of death or grievous hurt is punishable with imprisonment up to 10 years and fine under Section 308 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "extortion blackmailer punishment",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-053",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 2(a), Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "What is the key legal difference between bailable and non-bailable offences?",
+        "legal_text_raw": "Provisions under Section 2(a), Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 2(a), Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: In bailable offences, bail is an absolute statutory right granted at the police station upon submitting bail bond. In non-bailable offences, bail is at judicial discretion.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "bailable vs non-bailable offences",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-054",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 175(3), Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Police refused FIR and SP did not respond. How to get court order for FIR?",
+        "legal_text_raw": "Provisions under Section 175(3), Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 175(3), Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: File a Private Complaint under Section 175(3) BNSS before Judicial Magistrate, who can direct police to investigate and register an FIR.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "magistrate complaint section 175",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-055",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Chapter VI, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Difference between police summons and a court arrest warrant?",
+        "legal_text_raw": "Provisions under Chapter VI, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Chapter VI, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: A summons is an official legal order requiring appearance before court/investigator. A warrant authorizes law enforcement to physically arrest and detain the accused.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "summons vs arrest warrant",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-056",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 23, Bharatiya Sakshya Adhiniyam, 2023",
+        "user_query": "Is a confession given inside a police station valid proof in court?",
+        "legal_text_raw": "Provisions under Section 23, Bharatiya Sakshya Adhiniyam, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 23, Bharatiya Sakshya Adhiniyam, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: No confession made to a police officer is admissible in court against an accused person (Section 23 BSA), unless corroborated by independent recovery of physical evidence.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "confession to police admissibility",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-057",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 4(f), Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What minor offences can now be punished with community service in India?",
+        "legal_text_raw": "Provisions under Section 4(f), Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 4(f), Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: BNS introduces community service as formal punishment for petty offences: small theft under ₹5,000, defamation, public intoxication misconduct, and non-appearance on summons.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "community service as punishment",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-058",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 78 & 79, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "A man follows me every evening from metro station to home despite clear objection.",
+        "legal_text_raw": "Provisions under Section 78 & 79, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 78 & 79, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Stalking is a criminal offence under Section 78 BNS. First conviction carries up to 3 years jail; second conviction carries up to 5 years jail and non-bailable arrest.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "stalking and eve teasing laws",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-059",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 80, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "A married woman died in in-laws house within 7 years of marriage after dowry demands.",
+        "legal_text_raw": "Provisions under Section 80, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 80, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 80 BNS mandates minimum 7 years to life imprisonment for dowry death where cruelty or harassment for dowry occurred soon before death.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "dowry death strict law",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-060",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 108, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Can a person be jailed for abetting another person's suicide?",
+        "legal_text_raw": "Provisions under Section 108, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 108, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Whoever abets the commission of suicide is punishable with imprisonment up to 10 years and fine under Section 108 BNS. Direct instigation must be proven.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "suicide abetment law",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-061",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 21, Constitution of India",
+        "user_query": "What rights are included under Article 21 of the Indian Constitution?",
+        "legal_text_raw": "Provisions under Article 21, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 21, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Article 21 guarantees Right to Life and Personal Liberty, interpreted to include Right to Privacy, clean environment, speedy trial, healthcare, dignity, and free legal aid.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "article 21 right to privacy and life",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-062",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 32, Constitution of India",
+        "user_query": "How can a citizen directly approach the Supreme Court for violation of fundamental rights?",
+        "legal_text_raw": "Provisions under Article 32, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 32, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Dr. Ambedkar called Article 32 the 'Heart and Soul' of the Constitution. Citizens can file Writs (Habeas Corpus, Mandamus, Prohibition, Quo Warranto, Certiorari) directly in SC.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "article 32 writ petition supreme court",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-063",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 32 & 226, Constitution of India",
+        "user_query": "Police detained a person for 5 days without producing in court or showing any FIR.",
+        "legal_text_raw": "Provisions under Article 32 & 226, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 32 & 226, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: File a Writ of Habeas Corpus ('Produce the Body') in High Court or Supreme Court. The court will order police to produce the detainee immediately and set them free.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "habeas corpus illegal detention",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-064",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 19(1)(a) & 19(2), Constitution of India",
+        "user_query": "Is freedom of speech in India absolute?",
+        "legal_text_raw": "Provisions under Article 19(1)(a) & 19(2), Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 19(1)(a) & 19(2), Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Freedom of speech under Article 19(1)(a) is subject to reasonable restrictions under 19(2): public order, national sovereignty, decency, morality, and contempt of court.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "article 19 freedom of speech reasonable restrictions",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-065",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 21A, Constitution of India & RTE Act, 2009",
+        "user_query": "Is education free and compulsory for children in India?",
+        "legal_text_raw": "Provisions under Article 21A, Constitution of India & RTE Act, 2009 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 21A, Constitution of India & RTE Act, 2009, codified rules protect individual rights and ensure due process.\n• Essential Step: Article 21A provides free and compulsory education for all children aged 6 to 14 years as a fundamental right. Private schools must reserve 25% seats for disadvantaged groups.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "right to education fundamental right",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-066",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 14, Constitution of India",
+        "user_query": "What does equality before the law mean under Indian Constitution?",
+        "legal_text_raw": "Provisions under Article 14, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 14, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India, prohibiting arbitrary state discrimination.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "article 14 equality before law",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-067",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 51A, Constitution of India",
+        "user_query": "What are the fundamental duties of an Indian citizen?",
+        "legal_text_raw": "Provisions under Article 51A, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 51A, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Article 51A lists 11 duties including respecting the National Flag and Anthem, protecting public property, safeguarding environment, and promoting scientific temper.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "fundamental duties citizen responsibility",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-068",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 226, Constitution of India",
+        "user_query": "Is Article 226 of High Court wider than Article 32 of Supreme Court?",
+        "legal_text_raw": "Provisions under Article 226, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 226, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Yes, High Courts under Article 226 can issue writs not only for enforcement of Fundamental Rights but also 'for any other legal right'.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "high court writ jurisdiction 226",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-069",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Supreme Court in Rupa Ashok Hurra v. Ashok Hurra (2002)",
+        "user_query": "What is a curative petition in the Supreme Court?",
+        "legal_text_raw": "Provisions under Supreme Court in Rupa Ashok Hurra v. Ashok Hurra (2002) define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Supreme Court in Rupa Ashok Hurra v. Ashok Hurra (2002), codified rules protect individual rights and ensure due process.\n• Essential Step: The last constitutional remedy after dismissal of a review petition. Can be filed to prevent abuse of process and gross miscarriage of justice upon Senior Advocate certification.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "curative petition supreme court",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-070",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Supreme Court PIL Guidelines",
+        "user_query": "Can any citizen file a PIL in High Court for public issues like broken roads?",
+        "legal_text_raw": "Provisions under Supreme Court PIL Guidelines define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Supreme Court PIL Guidelines, codified rules protect individual rights and ensure due process.\n• Essential Step: Yes, PIL can be filed under Article 226 or 32 for collective public grievances, environmental protection, and human rights violations where affected citizens cannot approach court.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "public interest litigation pil rules",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-071",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Article 22, Constitution of India",
+        "user_query": "What are the legal limits on preventive detention without trial?",
+        "legal_text_raw": "Provisions under Article 22, Constitution of India define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Article 22, Constitution of India, codified rules protect individual rights and ensure due process.\n• Essential Step: Detention beyond 3 months requires approval of an independent Advisory Board headed by High Court judges. Grounds must be communicated to detainee at the earliest.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "preventive detention safeguards",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-072",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Contempt of Courts Act, 1971",
+        "user_query": "Can a person be jailed for disobeying a court injunction order?",
+        "legal_text_raw": "Provisions under Contempt of Courts Act, 1971 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Contempt of Courts Act, 1971, codified rules protect individual rights and ensure due process.\n• Essential Step: Civil contempt involves wilful disobedience to court orders punishable with simple imprisonment up to 6 months or fine. Purging contempt by compliance can avoid jail.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "contempt of court act 1971",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-073",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 189, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "When does a group gathering become an 'unlawful assembly'?",
+        "legal_text_raw": "Provisions under Section 189, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 189, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: An assembly of five or more persons with common object to overawe government by criminal force, resist execution of law, or commit mischief is unlawful under Section 189 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "unlawful assembly section 189 bns",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-074",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 194, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Two people fighting loudly in a public market disturbing everyone.",
+        "legal_text_raw": "Provisions under Section 194, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 194, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Fighting in a public place and disturbing the peace constitutes Affray, punishable with imprisonment up to 1 month, fine, or community service under Section 194 BNS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "affray in public place",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-075",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 351, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "A landlord threatened to break my bones if I don't vacate immediately.",
+        "legal_text_raw": "Provisions under Section 351, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 351, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Threatening injury to person, reputation, or property to force an act constitutes Criminal Intimidation under Section 351 BNS, carrying up to 2 years imprisonment.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "criminal intimidation threatening",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-076",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 137 to 139, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What is the difference between kidnapping and abduction?",
+        "legal_text_raw": "Provisions under Section 137 to 139, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 137 to 139, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Kidnapping applies to taking a minor out of lawful guardianship without consent. Abduction applies to any person compelled by force or deceit to move from any place.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "kidnapping vs abduction",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-077",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 116, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "What kinds of physical injuries legally qualify as grievous hurt?",
+        "legal_text_raw": "Provisions under Section 116, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 116, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Emasculation, permanent privation of sight or hearing, fracture of bone, disfiguration of face, or any hurt endangering life or causing severe pain for 20 days.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "grievous hurt definition",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-078",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 329 to 331, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Someone entered my locked house backyard at night without permission.",
+        "legal_text_raw": "Provisions under Section 329 to 331, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 329 to 331, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Lurking house-trespass or house-breaking by night is an aggravated offence under Section 331 BNS carrying imprisonment up to 5 years and fine.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "criminal trespass house breaking",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-079",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 238, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Accused deleted CCTV footage and washed bloody clothes after crime.",
+        "legal_text_raw": "Provisions under Section 238, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 238, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Causing disappearance of evidence of an offence to screen the offender is punishable under Section 238 BNS with up to 7 years imprisonment.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "tampering with evidence destruction",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-080",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 248, Bharatiya Nyaya Sanhita, 2023",
+        "user_query": "Can a person who registered a completely fabricated fake FIR be punished?",
+        "legal_text_raw": "Provisions under Section 248, Bharatiya Nyaya Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 248, Bharatiya Nyaya Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Filing false charges with intent to injure is punishable with imprisonment up to 5 years and fine under Section 248 BNS. Victim can also claim malicious prosecution damages.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "false fir compensation penalty",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-081",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 196, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Who investigates when a person dies inside police lockup or jail custody?",
+        "legal_text_raw": "Provisions under Section 196, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 196, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 196 BNSS mandates that inquiries into custodial deaths must be conducted by a Judicial Magistrate, with mandatory post-mortem videography.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "custodial death investigation magistrate",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-082",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Chapter XXII, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Can an accused plead guilty in exchange for lesser punishment in India?",
+        "legal_text_raw": "Provisions under Chapter XXII, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Chapter XXII, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Plea bargaining applies to offences punishable with imprisonment under 7 years, excluding crimes against women and children. Enables mutually satisfactory disposition with reduced sentence.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "plea bargaining criminal cases",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-083",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Witness Protection Scheme & Supreme Court Ruling",
+        "user_query": "A witness is receiving death threats from gangsters to turn hostile in murder trial.",
+        "legal_text_raw": "Provisions under Witness Protection Scheme & Supreme Court Ruling define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Witness Protection Scheme & Supreme Court Ruling, codified rules protect individual rights and ensure due process.\n• Essential Step: Witnesses have statutory protection rights: identity masking, police escort, courtroom protection, and relocation under District Witness Protection Committee.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "witness protection scheme",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-084",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 359, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Can criminal cases be settled out of court between victim and accused?",
+        "legal_text_raw": "Provisions under Section 359, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 359, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Compoundable offences (simple hurt, defamation, cheque bounce, criminal trespass) can be settled legally with or without court permission, resulting in acquittal.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "compoundable offences settlement",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-085",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 84 to 86, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "What happens if an accused person absconds and ignores court warrants?",
+        "legal_text_raw": "Provisions under Section 84 to 86, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 84 to 86, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Court issues proclamation under Section 84 BNSS and can attach and sell the absconder's movable and immovable property under Section 85 BNSS.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "proclaimed offender property attachment",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-086",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 283 to 288, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "What is a summary trial in magistrate courts?",
+        "legal_text_raw": "Provisions under Section 283 to 288, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 283 to 288, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Fast-track trial for petty offences punishable with imprisonment up to 3 years. Evidence is recorded briefly, enabling prompt resolution within weeks.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "summary trial minor offences",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-087",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 396, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Does a crime victim receive financial compensation from government?",
+        "legal_text_raw": "Provisions under Section 396, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 396, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Section 396 BNSS mandates State Victim Compensation Schemes for rehabilitation, medical treatment, and death/acid attack/rape compensation regardless of accused's conviction.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "victim compensation scheme",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-088",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 96, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "When can police enter and search a private house without a warrant?",
+        "legal_text_raw": "Provisions under Section 96, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 96, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Under Section 185 BNSS, an investigating officer can search without warrant only if reasonable belief exists that delay will destroy evidence, recording written reasons first.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "search warrant premises entry",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-089",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 419, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Can a victim appeal if the trial court wrongly acquits the accused?",
+        "legal_text_raw": "Provisions under Section 419, Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 419, Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Yes, Section 419 BNSS gives the victim an absolute statutory right to appeal directly against any order acquitting the accused or convicting for a lesser offence.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "appeal against acquittal",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    },
+    {
+        "id": "NY-BNS-090",
+        "category": "Criminal & Constitutional Law",
+        "source_act": "Section 173(2), Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Do police have to give a copy of the FIR to the complainant free of charge?",
+        "legal_text_raw": "Provisions under Section 173(2), Bharatiya Nagarik Suraksha Sanhita, 2023 define statutory duties, citizen protections, and legal procedures in Indian jurisprudence.",
+        "layman_explanation": "• Legal Standard: Under Section 173(2), Bharatiya Nagarik Suraksha Sanhita, 2023, codified rules protect individual rights and ensure due process.\n• Essential Step: Yes, under Section 173(2) BNSS, a copy of the recorded FIR must be given forthwith, free of cost, to the informant.\n• Free Assistance: Reach National Legal Aid (NALSA) at 15100 for free court representation.",
+        "keywords": [
+            "first information report copy right",
+            "bns 2023",
+            "bnss 2023",
+            "indian penal law",
+            "fundamental rights india"
+        ]
+    }
+]

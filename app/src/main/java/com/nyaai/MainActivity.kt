@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
         val db = Room.databaseBuilder(
             applicationContext,
-            RagDatabase::class.java, "nyaai_v8.db"
+            RagDatabase::class.java, "nyaai_v9.db"
         )
         .createFromAsset("database/nyaai_preloaded.db")
         .addMigrations(MIGRATION_7_8)
@@ -47,7 +47,11 @@ class MainActivity : ComponentActivity() {
         .build()
 
         val pdfExtractor = PdfExtractorService(applicationContext, db.ragDao())
-        val aiService = AiService(db.ragDao(), apiKey)
+        val aiService = AiService(
+            db.ragDao(), 
+            apiKey,
+            customApiKeyProvider = { prefs.getString("custom_gemini_api_key", null) }
+        )
         lifecycleScope.launch {
             pdfExtractor.initializeDatabaseFromAssets()
         }
@@ -68,12 +72,13 @@ class MainActivity : ComponentActivity() {
             var currentLanguage by remember { mutableStateOf(initialLang) }
             var aiLanguage      by remember { mutableStateOf(initialAiLang) }
             var notificationsEnabled by remember { mutableStateOf(initialNotifs) }
-            val isGuest = prefs.getBoolean("guest_mode", false)
+            var isGuest by remember { mutableStateOf(prefs.getBoolean("guest_mode", false)) }
             var isLoggedIn by remember { mutableStateOf(auth.currentUser != null || isGuest) }
 
             DisposableEffect(auth) {
                 val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
                     val currentlyGuest = prefs.getBoolean("guest_mode", false)
+                    isGuest = currentlyGuest
                     isLoggedIn = firebaseAuth.currentUser != null || currentlyGuest
                 }
                 auth.addAuthStateListener(listener)
@@ -109,8 +114,12 @@ class MainActivity : ComponentActivity() {
                     notificationsEnabled = it
                     prefs.edit().putBoolean("pref_notifs", it).apply()
                 },
-                LocalAuthState          provides isLoggedIn,
-                LocalAuthUpdater        provides { isLoggedIn = it },
+                LocalAuthState          provides (auth.currentUser != null),
+                LocalIsGuest            provides isGuest,
+                LocalAuthUpdater        provides { 
+                    isLoggedIn = it
+                    isGuest = prefs.getBoolean("guest_mode", false)
+                },
                 LocalAiService          provides aiService,
                 LocalRagDao             provides db.ragDao()
             ) {

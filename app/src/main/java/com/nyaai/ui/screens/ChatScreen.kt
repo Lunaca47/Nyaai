@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -72,8 +74,6 @@ fun ChatScreen(
     val messages        = remember { mutableStateListOf<ChatMessage>() }
     
     var showSosSheet    by remember { mutableStateOf(false) }
-    var showNotifSheet  by remember { mutableStateOf(false) }
-    var unreadCount     by remember { mutableStateOf(3) }
 
     val strings         = LocalStrings.current
     val currentLang     = LocalAppLanguage.current
@@ -379,10 +379,75 @@ fun ChatScreen(
     }
 
     if (showSosSheet) {
-        ModalBottomSheet(onDismissRequest = { showSosSheet = false }) {
-            Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 40.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) { Text("✳", color = Color(0xFFE53935), fontSize = 22.sp); Spacer(Modifier.width(10.dp)); Text(strings.legalSosTitle, color = colors.onSurface, fontSize = 20.sp, fontWeight = FontWeight.Bold) }
-                Spacer(Modifier.height(20.dp)); HelplineCard("National Legal Aid (NALSA)", "15100", colors, context); Spacer(Modifier.height(12.dp)); HelplineCard("National Commission for Women", "7827170170", colors, context)
+        ModalBottomSheet(
+            onDismissRequest = { showSosSheet = false },
+            containerColor = colors.surface,
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 36.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFE53935).copy(alpha = 0.15f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("🚨", fontSize = 18.sp)
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = strings.legalSosTitle,
+                            color = colors.onSurface,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Direct statutory emergency helplines & citizen rights",
+                            color = colors.onSurfaceVariant,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+                Text(
+                    text = "EMERGENCY HELPLINES (TAP TO CALL)",
+                    color = colors.primary,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.sp
+                )
+                Spacer(Modifier.height(10.dp))
+
+                emergencyHelplines.forEach { helpline ->
+                    HelplineCard(helpline = helpline, colors = colors, context = context)
+                    Spacer(Modifier.height(8.dp))
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+                Text(
+                    text = "KNOW YOUR RIGHTS (CITIZEN GUIDES)",
+                    color = colors.primary,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.sp
+                )
+                Spacer(Modifier.height(10.dp))
+
+                citizenRightGuides.forEach { guide ->
+                    CitizenRightCard(guide = guide, colors = colors)
+                    Spacer(Modifier.height(8.dp))
+                }
             }
         }
     }
@@ -479,11 +544,153 @@ private fun FeedbackButton(label: String, isSelected: Boolean, colors: ColorSche
     }
 }
 
+data class HelplineEntry(
+    val name: String,
+    val number: String,
+    val description: String
+)
+
+data class CitizenRightGuide(
+    val title: String,
+    val icon: String,
+    val points: List<String>
+)
+
+private val emergencyHelplines = listOf(
+    HelplineEntry("National Legal Aid (NALSA)", "15100", "Free legal aid representation for eligible citizens & undertrials"),
+    HelplineEntry("National Consumer Helpline", "1915", "Consumer dispute resolution, defective products & unfair trade"),
+    HelplineEntry("National Cybercrime Portal", "1930", "Financial cyber fraud, phishing & online offense grievance"),
+    HelplineEntry("Women in Distress Helpline", "1091", "24/7 National Commission for Women emergency assistance"),
+    HelplineEntry("NCW Women Helpline / WhatsApp", "7827170170", "National Commission for Women direct support & complaint line"),
+    HelplineEntry("Childline Emergency", "1098", "Child protection, safety, rescue & POCSO grievance redressal"),
+    HelplineEntry("Senior Citizen Helpline", "14567", "Elder line for welfare, maintenance & legal protection"),
+    HelplineEntry("Emergency Response System (ERSS)", "112", "Unified national emergency number for police, fire & medical support")
+)
+
+private val citizenRightGuides = listOf(
+    CitizenRightGuide(
+        title = "Rights Upon Arrest (D.K. Basu Guidelines)",
+        icon = "⚖️",
+        points = listOf(
+            "Right to know the full grounds of arrest and whether the offence is bailable or non-bailable (Section 47 BNSS).",
+            "Right to have a relative or friend informed of the arrest immediately.",
+            "Mandatory medical examination by an authorized medical officer within 48 hours.",
+            "Right to consult an advocate of your choice during interrogation."
+        )
+    ),
+    CitizenRightGuide(
+        title = "Zero FIR Provision (Section 173 BNSS)",
+        icon = "📝",
+        points = listOf(
+            "A police station cannot refuse to register an FIR on the grounds of territorial jurisdiction.",
+            "A Zero FIR is registered and subsequently transferred to the competent jurisdiction police station.",
+            "Audio-video recording of search and seizure operations is now mandated under BNSS 2023."
+        )
+    ),
+    CitizenRightGuide(
+        title = "Free Legal Aid (Article 39A)",
+        icon = "🛡️",
+        points = listOf(
+            "Article 39A mandates the State to secure equal justice and free legal aid for all citizens.",
+            "Under the Legal Services Authorities Act, women, children, undertrials, and individuals with annual income below statutory limits are entitled to free representation in all courts."
+        )
+    )
+)
+
 @Composable
-private fun HelplineCard(name: String, number: String, colors: ColorScheme, context: android.content.Context) {
-    Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(colors.surfaceVariant).clickable { context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))) }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(modifier = Modifier.weight(1f)) { Text(name, color = colors.onSurface, fontSize = 14.sp, fontWeight = FontWeight.SemiBold); Text(number, color = colors.primary, fontSize = 13.sp) }
-        Icon(Icons.Outlined.Phone, null, tint = colors.primary)
+private fun HelplineCard(
+    helpline: HelplineEntry,
+    colors: ColorScheme,
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(colors.surfaceVariant.copy(alpha = 0.7f))
+            .clickable {
+                context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${helpline.number}")))
+            }
+            .padding(14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = helpline.name,
+                color = colors.onSurface,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(Modifier.height(2.dp))
+            Text(
+                text = helpline.description,
+                color = colors.onSurfaceVariant,
+                fontSize = 12.sp,
+                lineHeight = 16.sp
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "Dial ${helpline.number}",
+                color = colors.primary,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Spacer(Modifier.width(10.dp))
+        FilledIconButton(
+            onClick = {
+                context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${helpline.number}")))
+            },
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = colors.primary,
+                contentColor = colors.onPrimary
+            ),
+            modifier = Modifier.size(38.dp)
+        ) {
+            Icon(Icons.Outlined.Call, contentDescription = "Call ${helpline.name}", modifier = Modifier.size(18.dp))
+        }
+    }
+}
+
+@Composable
+private fun CitizenRightCard(
+    guide: CitizenRightGuide,
+    colors: ColorScheme
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = colors.surfaceVariant.copy(alpha = 0.5f)),
+        border = androidx.compose.foundation.BorderStroke(1.dp, colors.outline.copy(alpha = 0.3f))
+    ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(guide.icon, fontSize = 16.sp)
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    guide.title,
+                    color = colors.onSurface,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(Modifier.height(6.dp))
+            guide.points.forEach { pt ->
+                Row(
+                    modifier = Modifier.padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Text("•", color = colors.primary, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        pt,
+                        color = colors.onSurfaceVariant,
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp
+                    )
+                }
+            }
+        }
     }
 }
 

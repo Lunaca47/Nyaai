@@ -11,6 +11,8 @@ import kotlinx.coroutines.withContext
 class PdfExtractorService(private val context: Context, private val dao: RagDao) {
     
     suspend fun initializeDatabaseFromAssets() = withContext(Dispatchers.IO) {
+        seedTrainingExamplesIfNeeded()
+
         val prefs = context.getSharedPreferences("nyaai_db_prefs", Context.MODE_PRIVATE)
         if (dao.getDocumentCount() > 0) {
             prefs.edit().putBoolean("pdf_indexing_completed", true).apply()
@@ -83,5 +85,37 @@ class PdfExtractorService(private val context: Context, private val dao: RagDao)
             }
             .joinToString(" ")
             .replace(Regex("\\s+"), " ")
+    }
+
+    private suspend fun seedTrainingExamplesIfNeeded(): Unit = withContext(Dispatchers.IO) {
+        try {
+            if (dao.getTrainingCount() < 250) {
+                val assetList = try { context.assets.list("")?.toList() ?: emptyList() } catch (_: Exception) { emptyList() }
+                if ("preloaded_training_queries.json" in assetList) {
+                    val jsonString = context.assets.open("preloaded_training_queries.json").bufferedReader().use { it.readText() }
+                    val jsonArray = org.json.JSONArray(jsonString)
+                    val examples = ArrayList<TrainingExampleEntity>(jsonArray.length())
+                    for (i in 0 until jsonArray.length()) {
+                        val obj = jsonArray.getJSONObject(i)
+                        examples.add(
+                            TrainingExampleEntity(
+                                question = obj.optString("question", ""),
+                                answer = obj.optString("answer", ""),
+                                sourcePath = obj.optString("sourcePath", ""),
+                                legalDomain = obj.optString("legalDomain", "Indian Law"),
+                                reasoningQuality = obj.optInt("reasoningQuality", 1)
+                            )
+                        )
+                    }
+                    if (examples.isNotEmpty()) {
+                        dao.insertAllTrainingExamples(examples)
+                        Log.d("PdfExtractor", "Seeded ${examples.size} training queries into database.")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.w("PdfExtractor", "Failed to seed training examples: ${e.message}")
+        }
+        Unit
     }
 }

@@ -8,7 +8,10 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
 
-class FakeRagDao(private val sampleDocs: List<DocumentEntity> = emptyList()) : RagDao {
+class FakeRagDao(
+    private val sampleDocs: List<DocumentEntity> = emptyList(),
+    private val sampleTraining: List<TrainingExampleEntity> = emptyList()
+) : RagDao {
     override suspend fun search(query: String): List<DocumentEntity> {
         if (query.contains("throw_error")) {
             throw RuntimeException("Simulated FTS search failure")
@@ -35,10 +38,19 @@ class FakeRagDao(private val sampleDocs: List<DocumentEntity> = emptyList()) : R
     override suspend fun deleteBookmarkByContent(content: String) {}
     override suspend fun isBookmarked(content: String): Int = 0
     override suspend fun insertTrainingExample(example: TrainingExampleEntity) {}
-    override suspend fun searchTrainingExamples(query: String): List<TrainingExampleEntity> = emptyList()
+    override suspend fun insertAllTrainingExamples(examples: List<TrainingExampleEntity>) {}
+    override suspend fun searchTrainingExamples(query: String): List<TrainingExampleEntity> {
+        if (sampleTraining.isNotEmpty()) {
+            val terms = query.lowercase().split(" ").filter { it.length > 2 }
+            return sampleTraining.filter { ex ->
+                terms.any { t -> ex.question.lowercase().contains(t) }
+            }
+        }
+        return emptyList()
+    }
     override suspend fun getGoodExamples(): List<MessageEntity> = emptyList()
-    override suspend fun getTrainingCount(): Int = 0
-    override fun getTrainingCountFlow(): Flow<Int> = flowOf(0)
+    override suspend fun getTrainingCount(): Int = sampleTraining.size
+    override fun getTrainingCountFlow(): Flow<Int> = flowOf(sampleTraining.size)
     override suspend fun getPagedDocuments(limit: Int, offset: Int): List<DocumentEntity> = emptyList()
 }
 
@@ -97,5 +109,50 @@ class AiServiceTest {
 
         assertNotNull("Answer must be returned despite dao exception", answer)
         assertTrue("Should fallback safely", answer.contains("couldn't find information"))
+    }
+
+    @Test
+    fun testConsumerRightsQueryResolvedViaTrainingExamples() = runTest {
+        val trainingExample = TrainingExampleEntity(
+            question = "What is a consumer rights overview under the Consumer Protection Act, 2019?",
+            answer = "Under the Consumer Protection Act, 2019, consumers have statutory rights including the Right to Safety, Right to be Informed, Right to Choose, Right to be Heard, Right to seek Redressal, and Right to Consumer Education (Sections 2(9), 10, 28, 35).",
+            sourcePath = "Consumer Protection Act, 2019",
+            legalDomain = "Consumer Law",
+            reasoningQuality = 1
+        )
+        val irrelevantDoc = DocumentEntity(
+            sourcePath = "coi.pdf",
+            content = "Page 6: Article 6. Rights of citizenship of certain persons who have migrated to India from Pakistan."
+        ).apply { rowid = 6 }
+
+        val fakeDao = FakeRagDao(
+            sampleDocs = listOf(irrelevantDoc),
+            sampleTraining = listOf(trainingExample)
+        )
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer("consumer right overview", AppLanguage.ENGLISH)
+
+        assertTrue("Answer should contain Consumer Protection Act provisions", answer.contains("Consumer Protection Act, 2019"))
+        assertTrue("Answer should mention consumer rights like Right to Safety or Redressal", answer.contains("Right to Safety") || answer.contains("Right to be Informed"))
+        assertFalse("Answer must NOT contain irrelevant Pakistan migration citizenship text", answer.contains("Pakistan"))
+        assertEquals("Confidence for verified training example offline fallback should be 0.95", 0.95, confidence, 0.001)
+    }
+
+    @Test
+    fun testIrrelevantConstitutionMatchesFilteredOutWhenNoSubstantiveKeywords() = runTest {
+        val irrelevantDoc = DocumentEntity(
+            sourcePath = "coi.pdf",
+            content = "Page 6: Article 6. Rights of citizenship of certain persons who have migrated to India from Pakistan."
+        ).apply { rowid = 6 }
+
+        val fakeDao = FakeRagDao(sampleDocs = listOf(irrelevantDoc), sampleTraining = emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer("consumer rights overview", AppLanguage.ENGLISH)
+
+        assertFalse("Should filter out Article 6 Pakistan migration doc", answer.contains("Pakistan"))
+        assertTrue("Should fallback safely when doc doesn't have substantive keywords", answer.contains("couldn't find information"))
+        assertEquals(0.20, confidence, 0.001)
     }
 }

@@ -31,3 +31,6 @@ val LocalNotificationEnabled  = compositionLocalOf { true }
 val LocalNotificationUpdater  = compositionLocalOf<(Boolean) -> Unit> { {} }
 val LocalAuthState            = compositionLocalOf { true }
 val LocalAuthUpdater           = compositionLocalOf<(Boolean) -> Unit> { {} }
+val LocalIsGuest              = compositionLocalOf { false }
+val LocalLogOutAction         = compositionLocalOf<() -> Unit> { {} }
+val LocalOpenLoginAction      = compositionLocalOf<() -> Unit> { {} }
