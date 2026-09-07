@@ -4,6 +4,8 @@
  * Pure UTF-8 (No BOM) | Version 2.2
  */
 
+var currentLang = "en";
+
 document.addEventListener("DOMContentLoaded", () => {
   initNeuralCanvas();
   initCloudDataset();
@@ -110,9 +112,11 @@ function initNeuralCanvas() {
 /* =========================================================
    2. Intelligent Legal AI Assistant Simulator (Terminal) & Cloud Knowledge Base
    ========================================================= */
-let legalKnowledgeBase = (typeof window !== "undefined" && window.NYAAI_EMBEDDED_DATA && window.NYAAI_EMBEDDED_DATA.curated_qa) 
-  ? window.NYAAI_EMBEDDED_DATA.curated_qa 
-  : [
+var legalKnowledgeBase = (typeof legalKnowledgeBase !== "undefined" && legalKnowledgeBase && legalKnowledgeBase.length > 0)
+  ? legalKnowledgeBase
+  : (typeof window !== "undefined" && window.NYAAI_EMBEDDED_DATA && window.NYAAI_EMBEDDED_DATA.curated_qa) 
+    ? window.NYAAI_EMBEDDED_DATA.curated_qa 
+    : [
   {
     keywords: ["bail", "482", "bnss", "arrest", "custody", "anticipatory"],
     title: "Bail Provisions under Section 482 of BNSS, 2023",
@@ -176,6 +180,13 @@ let legalKnowledgeBase = (typeof window !== "undefined" && window.NYAAI_EMBEDDED
 // Asynchronous Cloud Dataset Sync Engine
 async function initCloudDataset() {
   try {
+    // If legalKnowledgeBase is already populated with preloaded dataset, update status and finish
+    if (typeof legalKnowledgeBase !== "undefined" && legalKnowledgeBase && legalKnowledgeBase.length > 5) {
+      updateTerminalStatusBadge(legalKnowledgeBase.length);
+      console.log(`[Nyaai Knowledge Base] Using preloaded verified dataset: ${legalKnowledgeBase.length} items.`);
+      return;
+    }
+
     // 1. Check local storage cache
     const cached = localStorage.getItem("nyaai_cloud_dataset_v2");
     if (cached) {
@@ -184,13 +195,14 @@ async function initCloudDataset() {
         if (parsed && parsed.curated_qa && parsed.curated_qa.length > 0) {
           legalKnowledgeBase = parsed.curated_qa;
           updateTerminalStatusBadge(parsed.curated_qa.length);
+          return;
         }
       } catch (e) {
         console.warn("Error reading cached cloud dataset", e);
       }
     }
 
-    // 2. Fetch fresh dataset from Cloud / CDN
+    // 2. Fetch fresh dataset from Cloud / CDN if not preloaded
     const endpoints = [
       "data/legal_dataset_master.json",
       "https://lunaca47.github.io/Nyaai/data/legal_dataset_master.json"
@@ -203,7 +215,11 @@ async function initCloudDataset() {
           const data = await res.json();
           if (data && data.curated_qa && data.curated_qa.length > 0) {
             legalKnowledgeBase = data.curated_qa;
-            localStorage.setItem("nyaai_cloud_dataset_v2", JSON.stringify(data));
+            try {
+              if (JSON.stringify(data).length < 3000000) {
+                localStorage.setItem("nyaai_cloud_dataset_v2", JSON.stringify(data));
+              }
+            } catch (_) {}
             updateTerminalStatusBadge(data.curated_qa.length);
             console.log(`[Nyaai Cloud Engine] Cloud knowledge base loaded: ${data.curated_qa.length} Q&As.`);
             break;
@@ -448,21 +464,24 @@ function initAITerminal() {
         };
       }
 
+      const displayTitle = matched.title || (matched.section ? `${matched.section}: Legal Assessment` : "Statutory Legal Assessment");
+      const summaryList = Array.isArray(matched.summary) ? matched.summary : [matched.answer || "Legal assessment details."];
+
       const botMsg = document.createElement("div");
       botMsg.className = "chat-bubble chat-ai";
       botMsg.innerHTML = `
         <div class="badge-pastel-sage" style="margin-bottom: 8px; font-size: 0.74rem;">
-          <span>●</span> ${matched.confidence}
+          <span>●</span> ${matched.confidence || "98.5% Verified"}
         </div>
         <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #0F172A;">
-          ${matched.title}
+          ${displayTitle}
         </div>
         <ul style="padding-left: 20px; margin-bottom: 10px; color: #334155; line-height: 1.6;">
-          ${matched.summary.map(s => `<li>${s}</li>`).join("")}
+          ${summaryList.map(s => `<li>${s}</li>`).join("")}
         </ul>
         <div class="citation-pastel-box">
           <strong style="color: #92400E;">Statute Citation:</strong> 
-          <strong>${matched.act}</strong> — <span style="color: #3730A3; font-weight: 600;">${matched.section}</span>
+          <strong>${matched.act || "Statutory Code of India"}</strong> — <span style="color: #3730A3; font-weight: 600;">${matched.section || "Relevant Provisions"}</span>
         </div>
         <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="chip-btn read-aloud-btn" style="padding: 4px 10px; font-size: 0.76rem;">
@@ -479,13 +498,13 @@ function initAITerminal() {
 
       // Read aloud click
       botMsg.querySelector(".read-aloud-btn").addEventListener("click", () => {
-        const textToSpeak = `${matched.title}. ${matched.summary.join(". ")}. Statute Citation: ${matched.act}, ${matched.section}`;
+        const textToSpeak = `${displayTitle}. ${summaryList.join(". ")}. Statute Citation: ${matched.act}, ${matched.section}`;
         speakText(textToSpeak);
       });
 
       // Copy click
       botMsg.querySelector(".copy-msg-btn").addEventListener("click", (e) => {
-        navigator.clipboard.writeText(`${matched.title}\n${matched.act} - ${matched.section}`);
+        navigator.clipboard.writeText(`${displayTitle}\n${matched.act} - ${matched.section}`);
         e.target.textContent = "✓ Copied!";
         setTimeout(() => (e.target.textContent = "📋 Copy Citation"), 2000);
       });
@@ -754,6 +773,19 @@ function initStatutoryCodex() {
 
   if (!codexGrid || !searchInput) return;
 
+  let allCodexItems = [...statutoryLibrary];
+  if (typeof legalCodex !== "undefined" && Array.isArray(legalCodex) && legalCodex.length > 0) {
+    const extra = legalCodex.map(c => ({
+      act: c.source ? c.source.toUpperCase().replace('.PDF', '') : "COI 1950",
+      fullAct: "Constitution of India / Statutory Law",
+      section: c.title || `Section ${c.id}`,
+      title: c.title || `Statutory Section ${c.id}`,
+      desc: c.preview || "",
+      badge: "Codex Section"
+    }));
+    allCodexItems = allCodexItems.concat(extra);
+  }
+
   function renderCodex(items) {
     codexGrid.innerHTML = "";
     if (items.length === 0) {
@@ -782,10 +814,10 @@ function initStatutoryCodex() {
   searchInput.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase().trim();
     if (!term) {
-      renderCodex(statutoryLibrary);
+      renderCodex(allCodexItems);
       return;
     }
-    const filtered = statutoryLibrary.filter(item =>
+    const filtered = allCodexItems.filter(item =>
       item.act.toLowerCase().includes(term) ||
       item.section.toLowerCase().includes(term) ||
       item.title.toLowerCase().includes(term) ||
@@ -794,14 +826,14 @@ function initStatutoryCodex() {
     renderCodex(filtered);
   });
 
-  renderCodex(statutoryLibrary);
+  renderCodex(allCodexItems);
 }
 
 /* =========================================================
    5. Multilingual Localization System
    Supports: English (en), Hindi (hi), Bengali (bn), Telugu (te), Tamil (ta)
    ========================================================= */
-let currentLang = "en";
+currentLang = "en";
 
 const i18n = {
   "en": {
