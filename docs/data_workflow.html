@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyaai (न्यायAI) — Data Architecture & Workflow Flowchart</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: #FFFFFF;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #E2E8F0;
+    }
+    h1 {
+      margin-top: 0;
+      color: #1E293B;
+      font-size: 1.8rem;
+    }
+    p.lead {
+      color: #64748B;
+      font-size: 1rem;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .mermaid-box {
+      background: #FAFAFA;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .note-card {
+      padding: 16px 20px;
+      border-radius: 10px;
+      background: #F1F5F9;
+      border-left: 4px solid #4F46E5;
+    }
+    .note-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1rem;
+      color: #1E293B;
+    }
+    .note-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Nyaai (न्यायAI) — Data Architecture & Workflow Flowchart</h1>
+    <p class="lead">
+      Interactive visual architecture showing the end-to-end data journey: from statutory ingestion and on-device SQLite FTS4 indexing to Gemini 2.5 Flash synthesis and autonomous client-side feedback learning.
+    </p>
+
+    <div class="mermaid-box">
+      <div class="mermaid">
+flowchart TD
+    subgraph Data_Prep ["1. Data Ingestion and Build Pipeline (Offline Indexing)"]
+        A1["Official Statutory PDFs<br>(BNS, BNSS, BSA, Constitution)"]
+        A2["Curated Q&A Corpus<br>(10,240 Verified Legal Pairs)"]
+        A3["Python Bundler and Parser<br>(scripts/build_preloaded_db.py)"]
+        A4[("SQLite FTS4 Database<br>nyaai_preloaded.db")]
+        
+        A1 --> A3
+        A2 --> A3
+        A3 -->|"Tokenization and FTS4 Indexing"| A4
+    end
+
+    subgraph Input_Channels ["2. Client Ingestion Layer"]
+        U1["Voice Query<br>(Native Dialect STT in 5 Languages)"]
+        U2["Text Query<br>(Mobile App or Web Terminal)"]
+        U3["Document Image / PDF<br>(Legal Notice, FIR, Contract)"]
+        U4["On-Device ML Kit OCR<br>(Extracts clauses, dates, violations)"]
+        
+        U3 --> U4
+        U4 --> U2
+        U1 --> U2
+    end
+
+    subgraph RAG_Engine ["3. On-Device Retrieval Engine (FTS4)"]
+        R1["Query Normalizer and Keyword Extractor"]
+        R2["Fast Multi-Token and Section Matcher"]
+        R3["Ranked Statutory Chunks + Confidence Score"]
+        
+        U2 --> R1
+        A4 -.->|"Preloaded and Embedded"| R2
+        R1 --> R2
+        R2 --> R3
+    end
+
+    subgraph Decision_Branch ["4. Synthesis and Grounding Layer"]
+        D1{"Internet Available and<br>Gemini API Configured?"}
+        
+        S_ONLINE["Online AI Synthesis<br>(Google Gemini 2.5 Flash)"]
+        S_OFFLINE["Offline Local Retrieval<br>(Direct Codified Excerpts)"]
+        
+        R3 --> D1
+        D1 -->|"Yes"| S_ONLINE
+        D1 -->|"No / Offline"| S_OFFLINE
+    end
+
+    subgraph Output_Loop ["5. Presentation and Autonomous Feedback Loop"]
+        OUT["Plain-Language Legal Assessment<br>+ Exact Section Citation<br>+ Confidence Metric<br>+ Speech Read-Aloud"]
+        FB["User Feedback Click<br>(Helpful / Train)"]
+        LOCAL_STORE[("Local Storage<br>Custom Q&A Cache")]
+        
+        S_ONLINE --> OUT
+        S_OFFLINE --> OUT
+        OUT --> FB
+        FB -->|"Auto-Learned Entry"| LOCAL_STORE
+        LOCAL_STORE -.->|"Unshifted into KB"| R2
+    end
+
+    classDef prep fill:#EEF2FF,stroke:#4F46E5,stroke-width:1.5px,color:#1E1B4B;
+    classDef input fill:#F0FDF4,stroke:#16A34A,stroke-width:1.5px,color:#14532D;
+    classDef rag fill:#FEF3C7,stroke:#D97706,stroke-width:1.5px,color:#78350F;
+    classDef decision fill:#F1F5F9,stroke:#475569,stroke-width:1.5px,color:#0F172A;
+    classDef output fill:#FDF2F8,stroke:#DB2777,stroke-width:1.5px,color:#831843;
+
+    class A1,A2,A3,A4 prep;
+    class U1,U2,U3,U4 input;
+    class R1,R2,R3 rag;
+    class D1,S_ONLINE,S_OFFLINE decision;
+    class OUT,FB,LOCAL_STORE output;
+      </div>
+    </div>
+
+    <div class="notes-grid">
+      <div class="note-card">
+        <h3>1. 100% Offline Capable</h3>
+        <p>Preloaded with 1,838 codified sections and 10,240 verified Q&As directly inside SQLite FTS4 (< 50ms latency).</p>
+      </div>
+      <div class="note-card">
+        <h3>2. Dual Vision & Voice OCR</h3>
+        <p>Google ML Kit OCR processes notices on-device without cloud uploads. Voice STT routes across 5 Indian languages.</p>
+      </div>
+      <div class="note-card">
+        <h3>3. Autonomous Feedback</h3>
+        <p>User feedback updates local on-device caches instantly to customize subsequent queries.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
+</body>
+</html>
