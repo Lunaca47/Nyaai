@@ -27,6 +27,12 @@ class AiService(
         val langName = responseLanguage.displayName
         val query = userQuery.lowercase().trim()
 
+        // 0. CONVERSATIONAL INTENT: Greetings, small talk, identity, and gratitude
+        val conversationalGreeting = getConversationalResponse(userQuery, responseLanguage)
+        if (conversationalGreeting != null) {
+            return@withContext conversationalGreeting to 0.99
+        }
+
         // 1. RETRIEVAL: Training Examples
         val ftsStopWords = setOf("and", "or", "not", "near", "match", "the", "for", "with", "about", "what", "how", "give", "tell", "explain", "overview")
         val keywords = query.replace(Regex("[^a-z0-9 ]"), " ").split(" ")
@@ -124,13 +130,14 @@ $contextData
 USER'S QUESTION: $userQuery
 
 HOW TO ANSWER:
-1. Start with a clear, one-line simple answer that anyone can understand.
-2. Then explain the key points using simple everyday language — NO legal jargon. If you must use a legal term, explain it in brackets.
-3. Give a real-life example if possible to make it relatable.
-4. Keep it under 150 words. Be warm and helpful.
-5. End by mentioning which law/article/act this comes from.
-6. LANGUAGE: Detect the language of the question and reply in the SAME language. If unsure, use $langName.
-7. If the context doesn't have the answer, honestly say so and suggest what they could search for instead.
+1. If the user begins with a greeting (e.g. "hi", "hello", "namaste"), warmly acknowledge it before answering.
+2. Start with a clear, one-line simple answer that anyone can understand.
+3. Then explain the key points using simple everyday language — NO legal jargon. If you must use a legal term, explain it in brackets.
+4. Give a real-life example if possible to make it relatable.
+5. Keep it under 150 words. Be warm and helpful.
+6. End by mentioning which law/article/act this comes from.
+7. LANGUAGE: Detect the language of the question and reply in the SAME language. If unsure, use $langName.
+8. If the context doesn't have the answer, honestly say so and suggest what they could search for instead.
 
 FORMAT: Use bullet points (•) for key points. Keep sentences short and simple.
 """.trimIndent()
@@ -172,10 +179,24 @@ FORMAT: Use bullet points (•) for key points. Keep sentences short and simple.
                                     if (content != null) {
                                         val parts = content.optJSONArray("parts")
                                         if (parts != null && parts.length() > 0) {
-                                            val answer = parts.getJSONObject(0).optString("text", "")
-                                            if (answer.isNotBlank()) {
-                                                return@withContext answer to confidence
-                                            }
+                                             val answer = parts.getJSONObject(0).optString("text", "")
+                                             if (answer.isNotBlank()) {
+                                                 // Autonomous Training Loop: Cache high-confidence answer for zero-latency future hits
+                                                 if (confidence >= 0.85 && uniqueTrainingMatches.isEmpty() && userQuery.length in 10..200) {
+                                                     try {
+                                                         ragDao.insertTrainingExample(
+                                                             TrainingExampleEntity(
+                                                                 question = userQuery.trim(),
+                                                                 answer = answer.trim(),
+                                                                 sourcePath = uniqueContexts.firstOrNull()?.sourcePath ?: "Gemini 2.5 Grounded Knowledge",
+                                                                 legalDomain = "Learned Legal Intelligence",
+                                                                 reasoningQuality = 1
+                                                             )
+                                                         )
+                                                     } catch (_: Exception) {}
+                                                 }
+                                                 return@withContext answer to confidence
+                                             }
                                         }
                                     }
                                 }
@@ -309,5 +330,75 @@ FORMAT: Use bullet points (•) for key points. Keep sentences short and simple.
         sb.append("\n⚡ Note: AI is temporarily unavailable. Showing direct excerpts from legal documents.")
 
         return sb.toString().trim() to offlineConfidence
+    }
+
+    private fun getConversationalResponse(query: String, language: AppLanguage): String? {
+        val clean = query.lowercase().replace(Regex("[^a-z0-9 ]"), " ").trim()
+        val tokens = clean.split(Regex("\\s+")).filter { it.isNotBlank() }
+        if (tokens.isEmpty()) return null
+
+        // Substantive legal terms: if query contains these, treat as legal question, not pure greeting
+        val substantiveLegalTerms = setOf(
+            "section", "article", "bail", "arrest", "warrant", "fir", "police", "court",
+            "law", "crime", "theft", "murder", "rights", "refund", "cheque", "property",
+            "divorce", "cyber", "penalty", "judge", "bns", "bnss", "bsa", "ipc", "crpc"
+        )
+        if (tokens.any { it in substantiveLegalTerms }) {
+            return null
+        }
+
+        val singleGreetings = setOf(
+            "hi", "hello", "hey", "namaste", "namaskar", "pranam", "vanakkam",
+            "namaskaram", "adaab", "satsriakal", "hola", "sup", "yo"
+        )
+        val multiGreetings = listOf(
+            "good morning", "good afternoon", "good evening", "good day",
+            "how are you", "how are you doing", "hows it going", "how is it going", "whats up", "what s up",
+            "who are you", "what is your name", "what can you do", "introduce yourself", "tell me about yourself",
+            "what is nyaai", "thank you", "thanks", "thank u", "dhanyawad", "shukriya", "nandri", "dhanyavada"
+        )
+
+        val isGreeting = clean in singleGreetings ||
+            (tokens.size <= 3 && tokens.any { it in singleGreetings }) ||
+            multiGreetings.any { clean == it || (clean.startsWith(it) && tokens.size <= 5) }
+
+        if (!isGreeting) return null
+
+        val isIdentity = clean.contains("who are you") || clean.contains("what can you do") || clean.contains("introduce") || clean.contains("your name") || clean.contains("what is nyaai")
+        val isWellBeing = clean.contains("how are you") || clean.contains("hows it going") || clean.contains("how is it going") || clean.contains("whats up")
+        val isThanks = clean.contains("thank") || clean.contains("dhanyawad") || clean.contains("shukriya") || clean.contains("nandri")
+
+        return when (language) {
+            AppLanguage.HINDI -> when {
+                isIdentity -> "मैं न्यायAI (Nyaai) हूँ, आपका दोस्ताना कानूनी सहायक! 😊 मैं भारतीय कानूनों—संविधान, BNS, BNSS और नागरिक अधिकारों को सरल हिंदी में समझाने के लिए यहाँ हूँ। आप मुझसे एफआईआर, ज़मानत, या कोई भी कानूनी सवाल पूछ सकते हैं।"
+                isWellBeing -> "मैं बिल्कुल ठीक हूँ, पूछने के लिए धन्यवाद! 😊 आशा है आपका दिन अच्छा जा रहा होगा। आज मैं आपकी कानूनी समझ में क्या सहायता कर सकता हूँ?"
+                isThanks -> "आपका बहुत-बहुत स्वागत है! 😊 यदि आपके पास कोई और कानूनी प्रश्न या अधिकार से संबंधित संदेह हो, तो बेझिझक पूछें। सुरक्षित और जागरूक रहें!"
+                else -> "नमस्ते! 😊 मैं न्यायAI (Nyaai) हूँ, आपका कानूनी सहायक। आज मैं आपकी क्या मदद कर सकता हूँ? आप मुझसे पुलिस प्रक्रिया, ज़मानत, उपभोक्ता अधिकार या किसी भी कानूनी धारा के बारे में पूछ सकते हैं।"
+            }
+            AppLanguage.BENGALI -> when {
+                isIdentity -> "আমি Nyaai, আপনার ভারতীয় আইনি সহায়ক! 😊 আমি ভারতীয় আইন ও সংবিধানকে সহজ ভাষায় বোঝাতে সাহায্য করি। আপনি আমাকে এফআইআর, জামিন বা যেকোনো আইনি প্রশ্ন জিজ্ঞাসা করতে পারেন।"
+                isWellBeing -> "আমি খুব ভালো আছি, ধন্যবাদ! 😊 আশা করি আপনার দিনটি ভালো কাটছে। আজ আপনাকে আইনি বিষয়ে কীভাবে সাহায্য করতে পারি?"
+                isThanks -> "আপনাকে অনেক ধন্যবাদ! 😊 আপনার যেকোনো আইনি প্রশ্ন থাকলে নির্দ্বিধায় আমাকে জিজ্ঞাসা করতে পারেন।"
+                else -> "নমস্কার! 😊 আমি Nyaai, আপনার আইনি সহায়ক। আজ আপনাকে কীভাবে সাহায্য করতে পারি? আপনি আমাকে নাগরিক অধিকার, এফআইআর, জামিন বা যেকোনো আইন সম্পর্কে জিজ্ঞাসা করতে পারেন।"
+            }
+            AppLanguage.TELUGU -> when {
+                isIdentity -> "నేను Nyaai, మీ భారతీయ న్యాయ సహాయకుడిని! 😊 భారతీయ చట్టాలను మరియు రాజ్యాంగాన్ని సామాన్యులకు సులభంగా వివరించడానికి నేను ఇక్కడ ఉన్నాను. మీరు ఏదైనా చట్టపరమైన ప్రశ్న అడగవచ్చు."
+                isWellBeing -> "నేను చాలా బాగున్నాను, అడిగినందుకు ధన్యవాదాలు! 😊 ఈరోజు మీకు ఏ చట్టపరమైన విషయంలో సహాయం కావాలి?"
+                isThanks -> "చాలా ధన్యవాదాలు! 😊 మీకు భవిష్యత్తులో ఏవైనా చట్టపరమైన సందేహాలు ఉంటే ఎప్పుడైనా అడగవచ్చు."
+                else -> "నమస్కారం! 😊 నేను Nyaai, మీ న్యాయ సహాయకుడిని. ఈరోజు నేను మీకు ఎలా సహాయపడగలను? మీరు ఎఫ్ఐఆర్, బెయిల్ లేదా పౌర హక్కుల గురించి ఏదైనా అడగవచ్చు."
+            }
+            AppLanguage.TAMIL -> when {
+                isIdentity -> "நான் Nyaai, உங்கள் இந்திய சட்ட உதவியாளர்! 😊 இந்திய சட்டங்கள் மற்றும் அரசியலமைப்பை எளிய மொழியில் விளக்க நான் உதவுகிறேன். நீங்கள் எந்தவொரு சட்டக் கேள்வியையும் என்னிடம் கேட்கலாம்."
+                isWellBeing -> "நான் நலமாக இருக்கிறேன், கேட்டதற்கு நன்றி! 😊 இன்று உங்களுக்கு சட்ட ரீதியாக நான் எவ்வாறு உதவ முடியும்?"
+                isThanks -> "மிக்க நன்றி! 😊 உங்களுக்கு மேலும் ஏதேனும் சட்ட சந்தேகங்கள் இருந்தால் தயங்காமல் கேளுங்கள்."
+                else -> "வணக்கம்! 😊 நான் Nyaai, உங்கள் சட்ட உதவியாளர். இன்று நான் உங்களுக்கு எவ்வாறு உதவ முடியும்? எஃப்.ஐ.ஆர், ஜாமீன் அல்லது குடிமக்கள் உரிமைகள் பற்றி நீங்கள் கேட்கலாம்."
+            }
+            else -> when {
+                isIdentity -> "Hello! 😊 I am **Nyaai (न्यायAI)**, your friendly Indian legal assistant. My mission is to make Indian laws—including the Constitution of India, Bharatiya Nyaya Sanhita (BNS), BNSS, and citizen rights—simple, clear, and easy to understand for everyone. How can I help you today?"
+                isWellBeing -> "I'm doing great, thank you for asking! 😊 Ready to help make Indian law simple and accessible for you. What's on your mind today?"
+                isThanks -> "You're very welcome! 😊 If you have any more legal questions or need clarity on your rights and legal procedures, feel free to ask anytime. Stay safe and informed!"
+                else -> "Hello! 😊 I'm **Nyaai**, your Indian legal assistant. How can I help you today? You can ask me about citizen rights, police procedures (FIR/arrest), bail provisions, consumer rights, or any specific legal scenario you're dealing with."
+            }
+        }
     }
 }

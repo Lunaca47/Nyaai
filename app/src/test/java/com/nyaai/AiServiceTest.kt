@@ -155,4 +155,28 @@ class AiServiceTest {
         assertTrue("Should fallback safely when doc doesn't have substantive keywords", answer.contains("couldn't find information"))
         assertEquals(0.20, confidence, 0.001)
     }
+
+    @Test
+    fun testGreetingQueriesReturnWarmGreeting() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val greetings = listOf("hi", "hello", "good morning", "how are you", "who are you", "thank you")
+        for (g in greetings) {
+            val (answer, confidence) = service.generateAnswer(g, AppLanguage.ENGLISH)
+            assertFalse("Greeting '$g' should NOT return legal search fallback error", answer.contains("couldn't find information"))
+            assertTrue("Greeting '$g' should contain friendly introduction or pleasantry", answer.contains("Nyaai") || answer.contains("welcome") || answer.contains("great"))
+            assertEquals("Greeting confidence should be high (0.99)", 0.99, confidence, 0.001)
+        }
+    }
+
+    @Test
+    fun testHindiGreetingReturnsHindiGreeting() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer("namaste", AppLanguage.HINDI)
+        assertTrue("Hindi greeting should contain नमस्ते or न्यायAI", answer.contains("नमस्ते") || answer.contains("न्यायAI"))
+        assertEquals(0.99, confidence, 0.001)
+    }
 }

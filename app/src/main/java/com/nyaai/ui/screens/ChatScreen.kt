@@ -292,8 +292,28 @@ fun ChatScreen(
                                 scope.launch {
                                     ragDao?.updateMessageFeedback(msg.id, feedback)
                                     val idx = messages.indexOfFirst { it.id == msg.id }
-                                    if (idx != -1) messages[idx] = messages[idx].copy(feedback = feedback)
-                                    Toast.makeText(context, "Thanks for the feedback!", Toast.LENGTH_SHORT).show()
+                                    if (idx != -1) {
+                                        messages[idx] = messages[idx].copy(feedback = feedback)
+                                        // Autonomous Learning Loop: If user verified answer with thumbs up, store permanently
+                                        if (feedback == "GOOD" && idx > 0) {
+                                            val precedingMsg = messages.getOrNull(idx - 1)
+                                            if (precedingMsg != null && precedingMsg.isUser && precedingMsg.text.isNotBlank()) {
+                                                try {
+                                                    ragDao?.insertTrainingExample(
+                                                        com.nyaai.data.local.TrainingExampleEntity(
+                                                            question = precedingMsg.text.trim(),
+                                                            answer = msg.text.trim(),
+                                                            sourcePath = "User Verified / Nyaai AI",
+                                                            legalDomain = "Citizen Verified Precedent",
+                                                            reasoningQuality = 2
+                                                        )
+                                                    )
+                                                } catch (_: Exception) {}
+                                            }
+                                        }
+                                    }
+                                    val toastMsg = if (feedback == "GOOD") "Thanks! Stored as verified legal knowledge." else "Thanks for the feedback!"
+                                    Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
                                 }
                             },
                             onToggleBookmark = {

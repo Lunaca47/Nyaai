@@ -1,0 +1,464 @@
+[
+    {
+        "id": "NY-LAB-1301",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 4, Payment of Gratuity Act, 1972",
+        "user_query": "I worked in a private IT company for 5 years and 4 months, but they are refusing to pay my Gratuity claiming I resigned voluntarily.",
+        "legal_text_raw": "Gratuity is a statutory right. Under Section 4, every employee who completes 5 years of continuous service is entitled to gratuity upon resignation, retirement, or termination. Resigning voluntarily does NOT forfeit your gratuity. File Form N before the Controlling Authority (Labour Commissioner) for recovery with 10% interest.",
+        "layman_explanation": "Gratuity is a statutory right. Under Section 4, every employee who completes 5 years of continuous service is entitled to gratuity upon resignation, retirement, or termination. Resigning voluntarily does NOT forfeit your gratuity. File Form N before the Controlling Authority (Labour Commissioner) for recovery with 10% interest.",
+        "keywords": [
+            "gratuity after resignation",
+            "Payment of Gratuity Act",
+            "5 years service",
+            "Form N labour commissioner",
+            "unpaid gratuity",
+            "gratuity interest"
+        ]
+    },
+    {
+        "id": "NY-LAB-1302",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 405 BNS & Section 14B, Employees' Provident Funds Act, 1952",
+        "user_query": "My employer has been deducting Provident Fund (PF) from my monthly salary for a year but has not deposited it into my EPFO account.",
+        "legal_text_raw": "Deducting PF from an employee's salary and failing to deposit it with EPFO is classified as Criminal Breach of Trust under Section 405 BNS, punishable with imprisonment. You can file a grievance on EPFiGMS portal and lodge an FIR against the company directors for criminal breach of trust.",
+        "layman_explanation": "Deducting PF from an employee's salary and failing to deposit it with EPFO is classified as Criminal Breach of Trust under Section 405 BNS, punishable with imprisonment. You can file a grievance on EPFiGMS portal and lodge an FIR against the company directors for criminal breach of trust.",
+        "keywords": [
+            "pf deduction not deposited",
+            "epfo grievance",
+            "Section 405 BNS",
+            "criminal breach of trust",
+            "provident fund fraud",
+            "epfigms"
+        ]
+    },
+    {
+        "id": "NY-LAB-1303",
+        "category": "Labour & Employment Law",
+        "source_act": "Industrial Disputes Act, 1947 & State Shops and Establishments Act",
+        "user_query": "My company terminated my employment immediately without giving the 30-day notice period or severance pay agreed in my appointment letter.",
+        "legal_text_raw": "Abrupt termination without contractual notice or payment in lieu of notice violates the State Shops and Establishments Act and contract law. The employer is legally obligated to pay salary for the notice period along with encashment of accrued leaves and full and final settlement within statutory deadlines.",
+        "layman_explanation": "Abrupt termination without contractual notice or payment in lieu of notice violates the State Shops and Establishments Act and contract law. The employer is legally obligated to pay salary for the notice period along with encashment of accrued leaves and full and final settlement within statutory deadlines.",
+        "keywords": [
+            "wrongful termination",
+            "notice period recovery",
+            "severance pay",
+            "shops and establishments act",
+            "illegal firing",
+            "employment settlement"
+        ]
+    },
+    {
+        "id": "NY-LAB-1304",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 27, Indian Contract Act, 1872",
+        "user_query": "Can my employer enforce a 2-year non-compete clause preventing me from joining a competitor in the same industry after resigning?",
+        "legal_text_raw": "No. Under Section 27 of the Indian Contract Act, any agreement that restrains anyone from exercising a lawful profession, trade, or business is void ab initio (legally unenforceable). Post-employment non-compete restrictions are invalid in India; employers can only protect genuine trade secrets.",
+        "layman_explanation": "No. Under Section 27 of the Indian Contract Act, any agreement that restrains anyone from exercising a lawful profession, trade, or business is void ab initio (legally unenforceable). Post-employment non-compete restrictions are invalid in India; employers can only protect genuine trade secrets.",
+        "keywords": [
+            "non compete clause",
+            "Section 27 Contract Act",
+            "restraint of trade",
+            "joining competitor",
+            "employment bond validity",
+            "post termination covenant"
+        ]
+    },
+    {
+        "id": "NY-LAB-1305",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 74, Indian Contract Act, 1872",
+        "user_query": "Is an employment bond requiring me to pay Rs 3 lakhs if I leave before 2 years legally enforceable in India?",
+        "legal_text_raw": "Employment bonds cannot enforce forced labor or punitive damages. Under Section 74, an employer can only claim reasonable compensation for actual, documented expenses incurred specifically on specialized training, not a blanket penalty. Courts routinely strike down one-sided employment exit bonds.",
+        "layman_explanation": "Employment bonds cannot enforce forced labor or punitive damages. Under Section 74, an employer can only claim reasonable compensation for actual, documented expenses incurred specifically on specialized training, not a blanket penalty. Courts routinely strike down one-sided employment exit bonds.",
+        "keywords": [
+            "employment bond 2 years",
+            "Section 74 Contract Act",
+            "training cost recovery",
+            "forced labour",
+            "resignation bond penalty"
+        ]
+    },
+    {
+        "id": "NY-LAB-1306",
+        "category": "Labour & Employment Law",
+        "source_act": "State Shops and Establishments Act & Contract Law",
+        "user_query": "Can an employer deduct salary or withhold relieving letters if an employee does not serve the full notice period due to medical emergency?",
+        "legal_text_raw": "While employers can adjust notice pay from the final settlement, they have NO legal right to withhold relieving letters or service certificates, as these reflect factual employment history. Withholding experience certificates to coerce an employee constitutes unfair trade and service practice.",
+        "layman_explanation": "While employers can adjust notice pay from the final settlement, they have NO legal right to withhold relieving letters or service certificates, as these reflect factual employment history. Withholding experience certificates to coerce an employee constitutes unfair trade and service practice.",
+        "keywords": [
+            "withholding relieving letter",
+            "experience certificate blocked",
+            "notice period buyout",
+            "medical emergency resignation",
+            "full and final settlement"
+        ]
+    },
+    {
+        "id": "NY-LAB-1307",
+        "category": "Labour & Employment Law",
+        "source_act": "Code on Social Security, 2020",
+        "user_query": "Are contract gig workers (delivery partners, cab drivers) entitled to social security and accident insurance in India?",
+        "legal_text_raw": "Yes. The Code on Social Security, 2020 formally recognizes 'Gig Workers' and 'Platform Workers', mandating aggregator companies (Zomato, Swiggy, Uber, Ola) to contribute 1-2% of annual turnover to a dedicated Social Security Fund covering accident insurance, maternity, and health benefits.",
+        "layman_explanation": "Yes. The Code on Social Security, 2020 formally recognizes 'Gig Workers' and 'Platform Workers', mandating aggregator companies (Zomato, Swiggy, Uber, Ola) to contribute 1-2% of annual turnover to a dedicated Social Security Fund covering accident insurance, maternity, and health benefits.",
+        "keywords": [
+            "gig worker rights",
+            "Code on Social Security 2020",
+            "delivery partner insurance",
+            "platform workers",
+            "aggregator social security"
+        ]
+    },
+    {
+        "id": "NY-LAB-1308",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 51 & 59, Factories Act, 1948 & Code on Occupational Safety, 2020",
+        "user_query": "My factory employer forces workers to work 12 hours every day without paying any overtime allowance.",
+        "legal_text_raw": "Under Section 51 of the Factories Act, no adult worker can be required to work more than 48 hours in any week or 9 hours in any day. Any work beyond this must be compensated at 'Double the Ordinary Rate of Wages' under Section 59. Report to the Factory Inspector.",
+        "layman_explanation": "Under Section 51 of the Factories Act, no adult worker can be required to work more than 48 hours in any week or 9 hours in any day. Any work beyond this must be compensated at 'Double the Ordinary Rate of Wages' under Section 59. Report to the Factory Inspector.",
+        "keywords": [
+            "overtime double pay",
+            "Section 59 Factories Act",
+            "48 hours week limit",
+            "forced 12 hours shift",
+            "factory inspector complaint"
+        ]
+    },
+    {
+        "id": "NY-LAB-1309",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 12, Minimum Wages Act, 1948 / Code on Wages, 2019",
+        "user_query": "Can an employer pay less than the statutory Minimum Wage fixed by the State Government?",
+        "legal_text_raw": "No. Paying less than the notified statutory minimum wage constitutes 'Forced Labor' under Article 23 of the Constitution of India (PUDR v. Union of India). The employer faces criminal prosecution, fine, and must pay arrears with up to 10 times penalty.",
+        "layman_explanation": "No. Paying less than the notified statutory minimum wage constitutes 'Forced Labor' under Article 23 of the Constitution of India (PUDR v. Union of India). The employer faces criminal prosecution, fine, and must pay arrears with up to 10 times penalty.",
+        "keywords": [
+            "minimum wages act",
+            "underpaid salary illegal",
+            "article 23 forced labour",
+            "pudr supreme court",
+            "wage arrears recovery"
+        ]
+    },
+    {
+        "id": "NY-LAB-1310",
+        "category": "Labour & Employment Law",
+        "source_act": "Employees' Compensation Act, 1923",
+        "user_query": "I fell from scaffolding and broke my spine at a construction site. The contractor is refusing to pay medical expenses.",
+        "legal_text_raw": "Under the Employees' Compensation Act, the principal employer and contractor are strictly liable to pay compensation for personal injury or disability caused by an accident arising out of and in the course of employment, calculated based on age and monthly wages.",
+        "layman_explanation": "Under the Employees' Compensation Act, the principal employer and contractor are strictly liable to pay compensation for personal injury or disability caused by an accident arising out of and in the course of employment, calculated based on age and monthly wages.",
+        "keywords": [
+            "workplace injury compensation",
+            "Employees Compensation Act",
+            "scaffolding accident",
+            "permanent disability payout",
+            "labour commissioner claim"
+        ]
+    },
+    {
+        "id": "NY-LAB-1311",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 25T & Fifth Schedule, Industrial Disputes Act, 1947",
+        "user_query": "Can a company fire an employee immediately for participating in a peaceful lawful trade union activity?",
+        "legal_text_raw": "No. Dismissing or victimizing an employee for trade union membership or peaceful collective bargaining constitutes an 'Unfair Labour Practice' under the Industrial Disputes Act, carrying criminal penalties against the employer and reinstatement with full back wages.",
+        "layman_explanation": "No. Dismissing or victimizing an employee for trade union membership or peaceful collective bargaining constitutes an 'Unfair Labour Practice' under the Industrial Disputes Act, carrying criminal penalties against the employer and reinstatement with full back wages.",
+        "keywords": [
+            "trade union dismissal illegal",
+            "unfair labour practice",
+            "Section 25T Industrial Disputes Act",
+            "reinstatement back wages"
+        ]
+    },
+    {
+        "id": "NY-LAB-1312",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 7 & 9, Payment of Wages Act, 1936",
+        "user_query": "Can an employer deduct 10 days' salary for taking 1 day of unapproved leave?",
+        "legal_text_raw": "No. Section 7 of the Payment of Wages Act strictly regulates permissible deductions. Employers can only deduct wages proportionate to the actual absence (1 day's wage for 1 day's absence). Arbitrary punitive salary cuts are unlawful and recoverable through the Labour Court.",
+        "layman_explanation": "No. Section 7 of the Payment of Wages Act strictly regulates permissible deductions. Employers can only deduct wages proportionate to the actual absence (1 day's wage for 1 day's absence). Arbitrary punitive salary cuts are unlawful and recoverable through the Labour Court.",
+        "keywords": [
+            "salary deduction unapproved leave",
+            "Payment of Wages Act",
+            "arbitrary pay cut illegal",
+            "labour court wage recovery"
+        ]
+    },
+    {
+        "id": "NY-LAB-1313",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 10(10), Income Tax Act, 1961",
+        "user_query": "Is gratuity taxable in India if I receive Rs 15 lakhs upon retirement?",
+        "legal_text_raw": "Statutory gratuity received under the Payment of Gratuity Act is fully exempt from income tax up to a maximum statutory limit of Rs 20 Lakhs. Therefore, Rs 15 lakhs is 100% tax-free in your hands.",
+        "layman_explanation": "Statutory gratuity received under the Payment of Gratuity Act is fully exempt from income tax up to a maximum statutory limit of Rs 20 Lakhs. Therefore, Rs 15 lakhs is 100% tax-free in your hands.",
+        "keywords": [
+            "gratuity tax exemption",
+            "Section 10 10 Income Tax Act",
+            "20 lakh gratuity limit",
+            "tax free retirement gratuity"
+        ]
+    },
+    {
+        "id": "NY-LAB-1314",
+        "category": "Labour & Employment Law",
+        "source_act": "Employees' Provident Fund Scheme, 1952",
+        "user_query": "Can an employee withdraw 100% of their Provident Fund (PF) immediately upon resigning?",
+        "legal_text_raw": "An employee can withdraw up to 75% of the accumulated PF balance after 1 month of unemployment, and the remaining 25% after 2 months of continuous unemployment, with full non-refundable withdrawals permitted for housing, marriage, or medical emergencies.",
+        "layman_explanation": "An employee can withdraw up to 75% of the accumulated PF balance after 1 month of unemployment, and the remaining 25% after 2 months of continuous unemployment, with full non-refundable withdrawals permitted for housing, marriage, or medical emergencies.",
+        "keywords": [
+            "pf withdrawal after resignation",
+            "epf 2 months unemployment",
+            "epfo online claim",
+            "pf partial advance"
+        ]
+    },
+    {
+        "id": "NY-LAB-1315",
+        "category": "Labour & Employment Law",
+        "source_act": "Model Standing Orders & Industrial Employment (Standing Orders) Act",
+        "user_query": "Can a company extend my probation period indefinitely beyond 6 months without any performance review?",
+        "legal_text_raw": "No. Probation cannot be prolonged indefinitely to deny permanent benefits. If the appointment letter specifies a 6-month probation and no extension letter is issued prior to completion, courts often deem the employee confirmed or require fair evaluation.",
+        "layman_explanation": "No. Probation cannot be prolonged indefinitely to deny permanent benefits. If the appointment letter specifies a 6-month probation and no extension letter is issued prior to completion, courts often deem the employee confirmed or require fair evaluation.",
+        "keywords": [
+            "probation extension limit",
+            "indefinite probation illegal",
+            "standing orders act",
+            "deemed confirmation"
+        ]
+    },
+    {
+        "id": "NY-LAB-1316",
+        "category": "Labour & Employment Law",
+        "source_act": "Payment of Wages Act, 1936 & Contract Law",
+        "user_query": "Can an employer refuse to pay salary for the month citing that business suffered a financial loss?",
+        "legal_text_raw": "Business loss is an enterprise risk, not an employee liability. Employers are legally bound to disburse earned wages on or before the 7th or 10th day of every month. Non-payment attracts recovery proceedings before the Authority under Section 15.",
+        "layman_explanation": "Business loss is an enterprise risk, not an employee liability. Employers are legally bound to disburse earned wages on or before the 7th or 10th day of every month. Non-payment attracts recovery proceedings before the Authority under Section 15.",
+        "keywords": [
+            "delayed salary business loss",
+            "Section 15 Payment of Wages Act",
+            "wage payment deadline 7th",
+            "unpaid wages complaint"
+        ]
+    },
+    {
+        "id": "NY-LAB-1317",
+        "category": "Labour & Employment Law",
+        "source_act": "EPF & MP Act, 1952 & ESI Act, 1948",
+        "user_query": "Are contract security guards and housekeeping staff entitled to Provident Fund and ESI medical benefits?",
+        "legal_text_raw": "Yes. The principal employer is legally accountable to ensure that third-party contractors enroll all contractual staff in EPFO and ESIC. The Supreme Court has held that principal employers cannot evade liability for statutory social security.",
+        "layman_explanation": "Yes. The principal employer is legally accountable to ensure that third-party contractors enroll all contractual staff in EPFO and ESIC. The Supreme Court has held that principal employers cannot evade liability for statutory social security.",
+        "keywords": [
+            "contract security guard pf",
+            "esi medical benefits",
+            "principal employer liability",
+            "contract labour social security"
+        ]
+    },
+    {
+        "id": "NY-LAB-1318",
+        "category": "Labour & Employment Law",
+        "source_act": "State Shops and Commercial Establishments Act",
+        "user_query": "What is the legal working hours limit for IT and BPO employees in India?",
+        "legal_text_raw": "State Shops and Establishments Acts generally limit work to 9 hours a day and 48 hours a week. Any work beyond this threshold requires mandatory overtime compensation, and employees must be granted at least 24 consecutive hours of weekly rest.",
+        "layman_explanation": "State Shops and Establishments Acts generally limit work to 9 hours a day and 48 hours a week. Any work beyond this threshold requires mandatory overtime compensation, and employees must be granted at least 24 consecutive hours of weekly rest.",
+        "keywords": [
+            "it employee working hours",
+            "48 hours week bpo",
+            "weekly off mandatory",
+            "shops and establishments act"
+        ]
+    },
+    {
+        "id": "NY-LAB-1319",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 73, Employees' State Insurance Act, 1948 & Labour Jurisprudence",
+        "user_query": "Can an employee be dismissed while on certified medical sick leave?",
+        "legal_text_raw": "Under Section 73 of the ESI Act, no employer can dismiss, discharge, or reduce wages of an employee during the period they are in receipt of sickness benefit or under certified medical treatment.",
+        "layman_explanation": "Under Section 73 of the ESI Act, no employer can dismiss, discharge, or reduce wages of an employee during the period they are in receipt of sickness benefit or under certified medical treatment.",
+        "keywords": [
+            "firing during medical leave",
+            "Section 73 ESI Act",
+            "sick leave termination illegal",
+            "protection during illness"
+        ]
+    },
+    {
+        "id": "NY-LAB-1320",
+        "category": "Labour & Employment Law",
+        "source_act": "Constructive Dismissal & Labour Law Jurisprudence",
+        "user_query": "Can an employer compel an employee to resign by creating hostile work conditions or sudden demotion?",
+        "legal_text_raw": "Forced resignation under duress or threat of termination is treated as 'Constructive Illegal Dismissal'. Do not sign a forced resignation letter; write an email stating you are performing duties and report the coercion to the Labour Commissioner.",
+        "layman_explanation": "Forced resignation under duress or threat of termination is treated as 'Constructive Illegal Dismissal'. Do not sign a forced resignation letter; write an email stating you are performing duties and report the coercion to the Labour Commissioner.",
+        "keywords": [
+            "forced resignation illegal",
+            "constructive dismissal",
+            "coercion to resign",
+            "labour commissioner complaint forced exit"
+        ]
+    },
+    {
+        "id": "NY-LAB-1321",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 4(2), Payment of Gratuity Act, 1972",
+        "user_query": "How is Gratuity calculated for employees covered under the Payment of Gratuity Act?",
+        "legal_text_raw": "Gratuity formula is: (15 × Last Drawn Basic Salary + DA × Number of Completed Years of Service) ÷ 26. Any period exceeding 6 months is rounded up to the next full year.",
+        "layman_explanation": "Gratuity formula is: (15 × Last Drawn Basic Salary + DA × Number of Completed Years of Service) ÷ 26. Any period exceeding 6 months is rounded up to the next full year.",
+        "keywords": [
+            "gratuity calculation formula",
+            "15 days salary per year",
+            "Section 4 Gratuity Act",
+            "last drawn basic da"
+        ]
+    },
+    {
+        "id": "NY-LAB-1322",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 4(6), Payment of Gratuity Act, 1972",
+        "user_query": "Can an employer forfeit Gratuity if an employee causes financial loss to company property?",
+        "legal_text_raw": "Gratuity can only be forfeited to the extent of actual damage or loss caused by wilful omission or negligence, after holding a fair domestic inquiry proving moral turpitude or criminal acts. Blanket forfeiture without a hearing is illegal.",
+        "layman_explanation": "Gratuity can only be forfeited to the extent of actual damage or loss caused by wilful omission or negligence, after holding a fair domestic inquiry proving moral turpitude or criminal acts. Blanket forfeiture without a hearing is illegal.",
+        "keywords": [
+            "forfeiture of gratuity rules",
+            "Section 4 6 Gratuity Act",
+            "domestic inquiry property damage",
+            "moral turpitude gratuity"
+        ]
+    },
+    {
+        "id": "NY-LAB-1323",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 11A, Maternity Benefit (Amendment) Act, 2017",
+        "user_query": "Is it mandatory for an employer to provide a crèche facility if the company has more than 50 employees?",
+        "legal_text_raw": "Yes. Section 11A mandates every establishment employing 50 or more employees to provide a crèche facility within prescribed distance. Mothers are permitted up to four visits daily, including regular rest intervals.",
+        "layman_explanation": "Yes. Section 11A mandates every establishment employing 50 or more employees to provide a crèche facility within prescribed distance. Mothers are permitted up to four visits daily, including regular rest intervals.",
+        "keywords": [
+            "creche facility mandatory",
+            "50 employees creche",
+            "Section 11A Maternity Benefit",
+            "childcare workplace"
+        ]
+    },
+    {
+        "id": "NY-LAB-1324",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 26, POSH Act, 2013",
+        "user_query": "What is the penalty for an employer who fails to implement the POSH Internal Complaints Committee (ICC)?",
+        "legal_text_raw": "Failure to constitute an ICC attracts a statutory fine of up to Rs 50,000 for the first violation. Repeat violations attract double fine and potential cancellation of the company's business operating license or registration.",
+        "layman_explanation": "Failure to constitute an ICC attracts a statutory fine of up to Rs 50,000 for the first violation. Repeat violations attract double fine and potential cancellation of the company's business operating license or registration.",
+        "keywords": [
+            "icc not formed fine",
+            "Section 26 POSH Act",
+            "50000 penalty posh",
+            "license cancellation company"
+        ]
+    },
+    {
+        "id": "NY-LAB-1325",
+        "category": "Labour & Employment Law",
+        "source_act": "Union of India v. Gopal Chandra Misra (Supreme Court of India)",
+        "user_query": "Can an employee withdraw their resignation before it is formally accepted by the management?",
+        "legal_text_raw": "Yes. An employee has the legal right to revoke or withdraw their resignation before it is officially accepted by the competent authority or before the effective relieving date, unless service rules specifically provide otherwise.",
+        "layman_explanation": "Yes. An employee has the legal right to revoke or withdraw their resignation before it is officially accepted by the competent authority or before the effective relieving date, unless service rules specifically provide otherwise.",
+        "keywords": [
+            "withdrawal of resignation",
+            "gopal chandra misra supreme court",
+            "revocation of resignation letter",
+            "acceptance of resignation"
+        ]
+    },
+    {
+        "id": "NY-LAB-1326",
+        "category": "Labour & Employment Law",
+        "source_act": "Equal Remuneration Act, 1976 / Code on Wages, 2019",
+        "user_query": "Can an employer discriminate in wages between male and female workers for the same work?",
+        "legal_text_raw": "No. The law strictly prohibits gender discrimination in wages for same work or work of a similar nature. Employers must provide equal pay and cannot discriminate during recruitment or promotions.",
+        "layman_explanation": "No. The law strictly prohibits gender discrimination in wages for same work or work of a similar nature. Employers must provide equal pay and cannot discriminate during recruitment or promotions.",
+        "keywords": [
+            "equal pay for equal work",
+            "gender wage discrimination",
+            "Equal Remuneration Act",
+            "code on wages gender pay"
+        ]
+    },
+    {
+        "id": "NY-LAB-1327",
+        "category": "Labour & Employment Law",
+        "source_act": "National and Festival Holidays Act",
+        "user_query": "Can an employer deduct salary for participating in a gazetted national public holiday?",
+        "legal_text_raw": "No. Employees are entitled to fully paid holidays on national holidays (Republic Day, Independence Day, Gandhi Jayanti) and notified festival holidays. Deduction of wages for national holidays is unlawful.",
+        "layman_explanation": "No. Employees are entitled to fully paid holidays on national holidays (Republic Day, Independence Day, Gandhi Jayanti) and notified festival holidays. Deduction of wages for national holidays is unlawful.",
+        "keywords": [
+            "national holiday pay deduction",
+            "paid festival holiday",
+            "republic day salary cut",
+            "festival holidays act"
+        ]
+    },
+    {
+        "id": "NY-LAB-1328",
+        "category": "Labour & Employment Law",
+        "source_act": "Section 16, Payment of Bonus Act, 1965",
+        "user_query": "Can an employee claim bonus if the company has completed only one year of commercial operation?",
+        "legal_text_raw": "In newly established companies, bonus is payable only if the employer derives profits from the establishment in the first 5 accounting years, after which standard bonus (minimum 8.33%) becomes mandatory.",
+        "layman_explanation": "In newly established companies, bonus is payable only if the employer derives profits from the establishment in the first 5 accounting years, after which standard bonus (minimum 8.33%) becomes mandatory.",
+        "keywords": [
+            "payment of bonus act",
+            "bonus in new company",
+            "minimum bonus 8 33 percent",
+            "annual bonus eligibility"
+        ]
+    },
+    {
+        "id": "NY-LAB-1329",
+        "category": "Labour & Employment Law",
+        "source_act": "Industrial Employment Standing Orders & Contract Jurisprudence",
+        "user_query": "Can an employer enforce arbitrary transfer of an employee to a remote branch without travel allowance?",
+        "legal_text_raw": "While transfer is an administrative prerogative, mala fide transfers used as a punishment tool or without contractual transferability clauses can be challenged before the Labour Court or High Court.",
+        "layman_explanation": "While transfer is an administrative prerogative, mala fide transfers used as a punishment tool or without contractual transferability clauses can be challenged before the Labour Court or High Court.",
+        "keywords": [
+            "punitive transfer labour law",
+            "arbitrary transfer challenged",
+            "transfer clause appointment letter",
+            "mala fide transfer"
+        ]
+    },
+    {
+        "id": "NY-LAB-1330",
+        "category": "Labour & Employment Law",
+        "source_act": "Whistle Blowers Protection Act, 2014 & Companies Act, 2013 (Section 177)",
+        "user_query": "Can an employee be terminated for blowing the whistle on illegal financial fraud within the company?",
+        "legal_text_raw": "Listed companies and firms accepting public deposits must maintain a vigil mechanism protecting whistleblowers from victimization, demotion, or retaliatory termination.",
+        "layman_explanation": "Listed companies and firms accepting public deposits must maintain a vigil mechanism protecting whistleblowers from victimization, demotion, or retaliatory termination.",
+        "keywords": [
+            "whistleblower protection",
+            "Section 177 Companies Act",
+            "retaliatory termination fraud",
+            "reporting corporate fraud"
+        ]
+    },
+    {
+        "id": "NY-LAB-1331",
+        "category": "Labour & Employment Law",
+        "source_act": "Apprentices Act, 1961",
+        "user_query": "Are apprentices covered under labor laws as regular employees in India?",
+        "legal_text_raw": "No. An apprentice is a trainee, not a regular employee, and is entitled to a monthly stipend rather than wages. However, health, safety, and welfare provisions under the Factories Act apply equally to apprentices.",
+        "layman_explanation": "No. An apprentice is a trainee, not a regular employee, and is entitled to a monthly stipend rather than wages. However, health, safety, and welfare provisions under the Factories Act apply equally to apprentices.",
+        "keywords": [
+            "apprentices act 1961",
+            "stipend vs wages",
+            "apprentice safety rights",
+            "trainee rights india"
+        ]
+    },
+    {
+        "id": "NY-LAB-1332",
+        "category": "Labour & Employment Law",
+        "source_act": "Insolvency and Bankruptcy Code (IBC) & Labour Commissioner Claim",
+        "user_query": "What should an employee do if an employer shuts down the office overnight without paying last 3 months salary?",
+        "legal_text_raw": "Employees can file a joint recovery application before the Labour Commissioner under the Payment of Wages Act or initiate insolvency proceedings before the NCLT under the IBC, where employee wage dues hold priority over ordinary creditors.",
+        "layman_explanation": "Employees can file a joint recovery application before the Labour Commissioner under the Payment of Wages Act or initiate insolvency proceedings before the NCLT under the IBC, where employee wage dues hold priority over ordinary creditors.",
+        "keywords": [
+            "company shut down unpaid salary",
+            "nclt employee claim",
+            "insolvency priority wages",
+            "recovery of unpaid salary"
+        ]
+    }
+]

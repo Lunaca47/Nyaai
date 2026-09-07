@@ -101,8 +101,11 @@ def build_database():
     training_count = 0
     training_batch = []
     all_queries_export = []
-    for batch_num in range(2, 11):
-        batch_file = os.path.join(SCRIPTS_DIR, f"batch{batch_num}.json")
+    
+    # We load the 10,000+ mega batch
+    batch_files = [os.path.join(SCRIPTS_DIR, "batch_mega_10k.json")]
+    
+    for batch_file in batch_files:
         if os.path.exists(batch_file):
             print(f"Loading {batch_file}...")
             try:

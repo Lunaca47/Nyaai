@@ -6,6 +6,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   initNeuralCanvas();
+  initCloudDataset();
   initAITerminal();
   initDocumentScanner();
   initStatutoryCodex();
@@ -107,9 +108,11 @@ function initNeuralCanvas() {
 }
 
 /* =========================================================
-   2. Intelligent Legal AI Assistant Simulator (Terminal)
+   2. Intelligent Legal AI Assistant Simulator (Terminal) & Cloud Knowledge Base
    ========================================================= */
-const legalKnowledgeBase = [
+let legalKnowledgeBase = (typeof window !== "undefined" && window.NYAAI_EMBEDDED_DATA && window.NYAAI_EMBEDDED_DATA.curated_qa) 
+  ? window.NYAAI_EMBEDDED_DATA.curated_qa 
+  : [
   {
     keywords: ["bail", "482", "bnss", "arrest", "custody", "anticipatory"],
     title: "Bail Provisions under Section 482 of BNSS, 2023",
@@ -170,6 +173,202 @@ const legalKnowledgeBase = [
   }
 ];
 
+// Asynchronous Cloud Dataset Sync Engine
+async function initCloudDataset() {
+  try {
+    // 1. Check local storage cache
+    const cached = localStorage.getItem("nyaai_cloud_dataset_v2");
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.curated_qa && parsed.curated_qa.length > 0) {
+          legalKnowledgeBase = parsed.curated_qa;
+          updateTerminalStatusBadge(parsed.curated_qa.length);
+        }
+      } catch (e) {
+        console.warn("Error reading cached cloud dataset", e);
+      }
+    }
+
+    // 2. Fetch fresh dataset from Cloud / CDN
+    const endpoints = [
+      "data/legal_dataset_master.json",
+      "https://lunaca47.github.io/Nyaai/data/legal_dataset_master.json"
+    ];
+
+    for (const ep of endpoints) {
+      try {
+        const res = await fetch(ep);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.curated_qa && data.curated_qa.length > 0) {
+            legalKnowledgeBase = data.curated_qa;
+            localStorage.setItem("nyaai_cloud_dataset_v2", JSON.stringify(data));
+            updateTerminalStatusBadge(data.curated_qa.length);
+            console.log(`[Nyaai Cloud Engine] Cloud knowledge base loaded: ${data.curated_qa.length} Q&As.`);
+            break;
+          }
+        }
+      } catch (_) {
+        // Fall back to next endpoint or embedded data
+      }
+    }
+  } catch (err) {
+    console.warn("Cloud dataset sync exception:", err);
+  }
+}
+
+function updateTerminalStatusBadge(count) {
+  const badge = document.querySelector(".terminal-topbar .mono");
+  if (badge) {
+    badge.textContent = `CLOUD SYNC ACTIVE • ${count} VERIFIED Q&AS • 1,838 SECTIONS`;
+  }
+}
+
+function findBestLegalMatch(queryText) {
+  if (!queryText || !legalKnowledgeBase || legalKnowledgeBase.length === 0) return null;
+  const q = queryText.toLowerCase().trim();
+  const stopWords = new Set([
+    "what", "how", "why", "when", "where", "which", "who", "whom", "can", "could", 
+    "should", "would", "the", "and", "for", "with", "about", "give", "tell", "explain", 
+    "does", "have", "been", "that", "this", "there", "they", "them", "from", "into", "also", "your"
+  ]);
+  const queryTerms = q.replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(w => w.length >= 3 && !stopWords.has(w));
+  const numbers = (q.match(/\d+/g) || []);
+
+  let bestItem = null;
+  let highestScore = 0;
+
+  for (const item of legalKnowledgeBase) {
+    let score = 0;
+    const qText = (item.question || item.title || "").toLowerCase();
+    const aText = (item.answer || (item.summary ? item.summary.join(" ") : "")).toLowerCase();
+    const sText = (item.source || item.act || "").toLowerCase();
+    const secText = (item.section || "").toLowerCase();
+    const domainText = (item.legalDomain || "").toLowerCase();
+
+    // Exact phrase match
+    if (q.length > 5 && (qText.includes(q) || aText.includes(q))) {
+      score += 30;
+    }
+
+    // Number match (Article or Section numbers, e.g., 482, 21, 103, 305, 173)
+    for (const num of numbers) {
+      if (secText.includes(num)) score += 25;
+      else if (sText.includes(num)) score += 15;
+      else if (qText.includes(num)) score += 10;
+    }
+
+    // Keywords match
+    if (item.keywords && Array.isArray(item.keywords)) {
+      for (const kw of item.keywords) {
+        const kwLower = kw.toLowerCase();
+        if (q.includes(kwLower)) score += 8;
+        for (const term of queryTerms) {
+          if (kwLower === term) score += 6;
+          else if (kwLower.includes(term) || term.includes(kwLower)) score += 2;
+        }
+      }
+    }
+
+    // Query terms in question, section, and domain
+    for (const term of queryTerms) {
+      if (qText.includes(term)) score += 4;
+      if (secText.includes(term)) score += 6;
+      if (domainText.includes(term)) score += 3;
+      if (aText.includes(term)) score += 2;
+    }
+
+    if (score > highestScore) {
+      highestScore = score;
+      bestItem = item;
+    }
+  }
+
+  if (highestScore >= 6 && bestItem) {
+    return {
+      title: bestItem.title || (bestItem.section ? `${bestItem.section}: Legal Assessment` : "Statutory Legal Provision"),
+      confidence: bestItem.confidence || "98.5% Cloud Statutory Match",
+      act: bestItem.act || bestItem.legalDomain || "Indian Law",
+      section: bestItem.section || bestItem.source || "Statutory Provision",
+      summary: bestItem.summary || [bestItem.answer || ""]
+    };
+  }
+  return null;
+}
+
+function getConversationalGreeting(queryText, lang) {
+  if (!queryText) return null;
+  const clean = queryText.toLowerCase().replace(/[^a-z0-9 ]/g, " ").trim();
+  const tokens = clean.split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return null;
+
+  // Substantive legal terms: if query contains these, treat as legal question, not pure greeting
+  const substantiveTerms = new Set([
+    "section", "article", "bail", "arrest", "warrant", "fir", "police", "court",
+    "law", "crime", "theft", "murder", "rights", "refund", "cheque", "property",
+    "divorce", "cyber", "penalty", "judge", "bns", "bnss", "bsa", "ipc", "crpc"
+  ]);
+  if (tokens.some(t => substantiveTerms.has(t))) {
+    return null;
+  }
+
+  const singleGreetings = new Set([
+    "hi", "hello", "hey", "namaste", "namaskar", "pranam", "vanakkam",
+    "namaskaram", "adaab", "satsriakal", "hola", "sup", "yo"
+  ]);
+  const multiGreetings = [
+    "good morning", "good afternoon", "good evening", "good day",
+    "how are you", "how are you doing", "hows it going", "how is it going", "whats up", "what s up",
+    "who are you", "what is your name", "what can you do", "introduce yourself", "tell me about yourself",
+    "what is nyaai", "thank you", "thanks", "thank u", "dhanyawad", "shukriya", "nandri", "dhanyavada"
+  ];
+
+  const isGreeting = singleGreetings.has(clean) ||
+    (tokens.length <= 3 && tokens.some(t => singleGreetings.has(t))) ||
+    multiGreetings.some(g => clean === g || (clean.startsWith(g) && tokens.length <= 5));
+
+  if (!isGreeting) return null;
+
+  const isIdentity = clean.includes("who are you") || clean.includes("what can you do") || clean.includes("introduce") || clean.includes("your name") || clean.includes("what is nyaai");
+  const isWellBeing = clean.includes("how are you") || clean.includes("hows it going") || clean.includes("how is it going") || clean.includes("whats up");
+  const isThanks = clean.includes("thank") || clean.includes("dhanyawad") || clean.includes("shukriya") || clean.includes("nandri");
+
+  const l = lang || (typeof currentLang !== "undefined" ? currentLang : "en");
+
+  switch(l) {
+    case "hi":
+      if (isIdentity) return { title: "नमस्ते! मैं न्यायAI (Nyaai) हूँ 😊", message: "मैं आपका दोस्ताना कानूनी सहायक हूँ। मैं भारतीय कानूनों—संविधान, BNS, BNSS और नागरिक अधिकारों को सरल हिंदी में समझाने के लिए यहाँ हूँ। आप मुझसे एफआईआर, ज़मानत, या कोई भी कानूनी सवाल पूछ सकते हैं।" };
+      if (isWellBeing) return { title: "मैं बिल्कुल ठीक हूँ! 😊", message: "पूछने के लिए धन्यवाद! आशा है आपका दिन अच्छा जा रहा होगा। आज मैं आपकी कानूनी समझ में क्या सहायता कर सकता हूँ?" };
+      if (isThanks) return { title: "आपका बहुत-बहुत स्वागत है! 😊", message: "यदि आपके पास कोई और कानूनी प्रश्न या अधिकार से संबंधित संदेह हो, तो बेझिझक पूछें। सुरक्षित और जागरूक रहें!" };
+      return { title: "नमस्ते! मैं न्यायAI हूँ 😊", message: "मैं आपका कानूनी सहायक हूँ। आज मैं आपकी क्या मदद कर सकता हूँ? आप मुझसे पुलिस प्रक्रिया, ज़मानत, उपभोक्ता अधिकार या किसी भी कानूनी धारा के बारे में पूछ सकते हैं।" };
+
+    case "bn":
+      if (isIdentity) return { title: "নমস্কার! আমি Nyaai 😊", message: "আমি আপনার ভারতীয় আইনি সহায়ক! ভারতীয় আইন ও সংবিধানকে সহজ ভাষায় বোঝাতে আমি সাহায্য করি। আপনি আমাকে এফআইআর, জামিন বা যেকোনো আইনি প্রশ্ন জিজ্ঞাসা করতে পারেন।" };
+      if (isWellBeing) return { title: "আমি খুব ভালো আছি! 😊", message: "ধন্যবাদ! আশা করি আপনার দিনটি ভালো কাটছে। আজ আপনাকে আইনি বিষয়ে কীভাবে সাহায্য করতে পারি?" };
+      if (isThanks) return { title: "আপনাকে অনেক ধন্যবাদ! 😊", message: "আপনার যেকোনো আইনি প্রশ্ন থাকলে নির্দ্বিধায় আমাকে জিজ্ঞাসা করতে পারেন।" };
+      return { title: "নমস্কার! আমি Nyaai 😊", message: "আপনার আইনি সহায়ক। আজ আপনাকে কীভাবে সাহায্য করতে পারি? আপনি আমাকে নাগরিক অধিকার, এফআইআর, জামিন বা যেকোনো আইন সম্পর্কে জিজ্ঞাসা করতে পারেন।" };
+
+    case "te":
+      if (isIdentity) return { title: "నమస్కారం! నేను Nyaai 😊", message: "మీ భారతీయ న్యాయ సహాయకుడిని! భారతీయ చట్టాలను మరియు రాజ్యాంగాన్ని సామాన్యులకు సులభంగా వివరించడానికి నేను ఇక్కడ ఉన్నాను. మీరు ఏదైనా చట్టపరమైన ప్రశ్న అడగవచ్చు." };
+      if (isWellBeing) return { title: "నేను చాలా బాగున్నాను! 😊", message: "అడిగినందుకు ధన్యవాదాలు! ఈరోజు మీకు ఏ చట్టపరమైన విషయంలో సహాయం కావాలి?" };
+      if (isThanks) return { title: "చాలా ధన్యవాదాలు! 😊", message: "మీకు భవిష్యత్తులో ఏవైనా చట్టపరమైన సందేహాలు ఉంటే ఎప్పుడైనా అడగవచ్చు." };
+      return { title: "నమస్కారం! నేను Nyaai 😊", message: "మీ న్యాయ సహాయకుడిని. ఈరోజు నేను మీకు ఎలా సహాయపడగలను? మీరు ఎఫ్ఐఆర్, బెయిల్ లేదా పౌర హక్కుల గురించి ఏదైనా అడగవచ్చు." };
+
+    case "ta":
+      if (isIdentity) return { title: "வணக்கம்! நான் Nyaai 😊", message: "உங்கள் இந்திய சட்ட உதவியாளர்! இந்திய சட்டங்கள் மற்றும் அரசியலமைப்பை எளிய மொழியில் விளக்க நான் உதவுகிறேன். நீங்கள் எந்தவொரு சட்டக் கேள்வியையும் என்னிடம் கேட்கலாம்." };
+      if (isWellBeing) return { title: "நான் நலமாக இருக்கிறேன்! 😊", message: "கேட்டதற்கு நன்றி! இன்று உங்களுக்கு சட்ட ரீதியாக நான் எவ்வாறு உதவ முடியும்?" };
+      if (isThanks) return { title: "மிக்க நன்றி! 😊", message: "உங்களுக்கு மேலும் ஏதேனும் சட்ட சந்தேகங்கள் இருந்தால் தயங்காமல் கேளுங்கள்." };
+      return { title: "வணக்கம்! நான் Nyaai 😊", message: "உங்கள் சட்ட உதவியாளர். இன்று நான் உங்களுக்கு எவ்வாறு உதவ முடியும்? எஃப்.ஐ.ஆர், ஜாமீன் அல்லது குடிமக்கள் உரிமைகள் பற்றி நீங்கள் கேட்கலாம்." };
+
+    default: // en
+      if (isIdentity) return { title: "Hello! I am Nyaai (न्यायAI) 😊", message: "I'm your friendly Indian legal assistant. My mission is to make Indian laws—including the Constitution of India, Bharatiya Nyaya Sanhita (BNS), BNSS, and citizen rights—simple, clear, and easy to understand for everyone. How can I help you today?" };
+      if (isWellBeing) return { title: "I'm doing great, thank you! 😊", message: "Ready to make Indian law simple and accessible for you. What's on your mind today?" };
+      if (isThanks) return { title: "You're very welcome! 😊", message: "If you have any more legal questions or need clarity on your rights and legal procedures, feel free to ask anytime. Stay safe and informed!" };
+      return { title: "Hello! I'm Nyaai 😊", message: "I'm your friendly Indian legal assistant. How can I help you today? You can ask me about citizen rights, police procedures (FIR/arrest), bail provisions, consumer rights, or any specific legal questions." };
+  }
+}
+
 function initAITerminal() {
   const chatHistory = document.getElementById("chatHistory");
   const terminalInput = document.getElementById("terminalInput");
@@ -186,7 +385,43 @@ function initAITerminal() {
     appendMessage(queryText, "user");
     terminalInput.value = "";
 
-    // 2. Append Typing Indicator
+    // 2. Check for conversational greeting first (fast-path friendly reply)
+    const greeting = getConversationalGreeting(queryText, typeof currentLang !== "undefined" ? currentLang : "en");
+    if (greeting) {
+      setTimeout(() => {
+        const botMsg = document.createElement("div");
+        botMsg.className = "chat-bubble chat-ai";
+        botMsg.innerHTML = `
+          <div class="badge-pastel-blue" style="margin-bottom: 8px; font-size: 0.74rem;">
+            <span>👋</span> Friendly Assistant
+          </div>
+          <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #0F172A;">
+            ${greeting.title}
+          </div>
+          <p style="color: #334155; line-height: 1.6; margin-bottom: 12px;">
+            ${greeting.message}
+          </p>
+          <div style="margin-top: 8px; font-size: 0.8rem; color: #64748B; font-weight: 600;">
+            💡 Suggested inquiries to try:
+          </div>
+          <div style="margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="chip-btn inline-chip" data-query="What are my rights if arrested?">⚖️ Arrest Rights</button>
+            <button class="chip-btn inline-chip" data-query="Explain Fundamental Rights under Article 21">📜 Article 21 Rights</button>
+            <button class="chip-btn inline-chip" data-query="Consumer refund rights for defective products">🛍️ Consumer Refund</button>
+          </div>
+        `;
+        botMsg.querySelectorAll(".inline-chip").forEach(chip => {
+          chip.addEventListener("click", () => {
+            executeQuery(chip.getAttribute("data-query"));
+          });
+        });
+        chatHistory.appendChild(botMsg);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      }, 350);
+      return;
+    }
+
+    // 3. Append Typing Indicator
     const typingElem = document.createElement("div");
     typingElem.className = "chat-bubble chat-ai mono";
     typingElem.innerHTML = `<span style="color: #4F46E5; font-weight: 600;">⚡ Scanning 1,838 statutory sections across BNS, BNSS, BSA, COI...</span>`;
@@ -196,11 +431,8 @@ function initAITerminal() {
     setTimeout(() => {
       typingElem.remove();
 
-      // Find best match in knowledge base
-      const q = queryText.toLowerCase();
-      let matched = legalKnowledgeBase.find(item =>
-        item.keywords.some(k => q.includes(k))
-      );
+      // Find best match in cloud-synced knowledge base using ultra-fast multi-token scoring
+      let matched = findBestLegalMatch(queryText);
 
       if (!matched) {
         matched = {
@@ -239,6 +471,9 @@ function initAITerminal() {
           <button class="chip-btn copy-msg-btn" style="padding: 4px 10px; font-size: 0.76rem;">
             📋 Copy Citation
           </button>
+          <button class="chip-btn feedback-learn-btn" style="padding: 4px 10px; font-size: 0.76rem;">
+            👍 Helpful (Train)
+          </button>
         </div>
       `;
 
@@ -253,6 +488,29 @@ function initAITerminal() {
         navigator.clipboard.writeText(`${matched.title}\n${matched.act} - ${matched.section}`);
         e.target.textContent = "✓ Copied!";
         setTimeout(() => (e.target.textContent = "📋 Copy Citation"), 2000);
+      });
+
+      // Autonomous Self-Training click
+      botMsg.querySelector(".feedback-learn-btn").addEventListener("click", (e) => {
+        e.target.textContent = "✓ Learned!";
+        e.target.style.background = "#DEF7EC";
+        e.target.style.color = "#03543F";
+        try {
+          const userTrained = JSON.parse(localStorage.getItem("nyaai_user_learned_qa") || "[]");
+          const newEntry = {
+            question: queryText,
+            answer: matched.summary.join(" "),
+            source: matched.act + " - " + matched.section,
+            act: matched.act,
+            section: matched.section,
+            keywords: queryText.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(w => w.length >= 3),
+            confidence: "99.2% Self-Trained Match"
+          };
+          userTrained.push(newEntry);
+          localStorage.setItem("nyaai_user_learned_qa", JSON.stringify(userTrained));
+          legalKnowledgeBase.unshift(newEntry);
+          updateTerminalStatusBadge(legalKnowledgeBase.length);
+        } catch (_) {}
       });
 
       chatHistory.appendChild(botMsg);

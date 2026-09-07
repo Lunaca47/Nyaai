@@ -21,6 +21,7 @@ import androidx.room.Room
 import androidx.lifecycle.lifecycleScope
 import com.nyaai.data.local.RagDatabase
 import com.nyaai.data.local.PdfExtractorService
+import com.nyaai.data.local.CloudDatasetSyncService
 import com.nyaai.data.local.MIGRATION_7_8
 
 import android.content.Context
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
         .build()
 
         val pdfExtractor = PdfExtractorService(applicationContext, db.ragDao())
+        val cloudSync = CloudDatasetSyncService(applicationContext, db.ragDao())
         val aiService = AiService(
             db.ragDao(), 
             apiKey,
@@ -54,6 +56,7 @@ class MainActivity : ComponentActivity() {
         )
         lifecycleScope.launch {
             pdfExtractor.initializeDatabaseFromAssets()
+            cloudSync.syncDatasetIfNeeded()
         }
 
         val initialThemeName = prefs.getString("pref_theme", AppTheme.SYSTEM.name) ?: AppTheme.SYSTEM.name

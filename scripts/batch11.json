@@ -1,0 +1,497 @@
+[
+    {
+        "id": "NY-CYB-1101",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66D & 66E, Information Technology Act, 2000",
+        "user_query": "Someone created a fake Instagram profile using my daughter's photos and is sending obscene messages to her college friends.",
+        "legal_text_raw": "This is a cognizable criminal offense under Section 66D (Cheating by personation using computer resource) and Section 66E (Violation of privacy) of the IT Act, along with Section 356 BNS (Defamation). File an immediate complaint at cybercrime.gov.in and report to the local cyber police station with screenshots, profile URL, and timestamps.",
+        "layman_explanation": "This is a cognizable criminal offense under Section 66D (Cheating by personation using computer resource) and Section 66E (Violation of privacy) of the IT Act, along with Section 356 BNS (Defamation). File an immediate complaint at cybercrime.gov.in and report to the local cyber police station with screenshots, profile URL, and timestamps.",
+        "keywords": [
+            "fake profile",
+            "impersonation",
+            "cyber stalking",
+            "Section 66D IT Act",
+            "privacy violation",
+            "obscene messages",
+            "cybercrime report"
+        ]
+    },
+    {
+        "id": "NY-CYB-1102",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66C & 66D, Information Technology Act, 2000",
+        "user_query": "I was tricked into clicking an APK link on WhatsApp, and Rs 75,000 was debited from my bank account via unauthorized UPI.",
+        "legal_text_raw": "Immediately call the National Cyber Crime Helpline '1930' within the 'Golden Hour' (first 2-3 hours) so the funds can be frozen in transit. Also notify your bank immediately to block the UPI ID and card under RBI's zero-liability policy for unauthorized electronic transactions reported within 3 days.",
+        "layman_explanation": "Immediately call the National Cyber Crime Helpline '1930' within the 'Golden Hour' (first 2-3 hours) so the funds can be frozen in transit. Also notify your bank immediately to block the UPI ID and card under RBI's zero-liability policy for unauthorized electronic transactions reported within 3 days.",
+        "keywords": [
+            "upi fraud",
+            "1930 helpline",
+            "apk scam",
+            "Section 66C IT Act",
+            "unauthorized debit",
+            "rbi zero liability",
+            "cyber fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1103",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) BNS & Section 66D IT Act",
+        "user_query": "A caller claiming to be from FedEx and Mumbai Police said drugs were found in a courier under my Aadhaar and demanded Rs 2 lakhs via RTGS.",
+        "legal_text_raw": "This is a classic 'Digital Arrest' scam. Law enforcement agencies (Police, CBI, ED, Customs) NEVER conduct interrogations or demand money over Skype, WhatsApp, or video calls. Do not pay any money. Report the phone number and Skype ID immediately on the National Cybercrime Portal (cybercrime.gov.in) and block them.",
+        "layman_explanation": "This is a classic 'Digital Arrest' scam. Law enforcement agencies (Police, CBI, ED, Customs) NEVER conduct interrogations or demand money over Skype, WhatsApp, or video calls. Do not pay any money. Report the phone number and Skype ID immediately on the National Cybercrime Portal (cybercrime.gov.in) and block them.",
+        "keywords": [
+            "digital arrest",
+            "fedex scam",
+            "police video call",
+            "cbi scam",
+            "Section 318 BNS",
+            "fake arrest warrant",
+            "extortion"
+        ]
+    },
+    {
+        "id": "NY-CYB-1104",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 67 & 67A, IT Act, 2000 & Section 308 BNS",
+        "user_query": "An online acquaintance took screenshot recordings of our private video call and is threatening to leak them on YouTube unless I pay Rs 50,000.",
+        "legal_text_raw": "This is criminal 'Sextortion' and blackmail under Section 67/67A of the IT Act and Section 308 BNS (Extortion). Do not pay, as extortionists never stop after the first payment. Preserve chat logs, bank details of extortionist, and lodge an FIR immediately at your district cyber crime cell or cybercrime.gov.in.",
+        "layman_explanation": "This is criminal 'Sextortion' and blackmail under Section 67/67A of the IT Act and Section 308 BNS (Extortion). Do not pay, as extortionists never stop after the first payment. Preserve chat logs, bank details of extortionist, and lodge an FIR immediately at your district cyber crime cell or cybercrime.gov.in.",
+        "keywords": [
+            "sextortion",
+            "video blackmail",
+            "Section 67A IT Act",
+            "Section 308 BNS",
+            "online extortion",
+            "leak private video"
+        ]
+    },
+    {
+        "id": "NY-CYB-1105",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 43 & 66, IT Act, 2000 & Consumer Protection Act, 2019",
+        "user_query": "Someone SIM-swapped my registered mobile number with my telecom provider without my authorization and drained my bank account.",
+        "legal_text_raw": "SIM-swap without physical KYC verification constitutes gross deficiency of service by the telecom service provider and cyber fraud. File an FIR under Section 66 IT Act and submit a formal claim to your bank and telecom provider. If unresolved, claim full compensation before the State Consumer Disputes Redressal Commission.",
+        "layman_explanation": "SIM-swap without physical KYC verification constitutes gross deficiency of service by the telecom service provider and cyber fraud. File an FIR under Section 66 IT Act and submit a formal claim to your bank and telecom provider. If unresolved, claim full compensation before the State Consumer Disputes Redressal Commission.",
+        "keywords": [
+            "sim swap fraud",
+            "telecom negligence",
+            "unauthorized duplicate sim",
+            "Section 43 IT Act",
+            "otp bypass",
+            "bank recovery"
+        ]
+    },
+    {
+        "id": "NY-CYB-1106",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66D, IT Act & Section 356 BNS, 2023",
+        "user_query": "An AI deepfake video of me giving a fake speech is circulating on social media harming my reputation.",
+        "legal_text_raw": "Creating and distributing malicious deepfakes violates Section 66D of the IT Act (computer personation) and constitutes criminal defamation under Section 356 BNS. You can issue an emergency takedown notice to social media platforms under Rule 3(2)(b) of the IT Rules 2021, requiring removal within 24 hours.",
+        "layman_explanation": "Creating and distributing malicious deepfakes violates Section 66D of the IT Act (computer personation) and constitutes criminal defamation under Section 356 BNS. You can issue an emergency takedown notice to social media platforms under Rule 3(2)(b) of the IT Rules 2021, requiring removal within 24 hours.",
+        "keywords": [
+            "deepfake video",
+            "ai impersonation",
+            "it rules 2021",
+            "24 hour takedown",
+            "Section 356 BNS",
+            "synthetic media fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1107",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 105 & 106, Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "user_query": "Can the police seize my laptop or smartphone during a search without giving any seizure memo?",
+        "legal_text_raw": "No. Whenever police seize electronic devices, Section 105 and 106 BNSS strictly mandate that they must prepare a detailed 'Seizure Memo' (Panchnama) in the presence of independent witnesses, record the hash value of digital media to prevent tampering, and provide a signed copy to you immediately.",
+        "layman_explanation": "No. Whenever police seize electronic devices, Section 105 and 106 BNSS strictly mandate that they must prepare a detailed 'Seizure Memo' (Panchnama) in the presence of independent witnesses, record the hash value of digital media to prevent tampering, and provide a signed copy to you immediately.",
+        "keywords": [
+            "police seize laptop",
+            "phone seizure memo",
+            "Section 105 BNSS",
+            "hash value",
+            "panchnama digital evidence",
+            "electronic seizure rights"
+        ]
+    },
+    {
+        "id": "NY-CYB-1108",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 67 IT Act & Section 308 BNS, 2023",
+        "user_query": "A loan app agent is morphing my contacts' photos and threatening to circulate them for an unpaid instant app loan.",
+        "legal_text_raw": "This is illegal harassment, extortion, and cyber voyeurism. The RBI has mandated that digital lending apps cannot access mobile contacts or photos. Lodge an FIR immediately at your local cyber cell and report the predatory app on the RBI Sachet portal (sachet.rbi.org.in).",
+        "layman_explanation": "This is illegal harassment, extortion, and cyber voyeurism. The RBI has mandated that digital lending apps cannot access mobile contacts or photos. Lodge an FIR immediately at your local cyber cell and report the predatory app on the RBI Sachet portal (sachet.rbi.org.in).",
+        "keywords": [
+            "loan app harassment",
+            "morphed photo blackmail",
+            "rbi sachet portal",
+            "Section 67 IT Act",
+            "predatory loan apps",
+            "contact access illegal"
+        ]
+    },
+    {
+        "id": "NY-CYB-1109",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) BNS & Section 66D IT Act",
+        "user_query": "I received an SMS claiming my electricity power will be disconnected tonight at 9:30 PM unless I call a private mobile number.",
+        "legal_text_raw": "This is a widespread phishing scam designed to make victims install remote access apps (AnyDesk/TeamViewer). Power distribution companies NEVER send disconnection notices from personal 10-digit mobile numbers. Do not call or click links. Report the number on cybercrime.gov.in.",
+        "layman_explanation": "This is a widespread phishing scam designed to make victims install remote access apps (AnyDesk/TeamViewer). Power distribution companies NEVER send disconnection notices from personal 10-digit mobile numbers. Do not call or click links. Report the number on cybercrime.gov.in.",
+        "keywords": [
+            "electricity bill scam",
+            "power disconnection sms",
+            "anydesk scam",
+            "Section 318 BNS",
+            "remote access fraud",
+            "fake bill update"
+        ]
+    },
+    {
+        "id": "NY-CYB-1110",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66C IT Act & RBI Circular on Electronic Fraud",
+        "user_query": "Someone cloned my debit card while I used an ATM and withdrew Rs 40,000 from an overseas location.",
+        "legal_text_raw": "This is ATM skimming/card cloning under Section 66C of the IT Act. Under RBI's circular on customer protection, you bear zero liability if you notify your bank within 3 working days of the unauthorized withdrawal. The bank is legally mandated to credit shadow reversal within 10 days.",
+        "layman_explanation": "This is ATM skimming/card cloning under Section 66C of the IT Act. Under RBI's circular on customer protection, you bear zero liability if you notify your bank within 3 working days of the unauthorized withdrawal. The bank is legally mandated to credit shadow reversal within 10 days.",
+        "keywords": [
+            "atm skimming",
+            "debit card cloning",
+            "rbi zero liability",
+            "Section 66C IT Act",
+            "unauthorized atm withdrawal",
+            "shadow credit"
+        ]
+    },
+    {
+        "id": "NY-CYB-1111",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) & 316 BNS, 2023 & Section 66D IT Act",
+        "user_query": "I fell victim to a 'Telegram Part-time Work From Home / YouTube Video Liking' task scam and lost Rs 3.5 lakhs.",
+        "legal_text_raw": "This is an organized cyber task fraud network. Immediately call 1930 to freeze the mule bank accounts where your money was transferred. Collect transaction UTR numbers, Telegram handle screenshots, and submit an incident report at cybercrime.gov.in to initiate court de-freezing recovery.",
+        "layman_explanation": "This is an organized cyber task fraud network. Immediately call 1930 to freeze the mule bank accounts where your money was transferred. Collect transaction UTR numbers, Telegram handle screenshots, and submit an incident report at cybercrime.gov.in to initiate court de-freezing recovery.",
+        "keywords": [
+            "telegram task scam",
+            "youtube like scam",
+            "work from home fraud",
+            "1930 cyber helpline",
+            "mule account freeze",
+            "task investment fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1112",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 43, 66 & 66C, IT Act, 2000",
+        "user_query": "My business email was hacked and a hacker sent a fake invoice with altered bank accounts to my foreign client.",
+        "legal_text_raw": "This is a 'Business Email Compromise' (BEC) attack. Immediately notify both remitting and receiving banks to hold the international wire transfer under SWIFT recall protocol, isolate compromised email servers, and file an FIR with the State Cyber Crime Police Station.",
+        "layman_explanation": "This is a 'Business Email Compromise' (BEC) attack. Immediately notify both remitting and receiving banks to hold the international wire transfer under SWIFT recall protocol, isolate compromised email servers, and file an FIR with the State Cyber Crime Police Station.",
+        "keywords": [
+            "business email compromise",
+            "bec fraud",
+            "fake invoice scam",
+            "swift recall",
+            "Section 43 IT Act",
+            "wire transfer hold"
+        ]
+    },
+    {
+        "id": "NY-CYB-1113",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66A IT Act (Struck Down - Shreya Singhal v. Union of India)",
+        "user_query": "Can police arrest someone for posting a critical opinion or political meme on Facebook or X?",
+        "legal_text_raw": "No. The Supreme Court of India struck down Section 66A of the IT Act in Shreya Singhal (2015) as unconstitutional. Citizens cannot be arrested merely for offensive speech or political satire online unless it incites violence, hate speech, or public disorder under BNS.",
+        "layman_explanation": "No. The Supreme Court of India struck down Section 66A of the IT Act in Shreya Singhal (2015) as unconstitutional. Citizens cannot be arrested merely for offensive speech or political satire online unless it incites violence, hate speech, or public disorder under BNS.",
+        "keywords": [
+            "shreya singhal case",
+            "Section 66A struck down",
+            "online speech rights",
+            "political meme arrest",
+            "freedom of speech internet"
+        ]
+    },
+    {
+        "id": "NY-CYB-1114",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 351(2) BNS & Section 66A/66D IT Act",
+        "user_query": "Someone is sending me threatening and abusive emails from an anonymous ProtonMail or Gmail account.",
+        "legal_text_raw": "This constitutes Criminal Intimidation under Section 351 BNS. Cyber police can issue formal Section 94 BNSS notices (formerly CrPC 91) to email service providers to trace registration IP logs and device identifiers to identify the offender.",
+        "layman_explanation": "This constitutes Criminal Intimidation under Section 351 BNS. Cyber police can issue formal Section 94 BNSS notices (formerly CrPC 91) to email service providers to trace registration IP logs and device identifiers to identify the offender.",
+        "keywords": [
+            "anonymous email threat",
+            "criminal intimidation",
+            "Section 351 BNS",
+            "ip trace police",
+            "cyber stalking email"
+        ]
+    },
+    {
+        "id": "NY-CYB-1115",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Digital Personal Data Protection (DPDP) Act, 2023",
+        "user_query": "A company suffered a massive data breach leaking my Aadhaar, phone number, and address on the dark web.",
+        "legal_text_raw": "Under the DPDP Act, 2023, data fiduciaries have a statutory obligation to protect personal data. In case of a breach, they must notify the Data Protection Board of India and affected individuals. The Board can penalize negligent companies up to Rs 250 crores.",
+        "layman_explanation": "Under the DPDP Act, 2023, data fiduciaries have a statutory obligation to protect personal data. In case of a breach, they must notify the Data Protection Board of India and affected individuals. The Board can penalize negligent companies up to Rs 250 crores.",
+        "keywords": [
+            "data breach leak",
+            "dpdp act 2023",
+            "aadhaar data leak",
+            "data protection board",
+            "penalty 250 crores",
+            "personal data privacy"
+        ]
+    },
+    {
+        "id": "NY-CYB-1116",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) BNS & Section 66D IT Act",
+        "user_query": "Someone created a fake profile on a matrimonial site claiming to be an NRI doctor and duped me of Rs 5 lakhs for custom clearance gifts.",
+        "legal_text_raw": "This is an NRI matrimonial custom gift fraud. Never send money for 'custom clearance gifts' or 'airport luggage fees' as customs authorities never ask for duty payments into personal accounts. Report immediately to 1930 and file an FIR under Section 318(4) BNS.",
+        "layman_explanation": "This is an NRI matrimonial custom gift fraud. Never send money for 'custom clearance gifts' or 'airport luggage fees' as customs authorities never ask for duty payments into personal accounts. Report immediately to 1930 and file an FIR under Section 318(4) BNS.",
+        "keywords": [
+            "matrimonial scam",
+            "custom gift fraud",
+            "nri doctor scam",
+            "Section 318 BNS",
+            "airport clearance fee",
+            "matrimonial cheating"
+        ]
+    },
+    {
+        "id": "NY-CYB-1117",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Consumer Protection (E-Commerce) Rules, 2020",
+        "user_query": "An online gaming app is refusing to allow withdrawal of my legal winnings of Rs 80,000 citing arbitrary KYC delays.",
+        "legal_text_raw": "Arbitrary withholding of winnings after accepting deposits constitutes an Unfair Trade Practice under the Consumer Protection Act. Send a formal legal notice demanding immediate withdrawal with interest, and register a complaint on the National Consumer Helpline (1915).",
+        "layman_explanation": "Arbitrary withholding of winnings after accepting deposits constitutes an Unfair Trade Practice under the Consumer Protection Act. Send a formal legal notice demanding immediate withdrawal with interest, and register a complaint on the National Consumer Helpline (1915).",
+        "keywords": [
+            "online gaming withdrawal",
+            "winnings blocked",
+            "consumer protection rules",
+            "unfair trade practice",
+            "gaming app fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1118",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 43 & 66, Information Technology Act, 2000",
+        "user_query": "My Wi-Fi router was tapped by a neighbor to download illegal pirated and illicit materials.",
+        "legal_text_raw": "Unauthorized access to another's computer network or Wi-Fi constitutes network trespassing under Section 43 of the IT Act, entitling the owner to damages. Change your router credentials immediately, preserve router access logs, and notify cyber police.",
+        "layman_explanation": "Unauthorized access to another's computer network or Wi-Fi constitutes network trespassing under Section 43 of the IT Act, entitling the owner to damages. Change your router credentials immediately, preserve router access logs, and notify cyber police.",
+        "keywords": [
+            "wifi tapping",
+            "unauthorized network access",
+            "Section 43 IT Act",
+            "router hacking",
+            "illegal download wifi"
+        ]
+    },
+    {
+        "id": "NY-CYB-1119",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 5(2), Indian Telegraph Act, 1885 & PUCL v. Union of India",
+        "user_query": "Can the police monitor or tap my phone calls without proper authorization from the Home Ministry?",
+        "legal_text_raw": "No. Phone tapping can only be authorized by the Union Home Secretary or State Home Secretary under strict conditions of public emergency or public safety. Unauthorized interception is illegal, and evidence obtained through unlawful tapping can be challenged in court.",
+        "layman_explanation": "No. Phone tapping can only be authorized by the Union Home Secretary or State Home Secretary under strict conditions of public emergency or public safety. Unauthorized interception is illegal, and evidence obtained through unlawful tapping can be challenged in court.",
+        "keywords": [
+            "phone tapping legal authorization",
+            "home ministry permission",
+            "pucl case",
+            "Indian Telegraph Act",
+            "illegal wiretapping"
+        ]
+    },
+    {
+        "id": "NY-CYB-1120",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66F, IT Act, 2000 (Cyber Terrorism)",
+        "user_query": "A person used ransomware to encrypt all hospital database servers and is demanding Bitcoin ransom.",
+        "legal_text_raw": "Attacking critical infrastructure like hospitals with ransomware is classified as 'Cyber Terrorism' under Section 66F of the IT Act, punishable with imprisonment for life. Immediately disconnect affected systems, contact CERT-In (cert-in.org.in), and lodge an FIR.",
+        "layman_explanation": "Attacking critical infrastructure like hospitals with ransomware is classified as 'Cyber Terrorism' under Section 66F of the IT Act, punishable with imprisonment for life. Immediately disconnect affected systems, contact CERT-In (cert-in.org.in), and lodge an FIR.",
+        "keywords": [
+            "ransomware attack",
+            "cyber terrorism",
+            "Section 66F IT Act",
+            "life imprisonment cyber",
+            "cert in reporting",
+            "hospital data hacked"
+        ]
+    },
+    {
+        "id": "NY-CYB-1121",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 43 & 66 IT Act & Section 318 BNS",
+        "user_query": "I received a malicious WhatsApp wedding invitation file (.apk) that installed spyware and read my bank OTPs.",
+        "legal_text_raw": "This is an APK spyware trojan. Immediately factory-reset your phone, format SD cards, notify your bank to freeze internet banking credentials, and lodge an alert on 1930 with transaction and APK hashes.",
+        "layman_explanation": "This is an APK spyware trojan. Immediately factory-reset your phone, format SD cards, notify your bank to freeze internet banking credentials, and lodge an alert on 1930 with transaction and APK hashes.",
+        "keywords": [
+            "wedding card apk scam",
+            "whatsapp apk virus",
+            "spyware otp theft",
+            "factory reset phone",
+            "1930 helpline"
+        ]
+    },
+    {
+        "id": "NY-CYB-1122",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66D IT Act & DoT Caller ID Spoofing Guidelines",
+        "user_query": "Someone is spoofing my company's official landline number to make scam calls to citizens.",
+        "legal_text_raw": "Caller ID spoofing is a severe telecom and cyber offense. Report the spoofed number immediately to the Department of Telecommunications (DoT) via the Sanchar Saathi portal (sancharsaathi.gov.in) and file an FIR with the cyber police.",
+        "layman_explanation": "Caller ID spoofing is a severe telecom and cyber offense. Report the spoofed number immediately to the Department of Telecommunications (DoT) via the Sanchar Saathi portal (sancharsaathi.gov.in) and file an FIR with the cyber police.",
+        "keywords": [
+            "caller id spoofing",
+            "sanchar saathi portal",
+            "fake caller id",
+            "dot reporting",
+            "telecom spoofing fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1123",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Article 21 (Right to Privacy - Puttaswamy Judgment)",
+        "user_query": "Can an employer read an employee's personal WhatsApp chats on a personal phone used for company communication?",
+        "legal_text_raw": "No. While employers can monitor official emails and corporate devices, personal messaging on personal smartphones is protected by the fundamental Right to Privacy under Article 21. Forcible inspection of private messages without consent is unlawful.",
+        "layman_explanation": "No. While employers can monitor official emails and corporate devices, personal messaging on personal smartphones is protected by the fundamental Right to Privacy under Article 21. Forcible inspection of private messages without consent is unlawful.",
+        "keywords": [
+            "employer reading private chats",
+            "puttaswamy privacy",
+            "personal phone inspection",
+            "workplace privacy rights"
+        ]
+    },
+    {
+        "id": "NY-CYB-1124",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) BNS & Consumer Protection (E-Commerce) Rules, 2020",
+        "user_query": "An online shopping portal delivered a brick instead of an iPhone and customer care refuses to refund.",
+        "legal_text_raw": "Unbox recording videos constitute admissible digital evidence under Section 63 BSA. Refusal to refund constitutes criminal cheating under Section 318(4) BNS and deficiency in service. Lodge a complaint on e-Daakhil and file an FIR for criminal cheating.",
+        "layman_explanation": "Unbox recording videos constitute admissible digital evidence under Section 63 BSA. Refusal to refund constitutes criminal cheating under Section 318(4) BNS and deficiency in service. Lodge a complaint on e-Daakhil and file an FIR for criminal cheating.",
+        "keywords": [
+            "fake delivery brick in box",
+            "ecommerce unboxing evidence",
+            "Section 318 BNS",
+            "e daakhil complaint",
+            "consumer refund fraud"
+        ]
+    },
+    {
+        "id": "NY-CYB-1125",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 354D BNS, 2023 (Cyber Stalking) & Privacy Infringement",
+        "user_query": "A stranger is constantly tracking my physical location using a hidden Apple AirTag in my vehicle.",
+        "legal_text_raw": "Surreptitious electronic tracking without consent constitutes criminal Stalking under Section 354D BNS and criminal trespass. Preserve the AirTag as physical evidence (do not destroy it, as serial numbers trace to the buyer's Apple ID) and hand it over to police.",
+        "layman_explanation": "Surreptitious electronic tracking without consent constitutes criminal Stalking under Section 354D BNS and criminal trespass. Preserve the AirTag as physical evidence (do not destroy it, as serial numbers trace to the buyer's Apple ID) and hand it over to police.",
+        "keywords": [
+            "airtag tracking car",
+            "cyber stalking airtag",
+            "Section 354D BNS",
+            "electronic tracking without consent",
+            "trace airtag buyer"
+        ]
+    },
+    {
+        "id": "NY-CYB-1126",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66C & 66D, Information Technology Act, 2000",
+        "user_query": "My crypto exchange account was hacked and digital tokens worth Rs 5 lakhs were transferred out.",
+        "legal_text_raw": "Crypto theft is actionable under the IT Act as unauthorized computer access and data theft. Preserve transaction hashes, public wallet addresses, and exchange logs. File an FIR with the Cyber Crime Police and notify the exchange's grievance officer.",
+        "layman_explanation": "Crypto theft is actionable under the IT Act as unauthorized computer access and data theft. Preserve transaction hashes, public wallet addresses, and exchange logs. File an FIR with the Cyber Crime Police and notify the exchange's grievance officer.",
+        "keywords": [
+            "crypto theft",
+            "blockchain wallet hack",
+            "crypto fraud fir",
+            "Section 66C IT Act",
+            "exchange grievance"
+        ]
+    },
+    {
+        "id": "NY-CYB-1127",
+        "category": "Cybercrime & IT Act",
+        "source_act": "DPDP Act, 2023 & Article 21 Privacy Jurisprudence",
+        "user_query": "Can schools or colleges force students to install invasive biometric tracking software on personal laptops for exams?",
+        "legal_text_raw": "Invasive surveillance software that monitors webcams, keystrokes, and biometric data without proportionate necessity and explicit informed consent violates privacy principles and the Digital Personal Data Protection Act. Reasonable alternatives must be provided.",
+        "layman_explanation": "Invasive surveillance software that monitors webcams, keystrokes, and biometric data without proportionate necessity and explicit informed consent violates privacy principles and the Digital Personal Data Protection Act. Reasonable alternatives must be provided.",
+        "keywords": [
+            "exam proctoring software privacy",
+            "biometric tracking students",
+            "dpdp act consent",
+            "article 21 surveillance"
+        ]
+    },
+    {
+        "id": "NY-CYB-1128",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) & 336 BNS, 2023 (Cheating and Forgery)",
+        "user_query": "Someone created a fake UPI QR code sticker and pasted it over my grocery shop's real QR code.",
+        "legal_text_raw": "Pasting a fraudulent QR code constitutes criminal Cheating by Personation and Forgery under Section 318 and 336 BNS. Collect CCTV footage showing the perpetrator, report to the payment aggregator (Paytm/PhonePe) to freeze the fraud account, and lodge an immediate police FIR.",
+        "layman_explanation": "Pasting a fraudulent QR code constitutes criminal Cheating by Personation and Forgery under Section 318 and 336 BNS. Collect CCTV footage showing the perpetrator, report to the payment aggregator (Paytm/PhonePe) to freeze the fraud account, and lodge an immediate police FIR.",
+        "keywords": [
+            "fake qr code sticker",
+            "qr code tampering",
+            "merchant payment fraud",
+            "Section 318 BNS",
+            "Section 336 BNS forgery"
+        ]
+    },
+    {
+        "id": "NY-CYB-1129",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 318(4) BNS & Section 66D IT Act",
+        "user_query": "A fake lottery email claims I won Rs 25 crores from RBI and asks for Rs 25,000 processing fee.",
+        "legal_text_raw": "RBI NEVER holds lotteries, awards prize money, or maintains accounts for individuals. Asking for 'processing fees' or 'clearance charges' is a hallmark of advance-fee 419 fraud. Block the sender and report on cybercrime.gov.in.",
+        "layman_explanation": "RBI NEVER holds lotteries, awards prize money, or maintains accounts for individuals. Asking for 'processing fees' or 'clearance charges' is a hallmark of advance-fee 419 fraud. Block the sender and report on cybercrime.gov.in.",
+        "keywords": [
+            "rbi lottery scam",
+            "advance fee fraud",
+            "fake prize email",
+            "Section 318 BNS",
+            "lottery tax scam"
+        ]
+    },
+    {
+        "id": "NY-CYB-1130",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Indian Evidence Act / BSA & Constitutional Right to Privacy",
+        "user_query": "Is it illegal to record a telephone call without the other person's knowledge in India?",
+        "legal_text_raw": "Recording your own conversation with someone is generally admissible as corroborative evidence in court if authentic and untampered (Section 61/63 BSA). However, surreptitious recording by a third party or public release violating privacy can attract civil and criminal liability.",
+        "layman_explanation": "Recording your own conversation with someone is generally admissible as corroborative evidence in court if authentic and untampered (Section 61/63 BSA). However, surreptitious recording by a third party or public release violating privacy can attract civil and criminal liability.",
+        "keywords": [
+            "call recording legality",
+            "recording phone call without consent",
+            "bsa section 63 electronic evidence",
+            "admissibility call recording"
+        ]
+    },
+    {
+        "id": "NY-CYB-1131",
+        "category": "Cybercrime & IT Act",
+        "source_act": "Section 66C & 66D, Information Technology Act, 2000",
+        "user_query": "Someone hacked my WhatsApp by sending a verification code request and asking me to forward it.",
+        "legal_text_raw": "Never share WhatsApp 6-digit SMS verification codes or two-factor authentication PINs with anyone. If hacked, immediately re-register your phone number on WhatsApp to force logouts, email support@whatsapp.com, and alert contacts to ignore financial requests.",
+        "layman_explanation": "Never share WhatsApp 6-digit SMS verification codes or two-factor authentication PINs with anyone. If hacked, immediately re-register your phone number on WhatsApp to force logouts, email support@whatsapp.com, and alert contacts to ignore financial requests.",
+        "keywords": [
+            "whatsapp account hacked",
+            "otp forwarding scam",
+            "two factor authentication",
+            "Section 66C IT Act",
+            "recover whatsapp"
+        ]
+    },
+    {
+        "id": "NY-CYB-1132",
+        "category": "Cybercrime & IT Act",
+        "source_act": "TRAI Consumer Protection Regulations (2013)",
+        "user_query": "Can a telecom company charge me for Value Added Services (VAS) like caller tunes without my explicit consent?",
+        "legal_text_raw": "No. Telecom Regulatory Authority of India (TRAI) regulations strictly prohibit activation of any paid Value Added Service without mandatory double-consent (first request followed by second confirmation SMS). You are entitled to an immediate refund by dialing 155223.",
+        "layman_explanation": "No. Telecom Regulatory Authority of India (TRAI) regulations strictly prohibit activation of any paid Value Added Service without mandatory double-consent (first request followed by second confirmation SMS). You are entitled to an immediate refund by dialing 155223.",
+        "keywords": [
+            "unauthorized vas deduction",
+            "caller tune deduction",
+            "trai 155223 helpline",
+            "telecom unauthorized activation",
+            "double consent trai"
+        ]
+    }
+]
