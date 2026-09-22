@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.4">
+  <link rel="stylesheet" href="styles.css?v=2.5">
 </head>
 <body>
 
@@ -73,28 +73,78 @@
             Welcome to the NYAAI Research Terminal
           </div>
           <p style="color: var(--text-secondary); line-height: 1.6;">
-            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, and the <strong>Constitution of India</strong>. Ask a specific legal question or click one of the suggested query chips below:
+            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, and the <strong>Constitution of India</strong>. Ask a specific legal question or scroll horizontally through the interactive prompt chips below:
           </p>
         </div>
       </div>
 
-      <!-- Suggestion Chips -->
-      <div class="prompt-chips">
-        <button class="chip-btn suggestion-chip" data-query="What are the bail provisions under Section 482 of BNSS 2023?">
-          ⚖️ Section 482 BNSS Bail
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Explain Fundamental Rights under Article 21 and Privacy">
-          📜 Article 21 Privacy Rights
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="What is the punishment for murder under Section 103 of BNS 2023?">
-          ⚔️ Section 103 BNS Murder
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="How are electronic records and WhatsApp messages admitted under Section 61 and 63 of BSA 2023?">
-          📱 Electronic Evidence BSA
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="What are consumer rights regarding defective products and refunds?">
-          🛍️ Consumer Rights & Refunds
-        </button>
+      <!-- Single-Row Horizontally Scrollable Prompt Chips -->
+      <div class="prompt-chips-wrapper">
+        <div class="prompt-chips" id="promptChipsRow">
+          <!-- 1. Statutory Provisions -->
+          <span class="chip-category-badge badge-statute">📜 Statutory</span>
+          <button class="chip-btn suggestion-chip" data-query="What are the bail provisions under Section 482 of BNSS 2023?">
+            ⚖️ Section 482 BNSS Bail
+          </button>
+          <button class="chip-btn suggestion-chip" data-query="Explain Fundamental Rights under Article 21 and Privacy">
+            📜 Article 21 Privacy Rights
+          </button>
+          <button class="chip-btn suggestion-chip" data-query="What is the punishment for murder under Section 103 of BNS 2023?">
+            ⚔️ Section 103 BNS Murder
+          </button>
+          <button class="chip-btn suggestion-chip" data-query="How are electronic records and WhatsApp messages admitted under Section 61 and 63 of BSA 2023?">
+            📱 Electronic Evidence BSA
+          </button>
+          <button class="chip-btn suggestion-chip" data-query="What are consumer rights regarding defective products and refunds?">
+            🛍️ Consumer Rights & Refunds
+          </button>
+
+          <span class="chip-divider"></span>
+
+          <!-- 2. Real-Life Scenarios (Advocate Proceeding Engine) -->
+          <span class="chip-category-badge badge-scenario">👨‍⚖️ Scenarios</span>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="My landlord locked my flat without notice and kept my belongings, what should I do?">
+            🏠 Landlord Locked Flat
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="Someone hit my car and ran away, what is the legal process and how to claim?">
+            🚗 Hit & Run Accident
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="Cheque bounced due to insufficient funds, how do I send notice and file case?">
+            💳 Cheque Bounced (Sec 138)
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="Police officer refused to register my FIR, what legal remedies and procedure do I have?">
+            👮 Police Refused FIR
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="Someone is blackmailing me with morphed photos on social media, what are the legal steps?">
+            📱 Cyber Blackmail & Extortion
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="My employer has not paid my salary for 3 months and terminated me, how to recover dues?">
+            💼 Unpaid Salary (3 Months)
+          </button>
+          <button class="chip-btn suggestion-chip chip-scenario" data-query="Facing domestic violence and harassment for dowry by in-laws, what immediate protection can I get?">
+            🛡️ Domestic Violence & Dowry
+          </button>
+
+          <span class="chip-divider"></span>
+
+          <!-- 3. Detailed 7+ Points Advocate Briefs -->
+          <span class="chip-category-badge badge-brief">📑 Detailed Briefs (7+ Pts)</span>
+          <button class="chip-btn suggestion-chip chip-brief" data-query="Explain in full detail step by step: My landlord locked my flat and threw out my belongings, what should I do?">
+            📑 Landlord Lockout (8-Point Brief)
+          </button>
+          <button class="chip-btn suggestion-chip chip-brief" data-query="Cheque bounced due to insufficient funds, provide full detailed explanation with all points on notice, limitation and court case">
+            📑 Cheque Bounce (8-Point Brief)
+          </button>
+          <button class="chip-btn suggestion-chip chip-brief" data-query="Police refused to register my FIR for a cognizable offense, elaborate and explain properly in full detail all remedies">
+            📑 Police Refusal (8-Point Brief)
+          </button>
+          <button class="chip-btn suggestion-chip chip-brief" data-query="Someone is blackmailing me with morphed photos on social media, provide detailed comprehensive explanation with all procedural steps">
+            📑 Cyber Extortion (8-Point Brief)
+          </button>
+          <button class="chip-btn suggestion-chip chip-brief" data-query="Facing domestic violence and dowry harassment, explain in full detail step by step all legal rights, protection orders, and magistrate proceedings">
+            📑 Domestic Violence (8-Point Brief)
+          </button>
+        </div>
       </div>
 
       <!-- Input Bar -->
@@ -124,7 +174,7 @@
     </div>
   </footer>
 
-  <script src="legal_data.js?v=2.4"></script>
-  <script src="app.js?v=2.4"></script>
+  <script src="legal_data.js?v=2.5"></script>
+  <script src="app.js?v=2.5"></script>
 </body>
 </html>

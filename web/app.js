@@ -2030,6 +2030,17 @@ function initAITerminal() {
     });
   });
 
+  // Enable smooth horizontal wheel scrolling on prompt-chips row
+  const promptChipsRow = document.querySelector(".prompt-chips");
+  if (promptChipsRow) {
+    promptChipsRow.addEventListener("wheel", (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        promptChipsRow.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+  }
+
   // Speech Recognition (Microphone)
   if (micBtn && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

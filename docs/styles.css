@@ -583,29 +583,135 @@ h1, h2, h3, h4, h5 {
   color: #78350F !important;
 }
 
+.prompt-chips-wrapper {
+  position: relative;
+  background: #FFFFFF;
+  border-top: 1px solid #F1F5F9;
+}
+
 .prompt-chips {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  padding: 0 24px 14px 24px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 20px 10px 20px;
   background: #FFFFFF;
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+  -webkit-overflow-scrolling: touch;
+  align-items: center;
+  scroll-behavior: smooth;
+}
+
+.prompt-chips::-webkit-scrollbar {
+  height: 5px;
+}
+
+.prompt-chips::-webkit-scrollbar-track {
+  background: #F8FAFC;
+  border-radius: 4px;
+  margin: 0 16px;
+}
+
+.prompt-chips::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 10px;
+}
+
+.prompt-chips::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
 
 .chip-btn, .suggestion-chip {
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
   color: #334155;
-  padding: 6px 14px;
+  padding: 6px 13px;
   border-radius: 20px;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
 }
 
 .chip-btn:hover, .suggestion-chip:hover {
   background: #EEF2FF;
   border-color: #C7D2FE;
   color: #4F46E5;
+  transform: translateY(-1px);
+}
+
+.chip-category-badge {
+  flex-shrink: 0;
+  font-size: 0.70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-statute {
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+}
+
+.badge-scenario {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.badge-brief {
+  background: #EEF2FF;
+  color: #4338CA;
+  border: 1px solid #C7D2FE;
+}
+
+.chip-divider {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: #E2E8F0;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.chip-scenario {
+  background: #FFFBEB;
+  border-color: #FDE68A;
+  color: #92400E;
+}
+
+.chip-scenario:hover {
+  background: #FEF3C7;
+  border-color: #F59E0B;
+  color: #78350F;
+}
+
+.chip-brief {
+  background: #EEF2FF;
+  border-color: #C7D2FE;
+  color: #4338CA;
+  font-weight: 600;
+}
+
+.chip-brief:hover {
+  background: #E0E7FF;
+  border-color: #818CF8;
+  color: #312E81;
 }
 
 .terminal-bottom {
