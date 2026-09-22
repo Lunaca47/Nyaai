@@ -28,7 +28,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.nyaai.data.local.BookmarkEntity
 import com.nyaai.data.local.ChatSessionEntity
 import com.nyaai.data.local.RagDao
-import com.nyaai.ui.state.LocalStrings
+import com.nyaai.ui.state.*
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.rememberScrollState
@@ -52,6 +53,42 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
     val bookmarks by (ragDao?.getAllBookmarksFlow() ?: kotlinx.coroutines.flow.emptyFlow()).collectAsState(initial = emptyList())
 
     var chatSessions by remember { mutableStateOf<List<ChatSessionEntity>>(emptyList()) }
+
+    val isLoggedIn      = LocalAuthState.current
+    val openLoginAction = LocalOpenLoginAction.current
+    val updateAuth      = LocalAuthUpdater.current
+    val auth            = remember { com.google.firebase.auth.FirebaseAuth.getInstance() }
+    val currentUser     = remember(isLoggedIn, auth.currentUser) { auth.currentUser }
+    var showLogoutConfirm by remember { mutableStateOf(false) }
+
+    // Logout Confirmation Dialog
+    if (showLogoutConfirm) {
+        AlertDialog(
+            onDismissRequest = { showLogoutConfirm = false },
+            title = { Text("Sign Out of Nyaai?", fontWeight = FontWeight.Bold) },
+            text = { Text("Are you sure you want to sign out? You can continue using the app as a guest.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showLogoutConfirm = false
+                        auth.signOut()
+                        val prefs = context.getSharedPreferences("nyaai_preferences", android.content.Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("guest_mode", true).apply()
+                        updateAuth(false)
+                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDC2626))
+                ) {
+                    Text("Sign Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutConfirm = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     // Load sessions when drawer opens
     LaunchedEffect(drawerState.isOpen) {
@@ -107,6 +144,75 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                     }
                 }
 
+                // ── User Profile Status Card in Drawer ──
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = colors.surfaceVariant.copy(alpha = 0.6f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 14.dp, vertical = 4.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (currentUser != null) {
+                            val initial = (currentUser.displayName?.firstOrNull() ?: currentUser.email?.firstOrNull() ?: 'U').uppercaseChar()
+                            Box(
+                                modifier = Modifier
+                                    .size(34.dp)
+                                    .clip(CircleShape)
+                                    .background(colors.primary),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(initial.toString(), color = colors.onPrimary, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                            }
+                            Spacer(Modifier.width(10.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    currentUser.displayName?.takeIf { it.isNotBlank() } ?: "Citizen User",
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 13.sp,
+                                    color = colors.onSurface,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Text(
+                                    currentUser.email?.takeIf { it.isNotBlank() } ?: currentUser.phoneNumber ?: "Account Active",
+                                    fontSize = 11.sp,
+                                    color = colors.onSurfaceVariant,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                            IconButton(
+                                onClick = { showLogoutConfirm = true },
+                                modifier = Modifier.size(30.dp)
+                            ) {
+                                Icon(Icons.Outlined.Logout, contentDescription = "Sign Out", tint = Color(0xFFDC2626), modifier = Modifier.size(17.dp))
+                            }
+                        } else {
+                            Icon(Icons.Outlined.PersonOutline, contentDescription = null, tint = colors.onSurfaceVariant, modifier = Modifier.size(22.dp))
+                            Spacer(Modifier.width(10.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text("Guest Mode", fontWeight = FontWeight.SemiBold, fontSize = 12.sp, color = colors.onSurface)
+                                Text("Tap to sign in / register", fontSize = 11.sp, color = colors.onSurfaceVariant)
+                            }
+                            Button(
+                                onClick = {
+                                    scope.launch { drawerState.close() }
+                                    openLoginAction()
+                                },
+                                shape = RoundedCornerShape(8.dp),
+                                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+                                modifier = Modifier.height(28.dp)
+                            ) {
+                                Text("Sign In", fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+                            }
+                        }
+                    }
+                }
+
                 Spacer(Modifier.height(8.dp))
 
                 // ── App Navigation Links ──
@@ -118,6 +224,23 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                         scope.launch { drawerState.close() }
                     },
                     icon = { Icon(Icons.Outlined.ChatBubbleOutline, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                NavigationDrawerItem(
+                    label = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("🚨 Legal SOS Helplines", fontWeight = FontWeight.Medium, color = Color(0xFFDC2626))
+                            Spacer(Modifier.weight(1f))
+                            Badge(containerColor = Color(0xFFFEE2E2), contentColor = Color(0xFFDC2626)) { Text("17 Helplines") }
+                        }
+                    },
+                    selected = false,
+                    onClick = {
+                        selectedTab = MainTab.CHAT
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Outlined.Shield, contentDescription = null, tint = Color(0xFFDC2626)) },
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
                     shape = RoundedCornerShape(12.dp)
                 )

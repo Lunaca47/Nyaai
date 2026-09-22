@@ -75,6 +75,15 @@ fun ChatScreen(
     
     var showSosSheet    by remember { mutableStateOf(false) }
 
+    val isLoggedIn      = LocalAuthState.current
+    val openLoginAction = LocalOpenLoginAction.current
+    val logOutAction    = LocalLogOutAction.current
+    val updateAuth      = LocalAuthUpdater.current
+    val auth            = remember { com.google.firebase.auth.FirebaseAuth.getInstance() }
+    val currentUser     = remember(isLoggedIn, auth.currentUser) { auth.currentUser }
+    var showAccountDialog by remember { mutableStateOf(false) }
+    var showLogoutConfirm by remember { mutableStateOf(false) }
+
     val strings         = LocalStrings.current
     val currentLang     = LocalAppLanguage.current
     val aiResponseLang  = LocalAiResponseLanguage.current
@@ -215,35 +224,185 @@ fun ChatScreen(
         }
     }
 
+    // Account Profile Dialog
+    if (showAccountDialog && currentUser != null) {
+        AlertDialog(
+            onDismissRequest = { showAccountDialog = false },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = colors.primary, modifier = Modifier.size(24.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("User Account", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                }
+            },
+            text = {
+                Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                    Text(
+                        currentUser.displayName?.takeIf { it.isNotBlank() } ?: "Citizen User",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                        color = colors.onSurface
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        currentUser.email?.takeIf { it.isNotBlank() }
+                            ?: currentUser.phoneNumber?.takeIf { it.isNotBlank() }
+                            ?: "Account connected",
+                        fontSize = 14.sp,
+                        color = colors.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = colors.surfaceVariant,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            "Status: Verified Citizen Account",
+                            fontSize = 12.sp,
+                            color = colors.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showAccountDialog = false
+                        showLogoutConfirm = true
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDC2626))
+                ) {
+                    Icon(Icons.Outlined.Logout, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(6.dp))
+                    Text("Sign Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAccountDialog = false }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+
+    // Logout Confirmation Dialog
+    if (showLogoutConfirm) {
+        AlertDialog(
+            onDismissRequest = { showLogoutConfirm = false },
+            title = { Text("Sign Out of Nyaai?", fontWeight = FontWeight.Bold) },
+            text = { Text("Are you sure you want to sign out? You can continue using the app as a guest.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showLogoutConfirm = false
+                        auth.signOut()
+                        val prefs = context.getSharedPreferences("nyaai_preferences", android.content.Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("guest_mode", true).apply()
+                        updateAuth(false)
+                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDC2626))
+                ) {
+                    Text("Sign Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutConfirm = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
     // ── UI ────────────────────────────────────────────────────────────────────
     Box(modifier = Modifier.fillMaxSize().background(colors.background)) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onMenuClick) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onMenuClick, modifier = Modifier.size(36.dp)) {
                     Icon(Icons.Outlined.Menu, "Menu", tint = colors.onBackground, modifier = Modifier.size(24.dp))
                 }
-                Spacer(Modifier.width(2.dp))
-                Icon(Icons.Outlined.Balance, "Logo", tint = colors.onSurfaceVariant, modifier = Modifier.size(22.dp))
-                Spacer(Modifier.width(6.dp))
-                Text("Nyaai", color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(Modifier.width(4.dp))
-                Text("✳", color = Color(0xFFE53935), fontSize = 18.sp, modifier = Modifier.clickable { showSosSheet = true })
+                Icon(Icons.Outlined.Balance, "Logo", tint = colors.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("Nyaai", color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.width(8.dp))
+
+                // 🚨 Prominent SOS Pill
+                Surface(
+                    onClick = { showSosSheet = true },
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFFFEE2E2),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFCA5A5)),
+                    modifier = Modifier.height(26.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("🚨", fontSize = 11.sp)
+                        Spacer(Modifier.width(3.dp))
+                        Text("SOS", color = Color(0xFFDC2626), fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+
                 Spacer(Modifier.weight(1f))
-                
+
+                // 👤 Direct Login / Profile Chip
+                if (currentUser != null) {
+                    val avatarLetter = (currentUser.displayName?.firstOrNull() ?: currentUser.email?.firstOrNull() ?: 'U').uppercaseChar()
+                    Box(
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clip(CircleShape)
+                            .background(colors.primary)
+                            .clickable { showAccountDialog = true },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(avatarLetter.toString(), color = colors.onPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    }
+                } else {
+                    Surface(
+                        onClick = { openLoginAction() },
+                        shape = RoundedCornerShape(16.dp),
+                        color = colors.primaryContainer,
+                        modifier = Modifier.height(28.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Outlined.Login, contentDescription = "Sign In", tint = colors.onPrimaryContainer, modifier = Modifier.size(14.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("Sign In", color = colors.onPrimaryContainer, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+                        }
+                    }
+                }
+
+                Spacer(Modifier.width(2.dp))
+
                 // Bookmarks Button
-                IconButton(onClick = onOpenBookmarks) {
-                    Icon(Icons.Outlined.BookmarkBorder, "Bookmarks", tint = colors.onSurfaceVariant)
+                IconButton(onClick = onOpenBookmarks, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Outlined.BookmarkBorder, "Bookmarks", tint = colors.onSurfaceVariant, modifier = Modifier.size(19.dp))
                 }
 
                 // Settings Button
-                IconButton(onClick = onOpenSettings) {
-                    Icon(Icons.Outlined.Settings, "Settings", tint = colors.onSurfaceVariant)
+                IconButton(onClick = onOpenSettings, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Outlined.Settings, "Settings", tint = colors.onSurfaceVariant, modifier = Modifier.size(19.dp))
                 }
 
                 // Export & Bookmark Entire Chat
                 var showExportMenu by remember { mutableStateOf(false) }
                 Box {
-                    IconButton(onClick = { showExportMenu = true }) { Icon(Icons.Outlined.IosShare, "Export", tint = colors.onSurfaceVariant) }
+                    IconButton(onClick = { showExportMenu = true }, modifier = Modifier.size(34.dp)) {
+                        Icon(Icons.Outlined.IosShare, "Export", tint = colors.onSurfaceVariant, modifier = Modifier.size(19.dp))
+                    }
                     DropdownMenu(expanded = showExportMenu, onDismissRequest = { showExportMenu = false }) {
                         DropdownMenuItem(
                             text = { Text("🔖 Bookmark Entire Chat") },
@@ -265,21 +424,111 @@ fun ChatScreen(
                         DropdownMenuItem(text = { Text("Export as PDF") }, onClick = { showExportMenu = false; exportPdfLauncher.launch("Nyaai_Chat_${System.currentTimeMillis()}.pdf") })
                     }
                 }
-                IconButton(onClick = { messages.clear(); activeSessionId = null; onNewChat() }) { Icon(Icons.Outlined.Edit, "New chat", tint = colors.onSurfaceVariant) }
+                IconButton(onClick = { messages.clear(); activeSessionId = null; onNewChat() }, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Outlined.Edit, "New chat", tint = colors.onSurfaceVariant, modifier = Modifier.size(19.dp))
+                }
             }
 
             if (messages.isEmpty()) {
-                Column(modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Text(strings.whatCanIHelpWith, color = colors.onBackground, fontSize = 26.sp, fontWeight = FontWeight.Bold); Spacer(Modifier.height(28.dp))
-                    listOf(strings.scanDocument, strings.knowYourFIR, strings.draftRentAgreement, strings.consumerRightsOverview).forEach { actionText ->
-                        QuickActionChip(actionText, colors) { chip ->
-                            if (chip == strings.scanDocument) {
-                                attachFileLauncher.launch("*/*")
-                            } else {
-                                inputText = chip
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    // Cloud Grounding Active Status Pill
+                    Surface(
+                        shape = RoundedCornerShape(20.dp),
+                        color = colors.primaryContainer.copy(alpha = 0.5f),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, colors.primary.copy(alpha = 0.25f)),
+                        modifier = Modifier.padding(bottom = 14.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("⚡", fontSize = 12.sp)
+                            Spacer(Modifier.width(6.dp))
+                            Text(
+                                "Cloud Grounding Active • 10,240 Q&As • 1,838 Sections",
+                                color = colors.onPrimaryContainer,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+
+                    Text(
+                        strings.whatCanIHelpWith,
+                        color = colors.onBackground,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    Text(
+                        "Verified Statutory Scenarios & Sections:",
+                        color = colors.onSurfaceVariant,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.align(Alignment.Start).padding(bottom = 8.dp)
+                    )
+
+                    // 5 Verified Statutory Prompt Chips matching Website
+                    val verifiedPrompts = listOf(
+                        "Section 482 BNSS Bail" to "⚖️",
+                        "Article 21 Privacy Rights" to "🛡️",
+                        "Section 103 BNS Murder" to "📜",
+                        "Electronic Evidence BSA" to "📱",
+                        "Consumer Rights & Refunds" to "🛍️"
+                    )
+
+                    verifiedPrompts.forEach { (prompt, emoji) ->
+                        Surface(
+                            onClick = { inputText = prompt },
+                            shape = RoundedCornerShape(12.dp),
+                            color = colors.surface,
+                            border = androidx.compose.foundation.BorderStroke(1.dp, colors.outlineVariant.copy(alpha = 0.6f)),
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(emoji, fontSize = 16.sp)
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    prompt,
+                                    color = colors.onSurface,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                Icon(
+                                    Icons.Outlined.ArrowForwardIos,
+                                    contentDescription = null,
+                                    tint = colors.onSurfaceVariant.copy(alpha = 0.5f),
+                                    modifier = Modifier.size(12.dp)
+                                )
                             }
                         }
-                        Spacer(Modifier.height(12.dp))
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+
+                    // Scan Document quick action
+                    OutlinedButton(
+                        onClick = { attachFileLauncher.launch("*/*") },
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(Icons.Outlined.UploadFile, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text(strings.scanDocument, fontSize = 14.sp)
                     }
                 }
             } else {
@@ -471,6 +720,88 @@ fun ChatScreen(
             }
         }
     }
+
+    if (showAccountDialog && currentUser != null) {
+        AlertDialog(
+            onDismissRequest = { showAccountDialog = false },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = colors.primary)
+                    Spacer(Modifier.width(8.dp))
+                    Text("User Profile", fontWeight = FontWeight.Bold)
+                }
+            },
+            text = {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        currentUser.displayName?.takeIf { it.isNotBlank() } ?: "Citizen User",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                        color = colors.onSurface
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        currentUser.email?.takeIf { it.isNotBlank() } ?: currentUser.phoneNumber ?: "Authenticated User",
+                        fontSize = 13.sp,
+                        color = colors.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        "Cloud Grounding: Active\nPreloaded Legal Knowledge: 10,240 Q&As",
+                        fontSize = 12.sp,
+                        color = colors.primary
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showAccountDialog = false
+                        showLogoutConfirm = true
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDC2626))
+                ) {
+                    Icon(Icons.Outlined.Logout, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(6.dp))
+                    Text("Sign Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAccountDialog = false }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+
+    if (showLogoutConfirm) {
+        AlertDialog(
+            onDismissRequest = { showLogoutConfirm = false },
+            title = { Text("Sign Out", fontWeight = FontWeight.Bold) },
+            text = { Text("Are you sure you want to sign out of your Nyaai account?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showLogoutConfirm = false
+                        auth.signOut()
+                        val prefs = context.getSharedPreferences("nyaai_preferences", android.content.Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("guest_mode", true).apply()
+                        updateAuth(false)
+                        logOutAction()
+                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDC2626))
+                ) {
+                    Text("Sign Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutConfirm = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -577,14 +908,23 @@ data class CitizenRightGuide(
 )
 
 private val emergencyHelplines = listOf(
+    HelplineEntry("Emergency Response System (ERSS)", "112", "Unified 24/7 national emergency number for police, fire & medical support"),
+    HelplineEntry("Police Control Room", "100", "Immediate police dispatch, crime reporting & emergency intervention"),
+    HelplineEntry("Fire & Rescue Service", "101", "Fire hazards, building fires, rescue operations & disaster safety"),
+    HelplineEntry("Ambulance & Medical Emergency", "108", "Emergency ambulance, trauma care & urgent hospital transit (also 102)"),
     HelplineEntry("National Legal Aid (NALSA)", "15100", "Free legal aid representation for eligible citizens & undertrials"),
-    HelplineEntry("National Consumer Helpline", "1915", "Consumer dispute resolution, defective products & unfair trade"),
-    HelplineEntry("National Cybercrime Portal", "1930", "Financial cyber fraud, phishing & online offense grievance"),
-    HelplineEntry("Women in Distress Helpline", "1091", "24/7 National Commission for Women emergency assistance"),
-    HelplineEntry("NCW Women Helpline / WhatsApp", "7827170170", "National Commission for Women direct support & complaint line"),
-    HelplineEntry("Childline Emergency", "1098", "Child protection, safety, rescue & POCSO grievance redressal"),
-    HelplineEntry("Senior Citizen Helpline", "14567", "Elder line for welfare, maintenance & legal protection"),
-    HelplineEntry("Emergency Response System (ERSS)", "112", "Unified national emergency number for police, fire & medical support")
+    HelplineEntry("National Consumer Helpline", "1915", "Consumer dispute resolution, defective goods & e-commerce refund claims"),
+    HelplineEntry("National Cybercrime Reporting", "1930", "Financial cyber fraud, UPI phishing, online harassment & unauthorized debits"),
+    HelplineEntry("Women in Distress (NCW 24/7)", "1091", "24/7 National Commission for Women emergency protection & rescue"),
+    HelplineEntry("NCW Women Helpline / WhatsApp", "7827170170", "National Commission for Women direct support & cyber harassment line"),
+    HelplineEntry("Domestic Violence / Women Line", "181", "Support against domestic violence, shelter referral & crisis intervention"),
+    HelplineEntry("Childline Emergency", "1098", "Child protection, missing children, child labor & POCSO grievance redressal"),
+    HelplineEntry("Senior Citizen Helpline (Elder Line)", "14567", "Elder line for welfare, maintenance, rescue & legal protection"),
+    HelplineEntry("Tele-MANAS (Mental Health)", "14416", "24/7 toll-free psychiatric consultation & psychological crisis counseling"),
+    HelplineEntry("National Highway Emergency", "1033", "NHAI road accident assistance, highway ambulance & towing service"),
+    HelplineEntry("Railway Security & Assistance (RailMadad)", "139", "Train passenger safety, onboard theft, security & medical assistance"),
+    HelplineEntry("Anti-Corruption Helpline", "1064", "Central & State vigilance bureau bribery and corruption reporting"),
+    HelplineEntry("Disaster Management (NDMA / NDRF)", "1070", "National & State disaster emergency relief, flood and earthquake rescue")
 )
 
 private val citizenRightGuides = listOf(

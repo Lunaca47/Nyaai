@@ -130,8 +130,11 @@ interface RagDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllTrainingExamples(examples: List<TrainingExampleEntity>)
 
-    @Query("SELECT * FROM training_examples WHERE question LIKE '%' || :query || '%' OR answer LIKE '%' || :query || '%' LIMIT 5")
+    @Query("SELECT * FROM training_examples WHERE question LIKE '%' || :query || '%' OR answer LIKE '%' || :query || '%' OR sourcePath LIKE '%' || :query || '%' OR legalDomain LIKE '%' || :query || '%' LIMIT 25")
     suspend fun searchTrainingExamples(query: String): List<TrainingExampleEntity>
+
+    @Query("SELECT * FROM training_examples WHERE sourcePath LIKE '%' || :num || '%' OR question LIKE '%' || :num || '%' LIMIT 25")
+    suspend fun searchTrainingExamplesByNumber(num: String): List<TrainingExampleEntity>
 
     // Get "Good" examples to help the LLM learn from user feedback
     @Query("SELECT * FROM chat_messages WHERE feedback = 'GOOD' ORDER BY timestamp DESC LIMIT 10")
