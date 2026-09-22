@@ -179,4 +179,109 @@ class AiServiceTest {
         assertTrue("Hindi greeting should contain नमस्ते or न्यायAI", answer.contains("नमस्ते") || answer.contains("न्यायAI"))
         assertEquals(0.99, confidence, 0.001)
     }
+
+    @Test
+    fun testLandlordLockedFlatScenarioReturnsAdvocateRoadmap() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "My landlord locked my flat and threw out my belongings, what should I do?",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should address unlawful eviction / lockout", answer.contains("Unlawful Eviction") || answer.contains("Flat Lockout"))
+        assertTrue("Answer should cite Transfer of Property Act or BNS", answer.contains("Transfer of Property Act") || answer.contains("BNS 2023"))
+        assertTrue("Answer should advise Section 175(3) BNSS or police complaint", answer.contains("Section 175(3) BNSS") || answer.contains("173 BNSS"))
+        assertTrue("Answer should advise Order 39 CPC or Specific Relief Act", answer.contains("Order 39") || answer.contains("Specific Relief"))
+        assertEquals("Advocate scenario confidence should be 0.98", 0.98, confidence, 0.001)
+    }
+
+    @Test
+    fun testHitAndRunAccidentScenarioReturnsAdvocateRoadmap() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Hit and run accident happened with my car, what is the procedure?",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should address hit and run accident", answer.contains("Hit-and-Run Motor Vehicle Accident"))
+        assertTrue("Answer should mention Medico-Legal Certificate (MLC)", answer.contains("Medico-Legal Certificate"))
+        assertTrue("Answer should mention MACT claim under Motor Vehicles Act", answer.contains("MACT Claim") || answer.contains("Motor Vehicles Act"))
+        assertEquals(0.98, confidence, 0.001)
+    }
+
+    @Test
+    fun testChequeBounceScenarioReturnsAdvocateRoadmap() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "My client gave me a cheque that bounced due to insufficient funds, how do I proceed?",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should cite Section 138 Negotiable Instruments Act", answer.contains("Negotiable Instruments Act") || answer.contains("138"))
+        assertTrue("Answer should mention 15-Day Statutory Legal Demand Notice", answer.contains("15-Day Statutory Legal Demand Notice") || answer.contains("15-Day"))
+        assertTrue("Answer should mention 20% Interim Compensation u/s 143A", answer.contains("143A"))
+        assertEquals(0.98, confidence, 0.001)
+    }
+
+    @Test
+    fun testCyberFraudScenarioReturnsAdvocateRoadmap() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Someone did a UPI fraud and debited money from my bank account, please help",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should mention 1930 Cyber Fraud Helpline", answer.contains("1930 Cyber Fraud Helpline") || answer.contains("1930"))
+        assertTrue("Answer should mention Section 66D IT Act", answer.contains("66D IT Act") || answer.contains("Information Technology Act"))
+        assertTrue("Answer should mention Magistrate de-freezing application u/s 503 BNSS", answer.contains("503 BNSS"))
+        assertEquals(0.98, confidence, 0.001)
+    }
+
+    @Test
+    fun testPoliceRefusedFirScenarioReturnsAdvocateRoadmap() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Police refused to register my fir for a cognizable complaint, what can I do?",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should cite Section 175(3) BNSS Representation to SP", answer.contains("175(3) BNSS"))
+        assertTrue("Answer should cite Landmark Lalita Kumari ruling", answer.contains("Lalita Kumari"))
+        assertTrue("Answer should cite Section 175(4) / 176 BNSS Application to Magistrate", answer.contains("175(4)") || answer.contains("176 BNSS"))
+        assertEquals(0.98, confidence, 0.001)
+    }
+
+    @Test
+    fun testNovelScenarioQueryReturnsAdvocateProceduralFramework() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Someone is threatening me and harassing me over disputed invoices, what are my legal options?",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Senior Advocate Advisory", answer.contains("SENIOR ADVOCATE LEGAL ADVISORY"))
+        assertTrue("Answer should structure into Phase 1 Immediate Steps", answer.contains("PHASE 1"))
+        assertTrue("Answer should structure into Phase 2 Formal Legal Notice / Police Recourse", answer.contains("PHASE 2"))
+        assertTrue("Answer should structure into Phase 3 Judicial Proceedings", answer.contains("PHASE 3"))
+        assertTrue("Answer should include Advocate's Strategic Advice", answer.contains("ADVOCATE'S STRATEGIC ADVICE"))
+        assertEquals(0.98, confidence, 0.001)
+    }
 }
+
