@@ -422,7 +422,299 @@ function isScenarioQuery(queryText) {
 }
 
 
-function getAdvocateScenarioAdvisory(queryText, lang, forceFallback = false) {
+
+function isDetailedQuery(queryText) {
+  if (!queryText) return false;
+  const q = queryText.toLowerCase().trim();
+  const detailedKeywords = [
+    "detail", "detailed", "in detail", "explain in detail", "elaborate", "comprehensive",
+    "full explanation", "deep dive", "step by step", "step-by-step", "complete guide",
+    "thorough", "everything", "explain fully", "long answer", "explain each and everything",
+    "in depth", "in-depth", "clearly explain all points", "all details", "exhaustive",
+    "full procedure", "complete roadmap", "7 points", "detailed version", "expand",
+    "break down completely", "all points", "full steps", "detailed explanation",
+    "explain properly", "more details", "each and everything", "entire process",
+    "complete legal brief", "full advisory", "long version"
+  ];
+  return detailedKeywords.some(kw => q.includes(kw));
+}
+
+function buildDetailedAdvocatePoints(advisory, queryText, lang) {
+  const q = (queryText || "").toLowerCase().trim();
+  
+  if (advisory.category === "Landlord-Tenant Conflict") {
+    return [
+      {
+        number: 1,
+        icon: "⚖️",
+        title: "Nature of Legal Offense, Jurisdictional Threshold & Burden of Proof",
+        content: "Under Section 106 of the Transfer of Property Act 1882, a landlord cannot unilaterally terminate tenancy or evict without due process and statutory notice. A lock-out constitutes civil illegal dispossession combined with cognizable criminal offenses: Section 329 BNS (Criminal Trespass), Section 316 BNS (Criminal Breach of Trust for seizing goods), and Section 303 BNS (Theft). The burden of proving lawful eviction lies strictly upon the landlord.",
+        statute: "Section 106 Transfer of Property Act 1882 • Sections 329, 316, 303 BNS 2023"
+      },
+      {
+        number: 2,
+        icon: "🚨",
+        title: "Immediate 24–48 Hour Emergency Protocol & Golden Hours (Avoid Self-Harm)",
+        content: "Do NOT break the padlocks yourself. Forcible entry allows the landlord to file counter-allegations of housebreaking under Section 331 BNS. Instead, remain outside the locked door and immediately dial Police Emergency (112). Request an immediate Police Control Room (PCR) dispatch to generate an official computer-aided dispatch log verifying your presence and the physical lockout.",
+        statute: "Emergency Helpline 112 • Police Control Room Dispatch Protocol"
+      },
+      {
+        number: 3,
+        icon: "📱",
+        title: "Evidentiary Audit & Digital Forensic Preservation (BSA 2023 Sec 63)",
+        content: "Capture 4K timestamped photographs and uninterrupted video showing the locked flat, padlocks, and any notices pasted by the landlord. Export all WhatsApp chats, SMS threads, rent bank transfers, security deposit receipts, and the lease agreement. Preserve digital media alongside a Section 63 BSA certificate for trial admissibility.",
+        statute: "Section 63 Bharatiya Sakshya Adhiniyam (BSA) 2023 (Electronic Records)"
+      },
+      {
+        number: 4,
+        icon: "🚓",
+        title: "Police Station Protocol, General Diary (GD) & Zero FIR Registration",
+        content: "Visit the jurisdictional police station with two printed copies of your signed criminal complaint. Demand an official receiving stamp with date, time, and General Diary (GD) number. Under Section 173 BNSS 2023, police are statutorily bound to record cognizable complaints. If geographical jurisdiction is questioned, demand registration of a Zero FIR for official transfer.",
+        statute: "Section 173 Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023 (FIR & Zero FIR)"
+      },
+      {
+        number: 5,
+        icon: "📜",
+        title: "Mandatory Statutory Escalation against Police Inaction (Sec 175(3) BNSS)",
+        content: "If the local police station brushes the matter aside as a 'civil dispute', immediately invoke Section 175(3) BNSS. Send a signed copy of your complaint via Registered Speed Post directly to the Superintendent of Police (SP) or Deputy Commissioner of Police (DCP). Section 199 BNS prescribes up to 2 years imprisonment for public servants disobeying direction to record cognizable information.",
+        statute: "Section 175(3) BNSS 2023 • Section 199 Bharatiya Nyaya Sanhita 2023"
+      },
+      {
+        number: 6,
+        icon: "✉️",
+        title: "Formal Advocate Legal Demand Notice & Pre-Litigation Framework",
+        content: "Engage an advocate to issue a formal 7-Day Statutory Legal Demand Notice via Registered Speed Post (RPAD) and Email. The notice must detail the unlawful lockout, demand immediate delivery of duplicate keys, restoration of peaceful possession, and return of all belongings in undamaged condition, warning of summary court suits and damages.",
+        statute: "Statutory Legal Demand Notice • India Post RPAD Service Tracking"
+      },
+      {
+        number: 7,
+        icon: "🏛️",
+        title: "Judicial Recourse & Magisterial Petitions (Sec 175(4) / 176 BNSS)",
+        content: "If the SP fails to order an investigation within a reasonable time, file an application before the Judicial Magistrate First Class (JMFC) under Section 175(4) BNSS (formerly CrPC 156(3)). Pray for judicial directions compelling the police to register an FIR and seeking a search warrant for the immediate recovery and inventorying of your personal effects.",
+        statute: "Section 175(4) & 176 BNSS 2023 • Magistrate Search Warrant"
+      },
+      {
+        number: 8,
+        icon: "🛡️",
+        title: "Urgent Civil Injunctions (Order 39 CPC) & Summary Suit u/s 6 Specific Relief Act",
+        content: "File a summary civil suit under Section 6 of the Specific Relief Act 1963 for restoration of possession without having to prove title (only prior peaceful possession is required). Concurrently move an interlocutory application under Order 39 Rules 1 & 2 CPC for an ex-parte temporary mandatory injunction directing the landlord to open the premises under Court Commissioner supervision within 24 hours.",
+        statute: "Section 6 Specific Relief Act 1963 • Order 39 Rules 1 & 2 Code of Civil Procedure 1908"
+      },
+      {
+        number: 9,
+        icon: "⏳",
+        title: "Strategic Advocate Safeguards, Limitation Clock & Precedents",
+        content: "Supreme Court in 'Bishandas v. State of Punjab' firmly ruled that even if tenancy expires, a landlord cannot take the law into their own hands without a court decree. Limitation: A suit under Section 6 Specific Relief Act must be filed within 6 MONTHS from the date of dispossession. Always preserve India Post Speed Post receipts and delivery tracking consignment notes.",
+        statute: "Supreme Court Ruling in Bishandas • Indian Limitation Act 1963"
+      }
+    ];
+  }
+  
+  if (advisory.category === "Cheque Dishonour & Financial Litigation") {
+    return [
+      {
+        number: 1,
+        icon: "⚖️",
+        title: "Nature of Legal Offense, Quasi-Criminal Framework & Presumption",
+        content: "Dishonour of cheque is a quasi-criminal statutory offense under Section 138 of the Negotiable Instruments Act 1881, punishable with imprisonment up to 2 years, or fine up to twice the cheque amount, or both. Under Section 139 NI Act, law presumes the cheque was issued in discharge of a debt, shifting the entire burden of proof onto the drawer.",
+        statute: "Sections 138, 139 Negotiable Instruments Act, 1881"
+      },
+      {
+        number: 2,
+        icon: "🚨",
+        title: "Bank Return Memo Verification & 30-Day Statutory Limitation Clock",
+        content: "Collect the original cheque and the bank dishonour memo citing reasons like 'Funds Insufficient' or 'Account Closed'. The strict 30-DAY statutory limitation clock for issuing the legal demand notice begins from the exact date you received the bank return memo.",
+        statute: "Section 138(b) NI Act 1881 • Bank Dishonour Memo"
+      },
+      {
+        number: 3,
+        icon: "📱",
+        title: "Evidentiary Audit & Proving Enforceable Commercial Liability",
+        content: "Collate all underlying commercial documents: purchase orders, service contracts, tax invoices, ledger balance statements, and delivery receipts establishing that the cheque was issued for valid legal consideration. Preserve banking transaction statements under Section 63 BSA 2023.",
+        statute: "Section 139 Presumption of Enforceable Debt • Section 63 BSA 2023"
+      },
+      {
+        number: 4,
+        icon: "✉️",
+        title: "Drafting & Serving 15-Day Statutory Legal Demand Notice",
+        content: "Issue a formal demand notice under Section 138(b) NI Act demanding payment of the exact cheque amount within 15 DAYS of receipt. The notice must be dispatched via Registered Speed Post (RPAD) and email to establish undeniable proof of service.",
+        statute: "Section 138(b) Statutory 15-Day Demand Notice • India Post Speed Post"
+      },
+      {
+        number: 5,
+        icon: "⏳",
+        title: "Accrual of Cause of Action on Day 16",
+        content: "The drawer is given 15 days from the date of receipt to make payment. The cause of action to institute criminal prosecution does not accrue until this 15-day period expires. It legally arises on the 16th day if the amount remains unpaid.",
+        statute: "Section 138(c) & Section 142(1)(b) NI Act 1881"
+      },
+      {
+        number: 6,
+        icon: "🏛️",
+        title: "Filing Criminal Complaint before Magistrate u/s 142 NI Act (30-Day Window)",
+        content: "File a formal complaint under Section 142(1)(b) NI Act before the competent Judicial Magistrate having jurisdiction over your bank branch where the cheque was presented. The complaint must be filed within 30 DAYS from the expiry of the 15-day notice period.",
+        statute: "Section 142(1)(b) NI Act 1881 (30-Day Filing Period)"
+      },
+      {
+        number: 7,
+        icon: "📜",
+        title: "Pre-Summoning Evidence on Affidavit (Sec 145 NI Act)",
+        content: "Tender the complainant's pre-summoning evidence on affidavit under Section 145 NI Act. This dispenses with prolonged preliminary oral examination and enables the Magistrate to promptly issue court summons or bailable warrants against the accused.",
+        statute: "Section 145 NI Act 1881 (Evidence on Affidavit) • Summons Issuance"
+      },
+      {
+        number: 8,
+        icon: "💰",
+        title: "Interim Compensation Application (Sec 143A NI Act)",
+        content: "Move an application under Section 143A NI Act praying for an order directing the accused/drawer to deposit up to 20% of the cheque amount as interim compensation to the complainant within 60 days of the order.",
+        statute: "Section 143A NI Act (20% Mandatory Interim Relief)"
+      },
+      {
+        number: 9,
+        icon: "👥",
+        title: "Corporate Vicarious Liability & Precautions u/s 141 NI Act",
+        content: "If the cheque was drawn on behalf of a company, partnership, or LLP, implead all Directors and Managing Partners who were in charge of day-to-day business under Section 141 NI Act. Never staple or alter the original cheque; store in a protective plastic cover.",
+        statute: "Section 141 NI Act (Vicarious Criminal Liability of Directors)"
+      }
+    ];
+  }
+
+  if (advisory.category === "Police Procedural Default") {
+    return [
+      {
+        number: 1,
+        icon: "⚖️",
+        title: "Nature of Police Dereliction & Statutory Mandate",
+        content: "Under Section 173 BNSS 2023, police officers have a strict, non-negotiable statutory duty to record any information disclosing a cognizable offense. Deliberate refusal constitutes dereliction of public duty punishable under Section 199 BNS with up to 2 years imprisonment.",
+        statute: "Section 173 BNSS 2023 • Section 199 Bharatiya Nyaya Sanhita 2023"
+      },
+      {
+        number: 2,
+        icon: "🚨",
+        title: "Police Station Protocol & General Diary (GD) Demand",
+        content: "Always bring two printed, signed copies of your complaint. Insist that the duty officer stamp your receiving copy with the police station seal, date, time, and note the General Diary (GD) entry number before leaving.",
+        statute: "General Diary (GD) Protocol • Section 173 BNSS"
+      },
+      {
+        number: 3,
+        icon: "📞",
+        title: "Dialing 112 from Police Station Premises (Official Audio Log)",
+        content: "If the duty officer verbally refuses or turns you away, immediately dial 112 while standing on the police station premises. State clearly that the officer is refusing to record your cognizable complaint; this creates a computer-aided dispatch (CAD) audio record that cannot be erased.",
+        statute: "Emergency Dispatch 112 • Computer-Aided Dispatch Logging"
+      },
+      {
+        number: 4,
+        icon: "🚓",
+        title: "Statutory Right to Zero FIR u/s 173 BNSS",
+        content: "If the police officer claims the offense occurred outside their station's territorial limits, demand the registration of a Zero FIR under Section 173 BNSS 2023. By law, a Zero FIR cannot be refused and must be forwarded to the competent police station.",
+        statute: "Section 173 BNSS 2023 (Zero FIR Mandate)"
+      },
+      {
+        number: 5,
+        icon: "📜",
+        title: "Mandatory Statutory Escalation to SP/DCP u/s 175(3) BNSS",
+        content: "Send your signed complaint via Registered Speed Post directly to the Superintendent of Police (SP) or Deputy Commissioner of Police (DCP) under Section 175(3) BNSS. Registered Speed Post provides indisputable proof of delivery.",
+        statute: "Section 175(3) BNSS 2023 (Representation to Superintendent of Police)"
+      },
+      {
+        number: 6,
+        icon: "✉️",
+        title: "Preserving India Post Postal Delivery Tracking Proof",
+        content: "Retain the India Post consignment receipt and download the online delivery tracking report showing the date and time the SP's office received the representation. This is an essential legal prerequisite for approaching the judiciary.",
+        statute: "India Post Speed Post Consignment Verification Protocol"
+      },
+      {
+        number: 7,
+        icon: "🏛️",
+        title: "Application to Judicial Magistrate u/s 175(4) / 176 BNSS",
+        content: "If the SP fails to order an investigation within a reasonable period, file an application before the Judicial Magistrate First Class (JMFC) under Section 175(4) BNSS praying for judicial orders directing the police to lodge an FIR and submit a status report.",
+        statute: "Section 175(4) & Section 176 BNSS 2023 (Magisterial Investigation Order)"
+      },
+      {
+        number: 8,
+        icon: "⚖️",
+        title: "High Court Writ Petition (Criminal) under Article 226",
+        content: "In cases involving grave offenses, custodial harassment, or local police collusion, file a Writ Petition (Criminal) under Article 226 of the Constitution before the High Court seeking a Writ of Mandamus commanding registration of an FIR.",
+        statute: "Article 226 Constitution of India (Writ of Mandamus)"
+      },
+      {
+        number: 9,
+        icon: "⏳",
+        title: "Landmark Precedents & Advocate Strategic Cautions",
+        content: "The Supreme Court Constitution Bench in 'Lalita Kumari v. Govt of UP' held that FIR registration is mandatory if information discloses a cognizable offense. Maintain a chronological binder containing copies of your complaint, GD references, and postal slips.",
+        statute: "Supreme Court Constitution Bench in Lalita Kumari v. Govt of UP"
+      }
+    ];
+  }
+
+  // Default dynamic 9-point roadmap for all other categories
+  return [
+    {
+      number: 1,
+      icon: "⚖️",
+      title: "Nature of Legal Offense, Statutory Classification & Burden of Proof",
+      content: "Legal evaluation under Bharatiya Nyaya Sanhita (BNS 2023), Bharatiya Nagarik Suraksha Sanhita (BNSS 2023), and relevant Special Acts. The situation is analyzed for civil restitution and cognizable/non-cognizable criminal ingredients (" + (advisory.classification?.relevantSections || "Applicable Special Acts") + ").",
+      statute: advisory.act + " (" + advisory.section + ")"
+    },
+    {
+      number: 2,
+      icon: "🚨",
+      title: "Immediate 24–48 Hour Emergency Protocol & Golden Hours (Safety First)",
+      content: "Do not take the law into your own hands or engage in verbal or physical confrontation. Immediately dial 112 or relevant statutory helplines (1930 for cyber fraud, 1915 for consumer, 181 for domestic issues) to generate an official computer-aided dispatch log.",
+      statute: "Emergency Helplines 112 / 1930 / 181"
+    },
+    {
+      number: 3,
+      icon: "📱",
+      title: "Evidentiary Audit & Digital Forensic Preservation (BSA 2023 Sec 63)",
+      content: "Compile all contemporaneous documentary evidence, transaction records, audio/video recordings, and WhatsApp chat exports. Ensure all digital evidence is preserved with intact metadata and certificates under Section 63 of Bharatiya Sakshya Adhiniyam (BSA) 2023.",
+      statute: "Section 63 BSA 2023 (Admissibility of Electronic Records)"
+    },
+    {
+      number: 4,
+      icon: "🚓",
+      title: "Police Station Protocol, General Diary (GD) & Zero FIR Registration",
+      content: "Submit two signed copies of your written complaint to the Station House Officer under Section 173 BNSS 2023. Insist on an official receiving stamp with date, time, and General Diary (GD) entry number, or demand a Zero FIR if territorial jurisdiction is questioned.",
+      statute: "Section 173 BNSS 2023 (Statutory Information to Police)"
+    },
+    {
+      number: 5,
+      icon: "📜",
+      title: "Mandatory Statutory Escalation against Police Inaction (Sec 175(3) BNSS)",
+      content: "If the local police station refuses or delays registering an FIR, immediately send your signed complaint via Registered Speed Post directly to the Superintendent of Police (SP) or Deputy Commissioner of Police (DCP) under Section 175(3) BNSS.",
+      statute: "Section 175(3) BNSS 2023 • Section 199 BNS 2023"
+    },
+    {
+      number: 6,
+      icon: "✉️",
+      title: "Formal Advocate Legal Demand Notice & Pre-Litigation Framework",
+      content: "Have an advocate serve a formal 15-Day Statutory Legal Demand Notice via Registered Speed Post and Email, articulating the statutory violations, setting the legal cause of action, and proposing resolution prior to instituting court proceedings.",
+      statute: "Formal Advocate Legal Demand Notice • Section 27 General Clauses Act"
+    },
+    {
+      number: 7,
+      icon: "🏛️",
+      title: "Judicial Recourse & Magisterial Petitions (Sec 175(4) / 176 BNSS)",
+      content: "Approach the Judicial Magistrate First Class under Section 175(4) BNSS praying for judicial orders directing investigation, issuance of summons, or search warrants if police machinery fails to act.",
+      statute: "Section 175(4) & Section 176 BNSS 2023"
+    },
+    {
+      number: 8,
+      icon: "🛡️",
+      title: "Civil Redressal, Urgent Injunctions (CPC Order 39) & Damages",
+      content: "Institute appropriate proceedings before the competent Civil Court, Consumer Forum, or Commercial Court. Pray for temporary injunctions under Order 39 Rules 1 & 2 CPC, specific relief, and compensation for monetary losses and mental agony.",
+      statute: "Order 39 Rules 1 & 2 Code of Civil Procedure 1908 • Specific Relief Act"
+    },
+    {
+      number: 9,
+      icon: "⏳",
+      title: "Strategic Advocate Safeguards, Limitation Clock & Cross-FIR Defense",
+      content: "Always calculate limitation periods under the Limitation Act 1963 before filing. In the event of vindictive counter-complaints, prepare Section 482 BNSS anticipatory bail applications in advance. Preserve all India Post Speed Post consignment receipts.",
+      statute: "Section 482 BNSS 2023 (Anticipatory Bail) • Limitation Act 1963"
+    }
+  ];
+}
+
+function getRawAdvocateScenarioAdvisory(queryText, lang, forceFallback = false) {
   if (!queryText) return null;
   const isScenario = isScenarioQuery(queryText) || forceFallback;
   if (!isScenario) return null;
@@ -1222,12 +1514,31 @@ function getAdvocateScenarioAdvisory(queryText, lang, forceFallback = false) {
 }
 
 
+
+function getAdvocateScenarioAdvisory(queryText, lang, forceFallback = false, isDetailed = false) {
+  if (!queryText) return null;
+  const isScenario = isScenarioQuery(queryText) || forceFallback;
+  if (!isScenario) return null;
+
+  const rawAdvisory = getRawAdvocateScenarioAdvisory(queryText, lang, forceFallback);
+  if (!rawAdvisory) return null;
+
+  const wantsDetailed = isDetailed || isDetailedQuery(queryText);
+  if (wantsDetailed) {
+    rawAdvisory.isDetailed = true;
+    rawAdvisory.detailedPoints = buildDetailedAdvocatePoints(rawAdvisory, queryText, lang);
+  }
+  return rawAdvisory;
+}
+
+
 function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
   const l = typeof currentLang !== "undefined" ? currentLang : "en";
   
   const labels = {
     hi: {
       badge: "⚖️ वरिष्ठ अधिवक्ता कानूनी सलाह और अदालती कार्यवाही",
+      detailedBadge: "⚖️ वरिष्ठ अधिवक्ता विस्तृत कानूनी रोडमैप (8+ बिंदु)",
       natureHeader: "⚖️ अपराध की प्रकृति और कानूनी वर्गीकरण:",
       natureLabel: "वर्गीकरण:",
       cognizableLabel: "संज्ञेय स्थिति (Cognizable):",
@@ -1236,7 +1547,9 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
       stage2Header: "📜 चरण 2: औपचारिक कानूनी नोटिस और पुलिस / वैधानिक प्रक्रिया",
       stage3Header: "🏛️ चरण 3: अदालती कार्यवाही, याचिका और मिलने वाले अधिकार",
       adviceHeader: "🛡️ अधिवक्ता की रणनीतिक सलाह और महत्वपूर्ण सावधानियां",
+      detailedSectionHeader: "📑 विस्तृत 8+ बिंदु कानूनी ब्रीफ और अदालती प्रक्रिया",
       citationLabel: "मुख्य वैधानिक स्रोत:",
+      viewDetailedBtn: "📖 विस्तृत 8+ बिंदु कानूनी ब्रीफ देखें",
       copyBtn: "📋 कानूनी कार्यवाही रोडमैप कॉपी करें",
       readBtn: "🔊 कानूनी सलाह सुनें",
       printBtn: "🖨️ प्रिंट / पीडीएफ सेव करें",
@@ -1244,6 +1557,7 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
     },
     bn: {
       badge: "⚖️ সিনিয়র অ্যাডভোকেট আইনি পরামর্শ ও বিচার বিভাগীয় পদক্ষেপ",
+      detailedBadge: "⚖️ সিনিয়র অ্যাডভোকেট বিস্তারিত আইনি রোডম্যাপ (৮+ পয়েন্ট)",
       natureHeader: "⚖️ অপরাধের প্রকৃতি ও আইনি শ্রেণিবিভাগ:",
       natureLabel: "শ্রেণিবিভাগ:",
       cognizableLabel: "আমলযোগ্য অবস্থা (Cognizable):",
@@ -1252,7 +1566,9 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
       stage2Header: "📜 পর্যায় ২: আইনি নোটিশ ও পুলিশি / সংবিধিবদ্ধ পদক্ষেপ",
       stage3Header: "🏛️ পর্যায় ৩: আদালতের বিচারিক প্রক্রিয়া, পিটিশন ও প্রতিকার",
       adviceHeader: "🛡️ আইনজীবীর কৌশলগত পরামর্শ ও গুরুত্বপূর্ণ সতর্কতা",
+      detailedSectionHeader: "📑 বিস্তারিত ৮+ দফা আইনি ব্রিফ ও বিচারিক কার্যক্রম",
       citationLabel: "প্রধান বিধিবদ্ধ আইন:",
+      viewDetailedBtn: "📖 বিস্তারিত ৮+ দফা আইনি ব্রিফ দেখুন",
       copyBtn: "📋 আইনি প্রক্রিয়ার রোডম্যাপ কপি করুন",
       readBtn: "🔊 পরামর্শ শুনুন",
       printBtn: "🖨️ প্রিন্ট / পিডিএফ সংরক্ষণ",
@@ -1260,6 +1576,7 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
     },
     te: {
       badge: "⚖️ సీనియర్ అడ్వకేట్ చట్టపరమైన సలహా & కోర్టు ప్రక్రియ",
+      detailedBadge: "⚖️ సీనియర్ అడ్వకేట్ సమగ్ర చట్టపరమైన బ్రీఫ్ (8+ అంశాలు)",
       natureHeader: "⚖️ నేరం యొక్క స్వభావం & చట్టపరమైన వర్గీకరణ:",
       natureLabel: "వర్గీకరణ:",
       cognizableLabel: "కాగ్నిజబుల్ స్థితి:",
@@ -1268,7 +1585,9 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
       stage2Header: "📜 దశ 2: లీగల్ నోటీసు & పోలీస్ / చట్టబద్ధమైన చర్యలు",
       stage3Header: "🏛️ దశ 3: న్యాయస్థాన ప్రక్రియలు, పిటిషన్లు & అందే ఉపశమనాలు",
       adviceHeader: "🛡️ అడ్వకేట్ వ్యూహాత్మక సలహా & ముఖ్యమైన జాగ్రత్తలు",
+      detailedSectionHeader: "📑 సమగ్ర 8+ అంశాల న్యాయ సలహా & న్యాయస్థాన చర్యలు",
       citationLabel: "ప్రధాన చట్టపరమైన నిబంధనలు:",
+      viewDetailedBtn: "📖 సమగ్ర 8+ అంశాల లీగల్ బ్రీఫ్ చూడండి",
       copyBtn: "📋 చట్టపరమైన రోడ్‌మ్యాప్ కాపీ చేయండి",
       readBtn: "🔊 సలహా వినండి",
       printBtn: "🖨️ ప్రింట్ / పీడీఎఫ్ సేవ్",
@@ -1276,6 +1595,7 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
     },
     ta: {
       badge: "⚖️ மூத்த வழக்கறிஞர் சட்ட ஆலோசனை & நீதிமன்ற நடைமுறைகள்",
+      detailedBadge: "⚖️ மூத்த வழக்கறிஞர் விரிவான சட்ட வழிகாட்டி (8+ புள்ளிகள்)",
       natureHeader: "⚖️ குற்றத்தின் தன்மை & சட்ட வகைப்பாடு:",
       natureLabel: "வகைப்பாடு:",
       cognizableLabel: "காக்னிசபிள் நிலை:",
@@ -1284,7 +1604,9 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
       stage2Header: "📜 நிலை 2: முறையான சட்ட நோட்டீஸ் & காவல்துறை / சட்டரீதியான வழிமுறைகள்",
       stage3Header: "🏛️ நிலை 3: நீதிமன்ற வழக்கு நடைமுறைகள், மனுக்கள் & நிவாரணங்கள்",
       adviceHeader: "🛡️ வழக்கறிஞரின் உத்திசார் ஆலோசனை & முக்கிய எச்சரிக்கைகள்",
+      detailedSectionHeader: "📑 விரிவான 8+ புள்ளி சட்ட விளக்கம் & நீதிமன்ற நடவடிக்கைகள்",
       citationLabel: "முக்கிய சட்ட விதிகள்:",
+      viewDetailedBtn: "📖 விரிவான 8+ புள்ளி சட்ட விளக்கத்தைக் காண்க",
       copyBtn: "📋 சட்ட நடைமுறை வழிகாட்டியை நகலெடு",
       readBtn: "🔊 ஆலோசனையைக் கேளுங்கள்",
       printBtn: "🖨️ அச்சிடுக / சேமிக்கவும்",
@@ -1292,6 +1614,7 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
     },
     en: {
       badge: "⚖️ Senior Advocate Advisory & Legal Proceeding Roadmap",
+      detailedBadge: "⚖️ Senior Advocate Comprehensive Brief (8+ Points)",
       natureHeader: "⚖️ Case Assessment & Legal Classification:",
       natureLabel: "Classification:",
       cognizableLabel: "Cognizable Status:",
@@ -1300,7 +1623,9 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
       stage2Header: "📜 Phase 2: Formal Legal Notice & Police / Statutory Recourse",
       stage3Header: "🏛️ Phase 3: Judicial Proceedings, Petitions & Reliefs in Court",
       adviceHeader: "🛡️ Advocate's Strategic Advice & Important Cautions",
+      detailedSectionHeader: "📑 Comprehensive 8+ Point Proceeding Brief & Court Procedure",
       citationLabel: "Primary Statutory Authority:",
+      viewDetailedBtn: "📖 View Detailed 8+ Points Breakdown",
       copyBtn: "📋 Copy Legal Proceeding Roadmap",
       readBtn: "🔊 Read Advisory Aloud",
       printBtn: "🖨️ Print / Save PDF",
@@ -1309,36 +1634,38 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
   };
 
   const str = labels[l] || labels.en;
+  const isDetailed = !!advisory.isDetailed;
 
-  const stage1Html = advisory.stage1Immediate.map(function(s) { return "<li>" + s + "</li>"; }).join("");
-  const stage2Html = advisory.stage2FormalRecourse.map(function(s) { return "<li>" + s + "</li>"; }).join("");
-  const stage3Html = advisory.stage3CourtProceedings.map(function(s) { return "<li>" + s + "</li>"; }).join("");
-  const adviceHtml = advisory.advocateStrategicAdvice.map(function(s) { return "<li>" + s + "</li>"; }).join("");
+  const stage1Html = advisory.stage1Immediate ? advisory.stage1Immediate.map(function(s) { return "<li>" + s + "</li>"; }).join("") : "";
+  const stage2Html = advisory.stage2FormalRecourse ? advisory.stage2FormalRecourse.map(function(s) { return "<li>" + s + "</li>"; }).join("") : "";
+  const stage3Html = advisory.stage3CourtProceedings ? advisory.stage3CourtProceedings.map(function(s) { return "<li>" + s + "</li>"; }).join("") : "";
+  const adviceHtml = advisory.advocateStrategicAdvice ? advisory.advocateStrategicAdvice.map(function(s) { return "<li>" + s + "</li>"; }).join("") : "";
 
-  const botMsg = document.createElement("div");
-  botMsg.className = "chat-bubble chat-ai advocate-card";
-  botMsg.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-      <span class="advocate-badge">
-        <span>⚖️</span> ` + str.badge + `
-      </span>
-      <span class="badge-pastel-sage" style="font-size: 0.74rem;">
-        <span>●</span> ` + (advisory.confidence || "99.8% Verified Grounding") + `
-      </span>
+  const detailedPointsHtml = (advisory.detailedPoints || []).map(function(pt) {
+    return `
+      <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <span style="background: #4338CA; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.76rem; font-weight: 800;">` + pt.number + `</span>
+          <span style="font-weight: 700; color: #1E293B; font-size: 0.92rem;">` + pt.icon + ` ` + pt.title + `</span>
+        </div>
+        <div style="color: #334155; font-size: 0.86rem; line-height: 1.6; margin-left: 30px;">
+          ` + pt.content + `
+        </div>
+        <div style="margin-top: 6px; margin-left: 30px; font-size: 0.76rem; color: #4338CA; font-weight: 600;">
+          📌 ` + pt.statute + `
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const bodyContentHtml = isDetailed ? `
+    <div style="margin-bottom: 16px;">
+      <div style="font-weight: 800; font-size: 0.96rem; color: #4338CA; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+        ` + str.detailedSectionHeader + `
+      </div>
+      ` + detailedPointsHtml + `
     </div>
-
-    <div style="font-weight: 800; font-size: 1.18rem; margin-bottom: 8px; color: #0F172A; line-height: 1.35;">
-      ` + advisory.title + `
-    </div>
-
-    <!-- Case Assessment & Classification Box -->
-    <div class="advocate-meta-box">
-      <div style="color: #1E293B; font-weight: 700; margin-bottom: 4px;">` + str.natureHeader + `</div>
-      <div style="color: #475569; margin-bottom: 2px;"><strong style="color: #334155;">` + str.natureLabel + `</strong> ` + advisory.classification.nature + `</div>
-      <div style="color: #475569; margin-bottom: 2px;"><strong style="color: #334155;">` + str.cognizableLabel + `</strong> ` + advisory.classification.cognizable + `</div>
-      <div style="color: #475569;"><strong style="color: #334155;">` + str.sectionsLabel + `</strong> <span style="color: #4338CA; font-weight: 600;">` + advisory.classification.relevantSections + `</span></div>
-    </div>
-
+  ` : `
     <!-- Phase 1: Immediate Steps -->
     <div style="margin-bottom: 14px;">
       <div class="advocate-section-title" style="color: #991B1B;">
@@ -1378,6 +1705,39 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
         ` + adviceHtml + `
       </ul>
     </div>
+  `;
+
+  const detailedButtonHtml = !isDetailed ? `
+    <button class="chip-btn view-detailed-btn" style="padding: 6px 12px; font-size: 0.78rem; font-weight: 700; background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D;">
+      ` + str.viewDetailedBtn + `
+    </button>
+  ` : "";
+
+  const botMsg = document.createElement("div");
+  botMsg.className = "chat-bubble chat-ai advocate-card";
+  botMsg.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <span class="advocate-badge">
+        <span>⚖️</span> ` + (isDetailed ? str.detailedBadge : str.badge) + `
+      </span>
+      <span class="badge-pastel-sage" style="font-size: 0.74rem;">
+        <span>●</span> ` + (advisory.confidence || "99.8% Verified Grounding") + `
+      </span>
+    </div>
+
+    <div style="font-weight: 800; font-size: 1.18rem; margin-bottom: 8px; color: #0F172A; line-height: 1.35;">
+      ` + advisory.title + `
+    </div>
+
+    <!-- Case Assessment & Classification Box -->
+    <div class="advocate-meta-box">
+      <div style="color: #1E293B; font-weight: 700; margin-bottom: 4px;">` + str.natureHeader + `</div>
+      <div style="color: #475569; margin-bottom: 2px;"><strong style="color: #334155;">` + str.natureLabel + `</strong> ` + advisory.classification.nature + `</div>
+      <div style="color: #475569; margin-bottom: 2px;"><strong style="color: #334155;">` + str.cognizableLabel + `</strong> ` + advisory.classification.cognizable + `</div>
+      <div style="color: #475569;"><strong style="color: #334155;">` + str.sectionsLabel + `</strong> <span style="color: #4338CA; font-weight: 600;">` + advisory.classification.relevantSections + `</span></div>
+    </div>
+
+    ` + bodyContentHtml + `
 
     <!-- Statutory Citation Box -->
     <div class="citation-pastel-box" style="margin-bottom: 12px;">
@@ -1387,6 +1747,7 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
 
     <!-- Action Buttons -->
     <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+      ` + detailedButtonHtml + `
       <button class="chip-btn copy-roadmap-btn" style="padding: 6px 12px; font-size: 0.78rem; font-weight: 600; background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE;">
         ` + str.copyBtn + `
       </button>
@@ -1399,30 +1760,62 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
     </div>
   `;
 
+  // View Detailed Button Handler
+  const viewDetailedBtn = botMsg.querySelector(".view-detailed-btn");
+  if (viewDetailedBtn) {
+    viewDetailedBtn.addEventListener("click", function() {
+      const detailedAdvisory = getAdvocateScenarioAdvisory(queryText, l, false, true);
+      if (detailedAdvisory) {
+        renderAdvocateAdvisoryBubble(detailedAdvisory, queryText, chatHistory);
+      }
+    });
+  }
+
   // Copy Roadmap Handler
   botMsg.querySelector(".copy-roadmap-btn").addEventListener("click", function(e) {
-    const formattedRoadmap = "=====================================================\n" +
-      "⚖️ NYAAI LEGALTECH — SENIOR ADVOCATE LEGAL ADVISORY\n" +
-      "=====================================================\n" +
-      "Title: " + advisory.title + "\n" +
-      "Category: " + advisory.category + "\n" +
-      "Primary Authority: " + advisory.act + " (" + advisory.section + ")\n\n" +
-      "[CASE ASSESSMENT & LEGAL CLASSIFICATION]\n" +
-      "• Nature: " + advisory.classification.nature + "\n" +
-      "• Cognizable Status: " + advisory.classification.cognizable + "\n" +
-      "• Applicable Sections: " + advisory.classification.relevantSections + "\n\n" +
-      "[PHASE 1: IMMEDIATE STEPS & EVIDENCE PRESERVATION (24-48 HOURS)]\n" +
-      advisory.stage1Immediate.map(function(s) { return "• " + s; }).join("\n") + "\n\n" +
-      "[PHASE 2: FORMAL LEGAL NOTICE & POLICE / STATUTORY RECOURSE]\n" +
-      advisory.stage2FormalRecourse.map(function(s) { return "• " + s; }).join("\n") + "\n\n" +
-      "[PHASE 3: JUDICIAL PROCEEDINGS, PETITIONS & RELIEFS IN COURT]\n" +
-      advisory.stage3CourtProceedings.map(function(s) { return "• " + s; }).join("\n") + "\n\n" +
-      "[ADVOCATE'S STRATEGIC ADVICE & IMPORTANT CAUTIONS]\n" +
-      advisory.advocateStrategicAdvice.map(function(s) { return "• " + s; }).join("\n") + "\n" +
-      "=====================================================\n" +
-      "Generated by NYAAI (न्यायAI) LegalTech AI Platform\n" +
-      "Statutory compliance verified across BNS 2023, BNSS 2023 & BSA 2023.";
+    const lines = [
+      "=====================================================",
+      "⚖️ NYAAI LEGALTECH — SENIOR ADVOCATE LEGAL ADVISORY",
+      "=====================================================",
+      "Title: " + advisory.title,
+      "Category: " + advisory.category,
+      "Primary Authority: " + advisory.act + " (" + advisory.section + ")",
+      "",
+      "[CASE ASSESSMENT & LEGAL CLASSIFICATION]",
+      "• Nature: " + advisory.classification.nature,
+      "• Cognizable Status: " + advisory.classification.cognizable,
+      "• Applicable Sections: " + advisory.classification.relevantSections,
+      ""
+    ];
 
+    if (isDetailed && advisory.detailedPoints) {
+      lines.push("[COMPREHENSIVE 8+ POINT ADVOCATE PROCEEDING BRIEF]");
+      advisory.detailedPoints.forEach(function(pt) {
+        lines.push(pt.number + ". " + pt.title);
+        lines.push(pt.content);
+        lines.push("[Statutory Source: " + pt.statute + "]");
+        lines.push("");
+      });
+    } else {
+      lines.push("[PHASE 1: IMMEDIATE STEPS & EVIDENCE PRESERVATION (24-48 HOURS)]");
+      (advisory.stage1Immediate || []).forEach(function(s) { lines.push("• " + s); });
+      lines.push("");
+      lines.push("[PHASE 2: FORMAL LEGAL NOTICE & POLICE / STATUTORY RECOURSE]");
+      (advisory.stage2FormalRecourse || []).forEach(function(s) { lines.push("• " + s); });
+      lines.push("");
+      lines.push("[PHASE 3: JUDICIAL PROCEEDINGS, PETITIONS & RELIEFS IN COURT]");
+      (advisory.stage3CourtProceedings || []).forEach(function(s) { lines.push("• " + s); });
+      lines.push("");
+      lines.push("[ADVOCATE'S STRATEGIC ADVICE & IMPORTANT CAUTIONS]");
+      (advisory.advocateStrategicAdvice || []).forEach(function(s) { lines.push("• " + s); });
+      lines.push("");
+    }
+
+    lines.push("=====================================================");
+    lines.push("Generated by NYAAI (न्यायAI) LegalTech AI Platform");
+    lines.push("Statutory compliance verified across BNS 2023, BNSS 2023 & BSA 2023.");
+
+    const formattedRoadmap = lines.join(String.fromCharCode(10));
     navigator.clipboard.writeText(formattedRoadmap);
     e.target.textContent = str.copied;
     setTimeout(function() { e.target.textContent = str.copyBtn; }, 2500);
@@ -1430,7 +1823,13 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
 
   // Read Aloud Handler
   botMsg.querySelector(".read-aloud-btn").addEventListener("click", function() {
-    const textToSpeak = advisory.title + ". Phase 1: Immediate Steps: " + advisory.stage1Immediate.slice(0, 2).join(". ") + ". Phase 2: Formal Recourse: " + advisory.stage2FormalRecourse.slice(0, 2).join(". ") + ". Phase 3: Court Proceedings: " + advisory.stage3CourtProceedings.slice(0, 2).join(". ") + ". Primary Authority: " + advisory.act + ", " + advisory.section;
+    let textToSpeak = advisory.title + ". ";
+    if (isDetailed && advisory.detailedPoints) {
+      textToSpeak += advisory.detailedPoints.slice(0, 3).map(function(p) { return p.number + ": " + p.title + ". " + p.content; }).join(" ");
+    } else {
+      textToSpeak += "Phase 1: Immediate Steps: " + advisory.stage1Immediate.slice(0, 2).join(". ") + ". Phase 2: Formal Recourse: " + advisory.stage2FormalRecourse.slice(0, 2).join(". ") + ". Phase 3: Court Proceedings: " + advisory.stage3CourtProceedings.slice(0, 2).join(". ");
+    }
+    textToSpeak += ". Primary Authority: " + advisory.act + ", " + advisory.section;
     speakText(textToSpeak);
   });
 
@@ -1442,7 +1841,6 @@ function renderAdvocateAdvisoryBubble(advisory, queryText, chatHistory) {
   chatHistory.appendChild(botMsg);
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
-
 
 
 function initAITerminal() {

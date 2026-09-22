@@ -283,5 +283,66 @@ class AiServiceTest {
         assertTrue("Answer should include Advocate's Strategic Advice", answer.contains("ADVOCATE'S STRATEGIC ADVICE"))
         assertEquals(0.98, confidence, 0.001)
     }
+
+    @Test
+    fun testDetailedQueryReturnsMoreThanSevenPointsForLandlord() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "My landlord locked my flat and threw out my belongings, explain in detail step by step each and everything",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Comprehensive Brief", answer.contains("COMPREHENSIVE LEGAL BRIEF"))
+        // Check for 9 sequentially numbered points
+        for (i in 1..9) {
+            assertTrue("Answer must contain point $i", answer.contains("$i."))
+        }
+        val pointMatches = Regex("(?m)^\\d+\\.").findAll(answer).count()
+        assertTrue("Detailed answer must contain more than 7 points (actual: $pointMatches)", pointMatches >= 8)
+        assertTrue("Must cite Section 106 TP Act", answer.contains("Transfer of Property Act"))
+        assertTrue("Must cite Section 175(3) BNSS", answer.contains("175(3) BNSS"))
+        assertTrue("Must cite Order 39 CPC", answer.contains("Order 39"))
+        assertEquals(0.99, confidence, 0.001)
+    }
+
+    @Test
+    fun testDetailedQueryReturnsMoreThanSevenPointsForChequeBounce() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Cheque bounced due to insufficient funds, provide full detailed explanation with all points",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Comprehensive Brief", answer.contains("COMPREHENSIVE LEGAL BRIEF"))
+        val pointMatches = Regex("(?m)^\\d+\\.").findAll(answer).count()
+        assertTrue("Detailed cheque answer must contain more than 7 points (actual: $pointMatches)", pointMatches >= 8)
+        assertTrue("Must mention Section 138", answer.contains("138"))
+        assertTrue("Must mention Section 143A interim compensation", answer.contains("143A"))
+        assertTrue("Must mention Section 141 corporate liability", answer.contains("141"))
+        assertEquals(0.99, confidence, 0.001)
+    }
+
+    @Test
+    fun testDetailedQueryReturnsMoreThanSevenPointsForPoliceRefusal() = runTest {
+        val fakeDao = FakeRagDao(emptyList())
+        val service = AiService(fakeDao, apiKey = "")
+
+        val (answer, confidence) = service.generateAnswer(
+            "Police refused to register my FIR, elaborate and explain properly in full detail",
+            AppLanguage.ENGLISH
+        )
+
+        assertTrue("Answer should feature Comprehensive Brief", answer.contains("COMPREHENSIVE LEGAL BRIEF"))
+        val pointMatches = Regex("(?m)^\\d+\\.").findAll(answer).count()
+        assertTrue("Detailed police refusal answer must contain more than 7 points (actual: $pointMatches)", pointMatches >= 8)
+        assertTrue("Must mention Section 175(3) BNSS", answer.contains("175(3) BNSS"))
+        assertTrue("Must mention Lalita Kumari", answer.contains("Lalita Kumari"))
+        assertTrue("Must mention Article 226", answer.contains("Article 226"))
+        assertEquals(0.99, confidence, 0.001)
+    }
 }
 
