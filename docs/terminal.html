@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3">
+  <link rel="stylesheet" href="styles.css?v=2.4">
 </head>
 <body>
 
@@ -43,13 +43,13 @@
         <option value="te">తెలుగు (Telugu)</option>
         <option value="ta">தமிழ் (Tamil)</option>
       </select>
-      <a href="download.html" class="btn-primary" style="padding: 8px 16px; font-size: 0.88rem;">Get App</a>
+      <a href="download.html" class="btn-primary" style="padding: 7px 16px; font-size: 0.88rem;">Get App</a>
     </div>
   </nav>
 
-  <!-- Main Terminal Section -->
-  <main class="main-container">
-    <div class="terminal-header">
+  <!-- Terminal Workspace -->
+  <main class="page-container">
+    <div class="page-header">
       <span class="badge-pastel-blue">⚡ Interactive Legal Playground</span>
       <h1 class="page-title">Live Legal AI Terminal</h1>
       <p class="page-desc">Query India's reformed penal and constitutional acts with instant, grounded statutory citations and confidence metrics.</p>
@@ -72,22 +72,13 @@
           <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: var(--text-primary);">
             Welcome to the NYAAI Research Terminal
           </div>
-          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px;">
-            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, and the <strong>Constitution of India</strong>. Ask any legal scenario or try our one-click advocate demonstrations:
+          <p style="color: var(--text-secondary); line-height: 1.6;">
+            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, and the <strong>Constitution of India</strong>. Ask a specific legal question or click one of the suggested query chips below:
           </p>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-            <button class="chip-btn suggestion-chip" style="font-size: 0.76rem; padding: 5px 11px;" data-query="My landlord locked my flat without notice and kept my belongings, what should I do?">🏠 Landlord Locked Flat</button>
-            <button class="chip-btn suggestion-chip" style="font-size: 0.76rem; padding: 5px 11px;" data-query="Cheque bounced due to insufficient funds, how do I send notice and file case?">💳 Cheque Bounced</button>
-            <button class="chip-btn suggestion-chip" style="font-size: 0.76rem; padding: 5px 11px;" data-query="Police officer refused to register my FIR, what legal remedies and procedure do I have?">👮 Police Refused FIR</button>
-            <button class="chip-btn suggestion-chip" style="font-size: 0.76rem; padding: 5px 11px; background: #EEF2FF; border-color: #C7D2FE; color: #4338CA; font-weight: 700;" data-query="Explain in full detail step by step: My landlord locked my flat and threw out my belongings, what should I do?">📑 Landlord Lockout (Detailed 8+ Points)</button>
-          </div>
         </div>
       </div>
 
       <!-- Suggestion Chips -->
-      <div style="margin: 12px 0 6px 0; font-size: 0.78rem; font-weight: 700; color: #4F46E5; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.04em;">
-        <span>📜</span> Statutory Provisions:
-      </div>
       <div class="prompt-chips">
         <button class="chip-btn suggestion-chip" data-query="What are the bail provisions under Section 482 of BNSS 2023?">
           ⚖️ Section 482 BNSS Bail
@@ -103,50 +94,6 @@
         </button>
         <button class="chip-btn suggestion-chip" data-query="What are consumer rights regarding defective products and refunds?">
           🛍️ Consumer Rights & Refunds
-        </button>
-      </div>
-
-      <!-- Real-Life Scenario Prompt Chips (Advocate Proceeding Engine) -->
-      <div style="margin: 14px 0 6px 0; font-size: 0.78rem; font-weight: 700; color: #D97706; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.04em;">
-        <span>👨‍⚖️</span> Real-Life Scenarios (Advocate Advisory & Proceeding Engine):
-      </div>
-      <div class="prompt-chips" style="margin-bottom: 8px;">
-        <button class="chip-btn suggestion-chip" data-query="My landlord locked my flat without notice and kept my belongings, what should I do?">
-          🏠 Landlord Locked Flat
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Someone hit my car and ran away, what is the legal process and how to claim?">
-          🚗 Hit & Run Accident
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Cheque bounced due to insufficient funds, how do I send notice and file case?">
-          💳 Cheque Bounced (Sec 138)
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Police officer refused to register my FIR, what legal remedies and procedure do I have?">
-          👮 Police Refused FIR
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Someone is blackmailing me with morphed photos on social media, what are the legal steps?">
-          📱 Cyber Blackmail & Extortion
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="My employer has not paid my salary for 3 months and terminated me, how to recover dues?">
-          💼 Unpaid Salary (3 Months)
-        </button>
-        <button class="chip-btn suggestion-chip" data-query="Facing domestic violence and harassment for dowry by in-laws, what immediate protection can I get?">
-          🛡️ Domestic Violence & Dowry
-        </button>
-      </div>
-
-      <!-- Comprehensive Detailed 8+ Points Advocate Brief Chips -->
-      <div style="margin: 14px 0 6px 0; font-size: 0.78rem; font-weight: 700; color: #4338CA; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.04em;">
-        <span>📑</span> Detailed 8+ Point Advocate Briefs (Comprehensive Deep-Dive):
-      </div>
-      <div class="prompt-chips" style="margin-bottom: 8px;">
-        <button class="chip-btn suggestion-chip" style="border-color: #C7D2FE; background: #EEF2FF; color: #3730A3;" data-query="Explain in full detail step by step: My landlord locked my flat and threw out my belongings, what should I do?">
-          📑 Landlord Lockout (Detailed 8-Point Brief)
-        </button>
-        <button class="chip-btn suggestion-chip" style="border-color: #C7D2FE; background: #EEF2FF; color: #3730A3;" data-query="Cheque bounced due to insufficient funds, provide full detailed explanation with all points on notice, limitation and court case">
-          📑 Cheque Bounce (Detailed 8-Point Brief)
-        </button>
-        <button class="chip-btn suggestion-chip" style="border-color: #C7D2FE; background: #EEF2FF; color: #3730A3;" data-query="Police refused to register my FIR for a cognizable offense, elaborate and explain properly in full detail all remedies">
-          📑 Police Refusal (Detailed 8-Point Brief)
         </button>
       </div>
 
@@ -177,7 +124,7 @@
     </div>
   </footer>
 
-  <script src="legal_data.js?v=2.3"></script>
-  <script src="app.js?v=2.3"></script>
+  <script src="legal_data.js?v=2.4"></script>
+  <script src="app.js?v=2.4"></script>
 </body>
 </html>
