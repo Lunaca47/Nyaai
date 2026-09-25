@@ -185,6 +185,8 @@ class RetrievalQuery(BaseModel):
     jurisdiction: Optional[str] = None
     act: Optional[str] = None
     limit: int = 5
+    enable_live_fetch: bool = False
+    dead_url_for_test: Optional[str] = None
 
 class LegalDocumentResult(BaseModel):
     id: str
@@ -195,7 +197,10 @@ class LegalDocumentResult(BaseModel):
     jurisdiction: str
     status: str  # "in_force", "amended", "repealed"
     relevance_score: float
-    retrieval_mode: str  # "sparse", "dense", "hybrid"
+    retrieval_mode: str  # "sparse", "dense", "hybrid", "live_fetch", "live_fetch_cached", "fallback_local_preverified"
+    source_type: str = "local_corpus"  # "local_corpus" or "live_fetch"
+    source_url: Optional[str] = None
+    fetched_at: Optional[str] = None
 
 class RetrievalResponse(BaseModel):
     query: str

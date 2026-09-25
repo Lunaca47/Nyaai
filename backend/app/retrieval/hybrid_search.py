@@ -22,6 +22,8 @@ class DocumentChunk:
     status: str = "in_force"  # "in_force", "amended", "repealed", "model_law_not_uniformly_adopted"
     effective_date: str = "2024-07-01"
     source_url: str = ""
+    source_type: str = "local_corpus"  # "local_corpus" or "live_fetch"
+    fetched_at: str = ""
 
 
 @dataclass
