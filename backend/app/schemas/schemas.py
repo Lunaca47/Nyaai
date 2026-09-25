@@ -202,3 +202,35 @@ class RetrievalResponse(BaseModel):
     results: List[LegalDocumentResult]
     total: int
 
+# ---------------------------------------------------------------------------
+# Case Law Precedent Schemas (Phase 1)
+# ---------------------------------------------------------------------------
+
+class CaseLawEntry(BaseModel):
+    case_id: str
+    case_name: str
+    citation: str
+    court: str = "Supreme Court of India"
+    judgment_date: str
+    bench_strength: int
+    bench_judges: List[str]
+    statutory_provisions: List[str]
+    legal_domain: str
+    ratio_decidendi: str
+    key_principles: List[str]
+    precedent_status: str = Field(..., description="GOOD_LAW | MODIFIED | SUPERSEDED_BY_STATUTE | OVERRULED")
+    currentness_check: str
+    source_url: str
+    verification_status: str = "VERIFIED"
+
+class CaseLawQuery(BaseModel):
+    query: Optional[str] = None
+    statute: Optional[str] = None
+    precedent_status: Optional[str] = None
+    limit: int = 10
+
+class CaseLawListResponse(BaseModel):
+    cases: List[CaseLawEntry]
+    total: int
+
+

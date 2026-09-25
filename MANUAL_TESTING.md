@@ -10,8 +10,12 @@ This document provides a sequential, step-by-step testing script for human verif
 - **OS**: Android 8.0 (API 26) or higher.
 - **Build & Install**:
   ```bash
+  # Option 1: Assemble and install debug APK
   .\gradlew assembleDebug
   adb install -r app/build/outputs/apk/debug/app-debug.apk
+
+  # Option 2: Sideload signed production release APK directly
+  adb install -r docs/app-release.apk
   ```
 - **Permissions Required**: Camera (`android.permission.CAMERA`), Phone/Dialer (`android.permission.CALL_PHONE` / Dialer intent).
 
@@ -51,15 +55,15 @@ This document provides a sequential, step-by-step testing script for human verif
 ---
 
 ### Suite 3: Legal SOS Emergency Assistance Dialer
-*Validates emergency quick-action routing and telephony intent dispatch without unauthorized background dialing.*
+*Validates emergency quick-action routing and telephony intent dispatch across the 17-helpline directory without unauthorized background dialing.*
 
 | Step | Action | Expected Result | Pass/Fail |
 |------|--------|-----------------|-----------|
-| 3.1 | Navigate to **Legal SOS** tab (or tap SOS emergency banner on home screen). | Emergency dispatch screen displays 3 primary hotlines: **Police / Unified Emergency (112)**, **Women Helpline (1091)**, **Cyber Crime Fraud (1930)**. | [ ] |
+| 3.1 | Navigate to **Legal SOS** tab (or tap SOS emergency top-bar button on home screen). | Emergency dispatch screen displays 17 national hotlines, with primary cards for **Unified Emergency (112)**, **National Legal Aid NALSA (15100)**, **Women Helpline NCW (1091 / 7827170170)**, and **Cyber Crime Fraud (1930)**. | [ ] |
 | 3.2 | Tap **"Cyber Fraud (1930)"**. | Android system phone dialer opens immediately with `1930` pre-dialed on the keypad. | [ ] |
 | 3.3 | Verify dialer safety. | App **does NOT** place an automated call without user intervention (`Intent.ACTION_DIAL` is used, requiring the user to tap the green call button). | [ ] |
-| 3.4 | Tap **"Women Helpline (1091)"** and **"Police (112)"**. | Respective numbers `1091` and `112` are pre-filled in the dialer. | [ ] |
-| 3.5 | Check procedural guidance card under each button. | Explains statutory mandate: e.g. for 1930, reporting within 2 hours ("Golden Hour") to freeze recipient UPI accounts. | [ ] |
+| 3.4 | Tap **"National Legal Aid (15100)"** and **"Women Helpline (1091)"**. | Respective numbers `15100` and `1091` are pre-filled in the dialer. | [ ] |
+| 3.5 | Check procedural guidance card under each button. | Explains statutory mandate: e.g. for 1930, reporting within 2 hours ("Golden Hour") to freeze recipient UPI accounts; for 15100, free legal aid under Section 12 of the Legal Services Authorities Act. | [ ] |
 
 ---
 
@@ -108,6 +112,21 @@ This document provides a sequential, step-by-step testing script for human verif
     - Section 420 IPC $\rightarrow$ **Bharatiya Nyaya Sanhita, 2023 Section 318(4)**
     - Section 154 CrPC $\rightarrow$ **Bharatiya Nagarik Suraksha Sanhita, 2023 Section 173**
   - [ ] Action badge reports: `ANNOTATED_REPEALED`.
+
+#### Test 5D: Hallucinated / Non-Existent Section (`REJECTED_UNGROUNDED` Hard Gate)
+- **Prompt**: `"What are the search and seizure powers of the police under Section 999 of the Bharatiya Nyaya Sanhita?"`
+- **Verification on Android & Web**:
+  - [ ] Hard gate blocks ungrounded output.
+  - [ ] BNS has only 358 substantive sections; Section 999 does not exist.
+  - [ ] Action badge reports: `REJECTED_UNGROUNDED` (or flags citation as unverified).
+  - [ ] User receives an ungrounded citation alert instead of fabricated legal text.
+
+#### Test 5E: BNSS Arrest Warrant Procedure (Section 70/72 Verification)
+- **Prompt**: `"Can a police officer execute an arrest warrant without showing the warrant to the accused under BNSS?"`
+- **Verification on Android & Web**:
+  - [ ] Green `PASSED / GROUNDED` citation badge displayed.
+  - [ ] Cites **Section 70** (Form of warrant) and **Section 72** (Notification of substance of warrant) of BNSS 2023.
+  - [ ] Confirms police officer executing warrant shall notify substance thereof and show warrant if required.
 
 ---
 
