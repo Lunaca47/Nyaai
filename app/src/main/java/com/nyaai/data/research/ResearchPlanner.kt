@@ -7,7 +7,7 @@ import com.nyaai.data.retrieval.LegalRetrievalService
 import com.nyaai.data.verification.CitationVerifier
 
 enum class ResearchSubIssueType(val title: String) {
-    SUBSTANTIVE_ELEMENTS("Substantive Legal Provisions & Offenses"),
+    SUBSTANTIVE_ELEMENTS("Substantive Legal Provisions & Supporting Precedents"),
     PROCEDURAL_FORUM("Competent Judicial Forum & Pecuniary Jurisdiction"),
     LIMITATION_PERIOD("Statutory Limitation Periods & Deadlines"),
     PRE_LITIGATION_DEMAND("Mandatory Pre-Litigation Notice Requirements"),
@@ -17,14 +17,16 @@ enum class ResearchSubIssueType(val title: String) {
 data class ResearchSubIssue(
     val issueType: ResearchSubIssueType,
     val subQuery: String,
-    val targetStatutes: List<String>
+    val targetStatutes: List<String>,
+    val supportingPrecedents: List<String> = emptyList()
 )
 
 data class SubIssueFinding(
     val subIssue: ResearchSubIssue,
     val retrievedDocs: List<DocumentEntity>,
     val retrievedExamples: List<TrainingExampleEntity>,
-    val synthesisText: String
+    val synthesisText: String,
+    val supportingPrecedents: List<String> = emptyList()
 )
 
 data class LegalAssessmentReport(
@@ -34,7 +36,8 @@ data class LegalAssessmentReport(
     val findings: List<SubIssueFinding>,
     val synthesizedAssessmentMemo: String,
     val isVerified: Boolean,
-    val verifiedStatutes: List<String>
+    val verifiedStatutes: List<String>,
+    val citedPrecedents: List<String> = emptyList()
 )
 
 class ResearchPlanner(
@@ -51,7 +54,8 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "unlawful eviction criminal trespass BNS 329 criminal breach of trust BNS 316",
-                        listOf("Bharatiya Nyaya Sanhita 2023", "Transfer of Property Act 1882")
+                        listOf("Bharatiya Nyaya Sanhita 2023", "Transfer of Property Act 1882"),
+                        listOf("State of Haryana v. Bhajan Lal, 1992 Supp (1) SCC 335")
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -81,7 +85,11 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "Section 138 Negotiable Instruments Act dishonour funds insufficient debt",
-                        listOf("Negotiable Instruments Act 1881")
+                        listOf("Negotiable Instruments Act 1881"),
+                        listOf(
+                            "M/s Meters and Instruments Pvt. Ltd. v. Kanchan Mehta, (2018) 1 SCC 560",
+                            "P. Mohanraj v. Shah Brothers Ispat Pvt. Ltd., (2021) 6 SCC 258"
+                        )
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -111,7 +119,8 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "defect in goods deficiency in service product liability Section 84 85 CPA 2019",
-                        listOf("Consumer Protection Act 2019")
+                        listOf("Consumer Protection Act 2019"),
+                        listOf("Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal, (2020) 7 SCC 1")
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -141,7 +150,8 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "unpaid wages Section 17 Code on Wages 2019 gratuity Section 4 7 Gratuity Act",
-                        listOf("Code on Wages 2019", "Payment of Gratuity Act 1972")
+                        listOf("Code on Wages 2019", "Payment of Gratuity Act 1972"),
+                        listOf("Common Cause v. Union of India, (2018) 5 SCC 1")
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -171,7 +181,11 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "domestic violence physical emotional economic Section 3 DV Act cruelty BNS 85",
-                        listOf("Protection of Women from Domestic Violence Act 2005", "BNS 2023")
+                        listOf("Protection of Women from Domestic Violence Act 2005", "BNS 2023"),
+                        listOf(
+                            "Social Action Forum for Manav Adhikar v. Union of India, (2018) 10 SCC 443",
+                            "Arnesh Kumar v. State of Bihar, (2014) 8 SCC 273"
+                        )
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -201,7 +215,11 @@ class ResearchPlanner(
                     ResearchSubIssue(
                         ResearchSubIssueType.SUBSTANTIVE_ELEMENTS,
                         "$query substantive offenses civil criminal liability BNS 2023",
-                        listOf("Bharatiya Nyaya Sanhita 2023", "Civil Law")
+                        listOf("Bharatiya Nyaya Sanhita 2023", "Civil Law"),
+                        listOf(
+                            "Lalita Kumari v. Govt. of U.P., (2014) 2 SCC 1",
+                            "D.K. Basu v. State of West Bengal, (1997) 1 SCC 416"
+                        )
                     ),
                     ResearchSubIssue(
                         ResearchSubIssueType.PROCEDURAL_FORUM,
@@ -237,6 +255,7 @@ class ResearchPlanner(
         val subIssues = decomposeQuery(query, domain)
         val findings = mutableListOf<SubIssueFinding>()
         val allStatutes = mutableSetOf<String>()
+        val allPrecedents = mutableSetOf<String>()
 
         for (issue in subIssues) {
             val retrievalResult = retrievalService.retrieve(
@@ -246,6 +265,7 @@ class ResearchPlanner(
             val docs = retrievalResult.documents
             val examples = retrievalResult.uniqueTrainingMatches
             issue.targetStatutes.forEach { allStatutes.add(it) }
+            issue.supportingPrecedents.forEach { allPrecedents.add(it) }
 
             val findingText = synthesizeSubIssueFinding(issue, docs, examples)
             findings.add(
@@ -253,7 +273,8 @@ class ResearchPlanner(
                     subIssue = issue,
                     retrievedDocs = docs,
                     retrievedExamples = examples,
-                    synthesisText = findingText
+                    synthesisText = findingText,
+                    supportingPrecedents = issue.supportingPrecedents
                 )
             )
         }
@@ -271,7 +292,8 @@ class ResearchPlanner(
             findings = findings,
             synthesizedAssessmentMemo = memo,
             isVerified = verification.isGrounded,
-            verifiedStatutes = allStatutes.toList()
+            verifiedStatutes = allStatutes.toList(),
+            citedPrecedents = allPrecedents.toList()
         )
     }
 
@@ -313,6 +335,9 @@ class ResearchPlanner(
             sb.appendLine("### ${finding.subIssue.issueType.title}")
             sb.appendLine(finding.synthesisText)
             sb.appendLine("**Key Authorities:** ${finding.subIssue.targetStatutes.joinToString(", ")}")
+            if (finding.supportingPrecedents.isNotEmpty()) {
+                sb.appendLine("**Supporting Precedents:** ${finding.supportingPrecedents.joinToString(" • ")}")
+            }
             sb.appendLine()
         }
 

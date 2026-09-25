@@ -50,6 +50,7 @@ class ResearchPlannerTest {
 
         val substantive = subIssues.first { it.issueType == ResearchSubIssueType.SUBSTANTIVE_ELEMENTS }
         assertTrue(substantive.targetStatutes.any { it.contains("Bharatiya Nyaya Sanhita") })
+        assertTrue("Substantive elements must include supporting precedent", substantive.supportingPrecedents.any { it.contains("Bhajan Lal") })
     }
 
     @Test
@@ -57,6 +58,9 @@ class ResearchPlannerTest {
         val subIssues = researchPlanner.decomposeQuery("Cheque bounced with return memo funds insufficient", "cheque_bounce")
 
         assertEquals(5, subIssues.size)
+        val substantive = subIssues.first { it.issueType == ResearchSubIssueType.SUBSTANTIVE_ELEMENTS }
+        assertTrue("Cheque bounce must include Meters and Instruments precedent", substantive.supportingPrecedents.any { it.contains("Meters and Instruments") })
+
         val interim = subIssues.first { it.issueType == ResearchSubIssueType.INTERIM_RELIEF }
         assertTrue(interim.subQuery.contains("143A"))
         assertTrue(interim.targetStatutes.contains("Negotiable Instruments Act 1881"))
@@ -67,6 +71,9 @@ class ResearchPlannerTest {
         val subIssues = researchPlanner.decomposeQuery("Defective washing machine Amazon refusing replacement", "consumer_complaint")
 
         assertEquals(5, subIssues.size)
+        val substantive = subIssues.first { it.issueType == ResearchSubIssueType.SUBSTANTIVE_ELEMENTS }
+        assertTrue("Consumer dispute must include Arjun Khotkar electronic evidence precedent", substantive.supportingPrecedents.any { it.contains("Arjun Panditrao Khotkar") })
+
         val forum = subIssues.first { it.issueType == ResearchSubIssueType.PROCEDURAL_FORUM }
         assertTrue(forum.subQuery.contains("Section 35"))
         assertTrue(forum.targetStatutes.contains("Consumer Protection Act 2019"))
@@ -88,5 +95,8 @@ class ResearchPlannerTest {
         assertTrue("Synthesized memo must contain header", report.synthesizedAssessmentMemo.contains("SENIOR ADVOCATE MULTI-HOP LEGAL ASSESSMENT MEMO"))
         assertTrue("Synthesized memo must contain analysis sections", report.synthesizedAssessmentMemo.contains("MULTI-DIMENSIONAL LEGAL ANALYSIS"))
         assertTrue("Must include verified statutes", report.verifiedStatutes.isNotEmpty())
+        assertTrue("Must weave supporting precedents into assessment report", report.citedPrecedents.isNotEmpty())
+        assertTrue("Synthesized memo must contain Supporting Precedents section", report.synthesizedAssessmentMemo.contains("Supporting Precedents"))
+        assertTrue("Synthesized memo must explicitly cite Bhajan Lal", report.synthesizedAssessmentMemo.contains("Bhajan Lal"))
     }
 }
