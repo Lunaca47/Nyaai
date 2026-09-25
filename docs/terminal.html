@@ -59,7 +59,7 @@
       <div class="terminal-topbar">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="width: 10px; height: 10px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
-          <span class="mono" style="font-size: 0.84rem; font-weight: 600; color: var(--text-secondary);">BACKEND ENGINE • 1,705 SUBSTANTIVE PROVISIONS • HYBRID RETRIEVAL</span>
+          <span class="mono" style="font-size: 0.84rem; font-weight: 600; color: var(--text-secondary);">BACKEND ENGINE • 1,705 SUBSTANTIVE PROVISIONS • 21 LANDMARK PRECEDENTS • HYBRID RETRIEVAL</span>
         </div>
         <span class="badge-pastel-sage" style="font-size: 0.74rem;">FastAPI Legal Service</span>
       </div>
@@ -67,13 +67,13 @@
       <div id="chatHistory" class="chat-scroll">
         <div class="chat-bubble chat-ai">
           <div class="badge-pastel-sage" style="margin-bottom: 8px; font-size: 0.74rem;">
-            <span>●</span> Statutory Grounding Active
+            <span>●</span> Statutory & Precedent Grounding Active
           </div>
           <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: var(--text-primary);">
             Welcome to the NYAAI Research Terminal
           </div>
           <p style="color: var(--text-secondary); line-height: 1.6;">
-            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, and the <strong>Constitution of India</strong>. Ask a specific legal question or scroll horizontally through the interactive prompt chips below:
+            I can cross-examine provisions across <strong>Bharatiya Nyaya Sanhita (BNS 2023)</strong>, <strong>BNSS 2023</strong>, <strong>BSA 2023</strong>, the <strong>Constitution of India</strong>, and <strong>21 Landmark Supreme Court Precedents</strong>. Ask a specific legal question or scroll horizontally through the interactive prompt chips below:
           </p>
         </div>
       </div>
@@ -143,6 +143,26 @@
           </button>
           <button class="chip-btn suggestion-chip chip-brief" data-query="Facing domestic violence and dowry harassment, explain in full detail step by step all legal rights, protection orders, and magistrate proceedings">
             📑 Domestic Violence (8-Point Brief)
+          </button>
+
+          <span class="chip-divider"></span>
+
+          <!-- 4. Landmark Case Law Precedents -->
+          <span class="chip-category-badge badge-precedent" style="background: rgba(99, 102, 241, 0.1); color: #4F46E5; border: 1px solid rgba(99, 102, 241, 0.3);">🏛️ Precedents</span>
+          <button class="chip-btn suggestion-chip chip-precedent" data-query="Mandatory registration of FIR under Section 173 BNSS Lalita Kumari guidelines">
+            🏛️ Lalita Kumari (Mandatory FIR)
+          </button>
+          <button class="chip-btn suggestion-chip chip-precedent" data-query="Arrest safeguards and Section 41 CrPC Arnesh Kumar notice guidelines under BNSS Section 35">
+            🏛️ Arnesh Kumar (Arrest Safeguards)
+          </button>
+          <button class="chip-btn suggestion-chip chip-precedent" data-query="Admissibility of electronic records and WhatsApp chat certificates Arjun Panditrao Khotkar under BSA Section 63">
+            🏛️ Arjun Khotkar (Electronic Evidence)
+          </button>
+          <button class="chip-btn suggestion-chip chip-precedent" data-query="Quashing of FIR parameters State of Haryana v. Bhajan Lal guidelines">
+            🏛️ Bhajan Lal (FIR Quashing)
+          </button>
+          <button class="chip-btn suggestion-chip chip-precedent" data-query="Is preliminary inquiry permitted under SC ST Act Dr Subhash Kashinath Mahajan or Section 18A">
+            🏛️ Subhash Mahajan (Superseded Check)
           </button>
         </div>
       </div>

@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nyaai.data.local.RagDao
 import com.nyaai.data.matter.*
+import com.nyaai.data.verification.CitationBadgeHelper
+import com.nyaai.data.verification.CitationBadgeType
 import com.nyaai.ui.state.LocalStrings
 import kotlinx.coroutines.launch
 
@@ -179,7 +181,7 @@ fun MatterDetailScreen(
                             }
                         })
                         3 -> EvidenceTab(evidence = currentMatter.evidence, colors = colors)
-                        4 -> CitationsTab(laws = currentMatter.applicableLaws, colors = colors)
+                        4 -> CitationsTab(laws = currentMatter.applicableLaws, caseLaw = currentMatter.caseLaw, colors = colors)
                         5 -> OpenQuestionsTab(missing = currentMatter.missingInformation, questions = currentMatter.openQuestions, colors = colors)
                     }
                 }
@@ -392,37 +394,126 @@ private fun EvidenceTab(evidence: List<MatterEvidence>, colors: ColorScheme) {
 
 // ── Tab 4: Citations & Law ───────────────────────────────────────────────────
 @Composable
-private fun CitationsTab(laws: List<ApplicableLaw>, colors: ColorScheme) {
-    if (laws.isEmpty()) {
+private fun CitationsTab(
+    laws: List<ApplicableLaw>,
+    caseLaw: List<String> = emptyList(),
+    colors: ColorScheme
+) {
+    if (laws.isEmpty() && caseLaw.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("No statutory provisions linked yet.", color = colors.onSurfaceVariant)
+            Text("No statutory provisions or case law precedents linked yet.", color = colors.onSurfaceVariant)
         }
     } else {
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(laws) { law ->
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = colors.surface),
-                    shape = RoundedCornerShape(12.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, colors.outline.copy(alpha = 0.5f))
-                ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text("${law.section}, ${law.act}", fontWeight = FontWeight.Bold, color = colors.primary, fontSize = 14.sp)
-                            Surface(
-                                shape = RoundedCornerShape(10.dp),
-                                color = if (law.currentnessStatus == "in_force") Color(0xFF10B981).copy(alpha = 0.15f) else Color(0xFFEF4444).copy(alpha = 0.15f)
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            if (laws.isNotEmpty()) {
+                item {
+                    Text(
+                        "Statutory Provisions (${laws.size})",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        color = colors.onBackground
+                    )
+                }
+                items(laws) { law ->
+                    val badge = CitationBadgeHelper.evaluateStatuteBadge(law)
+                    val (containerColor, contentColor) = when (badge.type) {
+                        CitationBadgeType.PASSED -> Color(0xFF10B981).copy(alpha = 0.15f) to Color(0xFF10B981)
+                        CitationBadgeType.ANNOTATED_SUPERSEDED_PRECEDENT -> Color(0xFFF59E0B).copy(alpha = 0.15f) to Color(0xFFD97706)
+                        CitationBadgeType.ANNOTATED_REPEALED, CitationBadgeType.REJECTED_UNGROUNDED -> Color(0xFFEF4444).copy(alpha = 0.15f) to Color(0xFFEF4444)
+                    }
+
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = colors.surface),
+                        shape = RoundedCornerShape(12.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, colors.outline.copy(alpha = 0.5f))
+                    ) {
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    law.currentnessStatus.replace("_", " ").uppercase(),
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                    fontSize = 10.sp,
+                                    "${law.section}, ${law.act}",
                                     fontWeight = FontWeight.Bold,
-                                    color = if (law.currentnessStatus == "in_force") Color(0xFF10B981) else Color(0xFFEF4444)
+                                    color = colors.primary,
+                                    fontSize = 14.sp,
+                                    modifier = Modifier.weight(1f, fill = false)
                                 )
+                                Spacer(Modifier.width(8.dp))
+                                Surface(
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = containerColor
+                                ) {
+                                    Text(
+                                        badge.label,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = contentColor
+                                    )
+                                }
                             }
+                            Spacer(Modifier.height(4.dp))
+                            Text(badge.note, fontSize = 11.sp, color = colors.onSurfaceVariant)
                         }
-                        Spacer(Modifier.height(4.dp))
-                        Text("Currentness confirmed as of: ${law.asOf}", fontSize = 11.sp, color = colors.onSurfaceVariant)
+                    }
+                }
+            }
+
+            if (caseLaw.isNotEmpty()) {
+                item {
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        "Judicial Precedents & Case Law (${caseLaw.size})",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        color = colors.onBackground
+                    )
+                }
+                items(caseLaw) { citation ->
+                    val badge = CitationBadgeHelper.evaluatePrecedentBadge(citation)
+                    val (containerColor, contentColor) = when (badge.type) {
+                        CitationBadgeType.PASSED -> Color(0xFF10B981).copy(alpha = 0.15f) to Color(0xFF10B981)
+                        CitationBadgeType.ANNOTATED_SUPERSEDED_PRECEDENT -> Color(0xFFF59E0B).copy(alpha = 0.15f) to Color(0xFFD97706)
+                        CitationBadgeType.ANNOTATED_REPEALED, CitationBadgeType.REJECTED_UNGROUNDED -> Color(0xFFEF4444).copy(alpha = 0.15f) to Color(0xFFEF4444)
+                    }
+
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = colors.surface),
+                        shape = RoundedCornerShape(12.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, colors.outline.copy(alpha = 0.5f))
+                    ) {
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    citation,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colors.primary,
+                                    fontSize = 14.sp,
+                                    modifier = Modifier.weight(1f, fill = false)
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                Surface(
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = containerColor
+                                ) {
+                                    Text(
+                                        badge.label,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = contentColor
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(4.dp))
+                            Text(badge.note, fontSize = 11.sp, color = colors.onSurfaceVariant)
+                        }
                     }
                 }
             }

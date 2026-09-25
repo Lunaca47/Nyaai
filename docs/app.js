@@ -219,38 +219,47 @@ function getConversationalGreeting(queryText, lang) {
   }
 }
 
-function buildGroundingPrompt(query, sources) {
+function buildGroundingPrompt(query, sources, cases = []) {
   const context = (sources || []).map((s, idx) => {
     return `[Statutory Source ${idx + 1}]\nAct: ${s.act}\nSection: ${s.section} (${s.title})\nJurisdiction: ${s.jurisdiction || "central"} | Status: ${s.status || "in_force"}\nStatutory Text:\n${s.content}`;
   }).join("\n\n");
 
-  return `You are NYAAI (न्यायAI), an authoritative Indian Legal Assistant adhering strictly to codified Indian statutes.
-Answer the citizen's legal inquiry based FAITHFULLY on the retrieved statutory sources below.
+  const caseContext = (cases || []).map((c, idx) => {
+    return `[Judicial Precedent ${idx + 1}]\nCase: ${c.case_name} (${c.citation})\nCourt: ${c.court} | Status: ${c.precedent_status}\nRatio: ${c.ratio_decidendi}\nKey Principles: ${(c.key_principles || []).join("; ")}\nCurrentness: ${c.currentness_check || "Good Law"}`;
+  }).join("\n\n");
+
+  return `You are NYAAI (न्यायAI), an authoritative Indian Legal Assistant adhering strictly to codified Indian statutes and verified Supreme Court precedents.
+Answer the citizen's legal inquiry based FAITHFULLY on the retrieved statutory sources and judicial precedents below.
 
 Retrieved Ground-Truth Sources:
 ${context}
 
+${caseContext ? `Retrieved Supreme Court Precedents:\n${caseContext}\n` : ""}
 User Inquiry: ${query}
 
 Instructions:
-1. Ground every legal assertion in the retrieved statutory sources above.
-2. Explicitly cite the exact Act name and Section number (e.g., Section 138 of Negotiable Instruments Act, Section 173 of BNSS 2023).
+1. Ground every legal assertion in the retrieved statutory sources and judicial precedents above.
+2. Explicitly cite the exact Act name and Section number (e.g., Section 138 of Negotiable Instruments Act, Section 173 of BNSS 2023) and supporting case names.
 3. If an applicable law is a Model Law (such as the Model Tenancy Act, 2021), explicitly advise that it requires individual State Legislative adoption under State List Entry 18.
-4. Do not cite repealed colonial acts (IPC, CrPC, IEA) as governing law. Always refer to modern Sanhitas (BNS, BNSS, BSA).
-5. Outline immediate actionable next steps and evidentiary precautions.`;
+4. If a cited case is marked SUPERSEDED_BY_STATUTE or OVERRULED (e.g. Subhash Kashinath Mahajan), explicitly note that it has been superseded by parliament.
+5. Do not cite repealed colonial acts (IPC, CrPC, IEA) as governing law. Always refer to modern Sanhitas (BNS, BNSS, BSA).
+6. Outline immediate actionable next steps and evidentiary precautions.`;
 }
 
-function synthesizeFromRetrievedSources(query, sources) {
-  if (!sources || sources.length === 0) {
-    return `Statutory analysis for inquiry: "${query}". No direct statutory provisions could be verified in the codex. Please consult a licensed advocate before taking formal legal proceedings.`;
+function synthesizeFromRetrievedSources(query, sources, cases = []) {
+  if ((!sources || sources.length === 0) && (!cases || cases.length === 0)) {
+    return `Statutory analysis for inquiry: "${query}". No direct statutory provisions or precedents could be verified in the codex. Please consult a licensed advocate before taking formal legal proceedings.`;
   }
 
-  const primary = sources[0];
-  let text = `Based on verified statutory codex retrieval for: "${query}":\n\n`;
-  text += `Primary Authority: ${primary.act}, Section ${primary.section} (${primary.title})\n`;
-  text += `${primary.content.substring(0, 350)}...\n\n`;
+  const primary = sources && sources.length > 0 ? sources[0] : null;
+  let text = `Based on verified legal codex retrieval for: "${query}":\n\n`;
 
-  if (sources.length > 1) {
+  if (primary) {
+    text += `Primary Statutory Authority: ${primary.act}, Section ${primary.section} (${primary.title})\n`;
+    text += `${primary.content.substring(0, 350)}...\n\n`;
+  }
+
+  if (sources && sources.length > 1) {
     text += `Additional Governing Provisions:\n`;
     for (let i = 1; i < sources.length; i++) {
       const s = sources[i];
@@ -259,7 +268,16 @@ function synthesizeFromRetrievedSources(query, sources) {
     text += `\n`;
   }
 
-  if (primary.act.includes("Model Tenancy Act")) {
+  if (cases && cases.length > 0) {
+    text += `Supporting Judicial Precedents:\n`;
+    for (const c of cases) {
+      const supNote = c.precedent_status === "SUPERSEDED_BY_STATUTE" ? " [⚠️ SUPERSEDED BY STATUTE]" : "";
+      text += `• ${c.case_name}, ${c.citation}${supNote}: ${c.ratio_decidendi || ""}\n`;
+    }
+    text += `\n`;
+  }
+
+  if (primary && primary.act.includes("Model Tenancy Act")) {
     text += `⚠️ Jurisdiction Note: The Model Tenancy Act is a central model framework. State adoption and local Rent Control / Tenancy legislation (such as Maharashtra Rent Control Act or Delhi Rent Control Act) govern state-specific tenancy matters.\n\n`;
   }
 
@@ -350,7 +368,7 @@ function renderRateLimitExceeded(chatHistory) {
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
-function renderVerifiedResponseBubble(queryText, responseText, retrievedSources, verifyData, chatHistory) {
+function renderVerifiedResponseBubble(queryText, responseText, retrievedSources, verifyData, chatHistory, retrievedCases = []) {
   const botMsg = document.createElement("div");
   botMsg.className = "chat-bubble chat-ai";
 
@@ -359,7 +377,11 @@ function renderVerifiedResponseBubble(queryText, responseText, retrievedSources,
   let badgeIcon = "✓";
   let badgeLabel = "Verified Statutory Grounding";
 
-  if (action === "ANNOTATED_MODEL_LAW") {
+  if (action === "ANNOTATED_SUPERSEDED_PRECEDENT") {
+    badgeClass = "badge-pastel-amber";
+    badgeIcon = "⚠️";
+    badgeLabel = "Superseded Judicial Precedent (Overruled / Legislative Caveat)";
+  } else if (action === "ANNOTATED_MODEL_LAW") {
     badgeClass = "badge-pastel-blue";
     badgeIcon = "ℹ️";
     badgeLabel = "Model Law (State Adoption Required)";
@@ -380,13 +402,15 @@ function renderVerifiedResponseBubble(queryText, responseText, retrievedSources,
   const primarySource = (retrievedSources && retrievedSources.length > 0) ? retrievedSources[0] : null;
   const displayTitle = primarySource 
     ? `${primarySource.act} — Section ${primarySource.section}: ${primarySource.title}`
-    : "Statutory Legal Assessment";
+    : (retrievedCases && retrievedCases.length > 0 ? `${retrievedCases[0].case_name} (${retrievedCases[0].citation})` : "Statutory Legal Assessment");
 
   let scoreText = "";
   if (primarySource && primarySource.relevance_score) {
     scoreText = `Hybrid RRF: ${primarySource.relevance_score.toFixed(4)}`;
   } else if (retrievedSources && retrievedSources.length > 0) {
     scoreText = `${retrievedSources.length} Provisions Grounded`;
+  } else if (retrievedCases && retrievedCases.length > 0) {
+    scoreText = `${retrievedCases.length} Precedents Grounded`;
   } else {
     scoreText = "Procedural Guidance";
   }
@@ -423,6 +447,47 @@ function renderVerifiedResponseBubble(queryText, responseText, retrievedSources,
     `;
   }
 
+  let caseLawHtml = "";
+  if (retrievedCases && retrievedCases.length > 0) {
+    const caseChips = retrievedCases.map(c => {
+      let caseBadgeClass = "badge-pastel-sage";
+      let caseBadgeLabel = "PASSED";
+      let caseBadgeIcon = "✓";
+
+      const pStatus = (c.precedent_status || "").toUpperCase();
+      if (pStatus === "SUPERSEDED_BY_STATUTE" || pStatus === "OVERRULED" || (c.case_name && c.case_name.toLowerCase().includes("mahajan"))) {
+        caseBadgeClass = "badge-pastel-amber";
+        caseBadgeLabel = "ANNOTATED_SUPERSEDED_PRECEDENT";
+        caseBadgeIcon = "⚠️";
+      } else if (pStatus === "REJECTED_UNGROUNDED" || c.verification_status === "UNGROUNDED") {
+        caseBadgeClass = "badge-pastel-red";
+        caseBadgeLabel = "REJECTED_UNGROUNDED";
+        caseBadgeIcon = "🛑";
+      }
+
+      return `
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 6px;">
+            <span style="font-weight: 700; color: #1E293B;">🏛️ ${c.case_name}</span>
+            <span class="${caseBadgeClass}" style="font-size: 0.70rem; padding: 1px 6px;">
+              <span>${caseBadgeIcon}</span> ${caseBadgeLabel}
+            </span>
+          </div>
+          <div style="color: #475569; font-style: italic; margin-bottom: 4px;">Citation: ${c.citation} (${c.court || "Supreme Court of India"})</div>
+          ${c.ratio_decidendi ? `<div style="color: #334155; font-size: 0.80rem; line-height: 1.5;"><strong>Ratio:</strong> ${c.ratio_decidendi}</div>` : ""}
+          ${c.currentness_check ? `<div style="color: #92400E; font-size: 0.76rem; margin-top: 4px;">⚡ Currentness: ${c.currentness_check}</div>` : ""}
+        </div>
+      `;
+    }).join("");
+
+    caseLawHtml = `
+      <div class="citation-pastel-box" style="margin-top: 12px; margin-bottom: 12px; border-left: 4px solid #6366F1;">
+        <strong style="color: #4338CA; display: block; margin-bottom: 8px;">🏛️ Judicial Precedents & Landmark Case Authorities:</strong>
+        ${caseChips}
+      </div>
+    `;
+  }
+
   botMsg.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
       <span class="${badgeClass}" style="font-size: 0.74rem;">
@@ -440,6 +505,7 @@ function renderVerifiedResponseBubble(queryText, responseText, retrievedSources,
     ${formattedContent}
 
     ${sourcesHtml}
+    ${caseLawHtml}
 
     <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
       <button class="chip-btn read-aloud-btn" style="padding: 4px 10px; font-size: 0.76rem;">
@@ -514,37 +580,47 @@ function initAITerminal() {
         headers["Authorization"] = `Bearer ${guestToken}`;
       }
 
-      // 5. Step 1: Hybrid Retrieval Search
-      let searchRes;
+      // 5. Step 1: Hybrid Retrieval Search (Statutes & Case Law)
+      let retrievedSources = [];
+      let retrievedCases = [];
+
       try {
-        searchRes = await fetch(`${CONFIG.API_BASE_URL}/api/v1/retrieval/search`, {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify({ query: queryText, limit: 3 })
-        });
+        const [statutesPromise, caseLawPromise] = await Promise.allSettled([
+          fetch(`${CONFIG.API_BASE_URL}/api/v1/retrieval/search`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ query: queryText, limit: 3 })
+          }),
+          fetch(`${CONFIG.API_BASE_URL}/api/v1/retrieval/search/case-law`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ query: queryText, limit: 2 })
+          })
+        ]);
+
+        if (statutesPromise.status === "fulfilled" && statutesPromise.value.ok) {
+          const sData = await statutesPromise.value.json();
+          retrievedSources = sData.results || [];
+        } else if (statutesPromise.status === "fulfilled" && statutesPromise.value.status === 429) {
+          typingElem.remove();
+          renderRateLimitExceeded(chatHistory);
+          return;
+        }
+
+        if (caseLawPromise.status === "fulfilled" && caseLawPromise.value.ok) {
+          const cData = await caseLawPromise.value.json();
+          retrievedCases = cData.results || [];
+        }
       } catch (networkErr) {
         typingElem.remove();
         renderBackendUnreachable(networkErr, chatHistory);
         return;
       }
 
-      if (!searchRes.ok) {
-        typingElem.remove();
-        if (searchRes.status === 429) {
-          renderRateLimitExceeded(chatHistory);
-        } else {
-          renderBackendUnreachable(new Error(`Server returned HTTP ${searchRes.status}`), chatHistory);
-        }
-        return;
-      }
-
-      const searchData = await searchRes.json();
-      const retrievedSources = searchData.results || [];
-
       // 6. Step 2: Generation via /api/v1/generate
       let generatedText = "";
       try {
-        const genPrompt = buildGroundingPrompt(queryText, retrievedSources);
+        const genPrompt = buildGroundingPrompt(queryText, retrievedSources, retrievedCases);
         const genRes = await fetch(`${CONFIG.API_BASE_URL}/api/v1/generate`, {
           method: "POST",
           headers: headers,
@@ -562,7 +638,7 @@ function initAITerminal() {
       }
 
       if (!generatedText) {
-        generatedText = synthesizeFromRetrievedSources(queryText, retrievedSources);
+        generatedText = synthesizeFromRetrievedSources(queryText, retrievedSources, retrievedCases);
       }
 
       // 7. Step 3: Citation Verification via /api/v1/verify
@@ -573,6 +649,7 @@ function initAITerminal() {
         ungrounded_citations: [],
         model_laws: [],
         repealed_citations: [],
+        superseded_precedents: [],
         annotated_response: generatedText
       };
 
@@ -588,7 +665,13 @@ function initAITerminal() {
               section: s.section,
               title: s.title,
               content: s.content
-            }))
+            })).concat(retrievedCases.map(c => ({
+              id: c.case_id,
+              act: c.case_name,
+              section: c.citation,
+              title: c.court,
+              content: `${c.case_name} ${c.citation} ${c.ratio_decidendi} ${c.precedent_status}`
+            })))
           })
         });
         if (verifyRes.ok) {
@@ -600,7 +683,7 @@ function initAITerminal() {
 
       // 8. Render Verified Result Bubble
       typingElem.remove();
-      renderVerifiedResponseBubble(queryText, generatedText, retrievedSources, verificationData, chatHistory);
+      renderVerifiedResponseBubble(queryText, generatedText, retrievedSources, verificationData, chatHistory, retrievedCases);
 
     } catch (err) {
       typingElem.remove();
