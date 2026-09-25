@@ -66,6 +66,8 @@ fun ChatScreen(
     onNewChat: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
     onOpenBookmarks: () -> Unit = {},
+    openSosTrigger: Boolean = false,
+    onSosTriggerHandled: () -> Unit = {},
     ragDao: RagDao? = null,
     bottomPadding: androidx.compose.ui.unit.Dp = 0.dp
 ) {
@@ -74,6 +76,13 @@ fun ChatScreen(
     val messages        = remember { mutableStateListOf<ChatMessage>() }
     
     var showSosSheet    by remember { mutableStateOf(false) }
+
+    LaunchedEffect(openSosTrigger) {
+        if (openSosTrigger) {
+            showSosSheet = true
+            onSosTriggerHandled()
+        }
+    }
 
     val isLoggedIn      = LocalAuthState.current
     val openLoginAction = LocalOpenLoginAction.current
@@ -537,32 +546,15 @@ fun ChatScreen(
                         ChatBubble(
                             message = msg,
                             colors = colors,
+                            strings = strings,
                             onFeedback = { feedback ->
                                 scope.launch {
                                     ragDao?.updateMessageFeedback(msg.id, feedback)
                                     val idx = messages.indexOfFirst { it.id == msg.id }
                                     if (idx != -1) {
                                         messages[idx] = messages[idx].copy(feedback = feedback)
-                                        // Autonomous Learning Loop: If user verified answer with thumbs up, store permanently
-                                        if (feedback == "GOOD" && idx > 0) {
-                                            val precedingMsg = messages.getOrNull(idx - 1)
-                                            if (precedingMsg != null && precedingMsg.isUser && precedingMsg.text.isNotBlank()) {
-                                                try {
-                                                    ragDao?.insertTrainingExample(
-                                                        com.nyaai.data.local.TrainingExampleEntity(
-                                                            question = precedingMsg.text.trim(),
-                                                            answer = msg.text.trim(),
-                                                            sourcePath = "User Verified / Nyaai AI",
-                                                            legalDomain = "Citizen Verified Precedent",
-                                                            reasoningQuality = 2
-                                                        )
-                                                    )
-                                                } catch (_: Exception) {}
-                                            }
-                                        }
                                     }
-                                    val toastMsg = if (feedback == "GOOD") "Thanks! Stored as verified legal knowledge." else "Thanks for the feedback!"
-                                    Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show()
                                 }
                             },
                             onToggleBookmark = {
@@ -808,6 +800,7 @@ fun ChatScreen(
 private fun ChatBubble(
     message: ChatMessage,
     colors: ColorScheme,
+    strings: com.nyaai.ui.strings.AppStrings,
     onFeedback: (String) -> Unit,
     onToggleBookmark: () -> Unit
 ) {
@@ -821,19 +814,34 @@ private fun ChatBubble(
                     Column {
                         Text(message.text, color = if (isUser) colors.onPrimary else colors.onSurface, fontSize = 15.sp)
                         if (!isUser && message.confidence != null) {
-                            Spacer(Modifier.height(4.dp))
-                            val percentage = (message.confidence * 100).toInt()
-                            val confidenceColor = when {
-                                percentage >= 80 -> Color(0xFF4CAF50)
-                                percentage >= 50 -> Color(0xFFFFC107)
-                                else -> Color(0xFFE53935)
+                            Spacer(Modifier.height(6.dp))
+                            val (badgeText, badgeColor) = when {
+                                message.text.contains("SENIOR ADVOCATE COMPREHENSIVE LEGAL BRIEF") || message.text.contains("SENIOR ADVOCATE LEGAL ADVISORY") ->
+                                    strings.badgeSeniorAdvocate to Color(0xFF2563EB)
+                                message.text.contains("VERIFIED STATUTORY LEGAL PROVISION") ->
+                                    strings.badgeVerifiedIndianLaw to Color(0xFF16A34A)
+                                message.text.contains("Showing direct excerpts from legal documents") ->
+                                    strings.badgeCodifiedExcerpts to Color(0xFF0D9488)
+                                message.confidence >= 0.90 ->
+                                    strings.badgeVerifiedStatutes to Color(0xFF16A34A)
+                                message.confidence >= 0.70 ->
+                                    strings.badgeStatutoryGuide to Color(0xFFD97706)
+                                else ->
+                                    strings.badgePreliminaryGuidance to Color(0xFFDC2626)
                             }
-                            Text(
-                                "Confidence: $percentage%", 
-                                color = confidenceColor, 
-                                fontSize = 11.sp, 
-                                fontWeight = FontWeight.Bold
-                            )
+                            Surface(
+                                shape = RoundedCornerShape(6.dp),
+                                color = badgeColor.copy(alpha = 0.12f),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, badgeColor.copy(alpha = 0.3f))
+                            ) {
+                                Text(
+                                    text = badgeText,
+                                    color = badgeColor,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                )
+                            }
                         }
                     }
                 }

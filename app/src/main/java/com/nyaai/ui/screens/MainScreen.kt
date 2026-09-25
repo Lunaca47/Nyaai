@@ -35,7 +35,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
-enum class MainTab { CHAT, ABOUT, SETTINGS }
+enum class MainTab { CHAT, MATTERS, ABOUT, SETTINGS }
+
 
 @Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
@@ -50,6 +51,7 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
     val context     = LocalContext.current
     val isKeyboardOpen = WindowInsets.isImeVisible
     var drawerSection by remember { mutableIntStateOf(0) }
+    var openSosTrigger by remember { mutableStateOf(false) }
     val bookmarks by (ragDao?.getAllBookmarksFlow() ?: kotlinx.coroutines.flow.emptyFlow()).collectAsState(initial = emptyList())
 
     var chatSessions by remember { mutableStateOf<List<ChatSessionEntity>>(emptyList()) }
@@ -228,6 +230,18 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                     shape = RoundedCornerShape(12.dp)
                 )
                 NavigationDrawerItem(
+                    label = { Text(strings.myMattersTitle, fontWeight = FontWeight.Medium) },
+                    selected = selectedTab == MainTab.MATTERS,
+                    onClick = {
+                        selectedTab = MainTab.MATTERS
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Outlined.Folder, contentDescription = null) },
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                NavigationDrawerItem(
                     label = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text("🚨 Legal SOS Helplines", fontWeight = FontWeight.Medium, color = Color(0xFFDC2626))
@@ -238,6 +252,7 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                     selected = false,
                     onClick = {
                         selectedTab = MainTab.CHAT
+                        openSosTrigger = true
                         scope.launch { drawerState.close() }
                     },
                     icon = { Icon(Icons.Outlined.Shield, contentDescription = null, tint = Color(0xFFDC2626)) },
@@ -422,14 +437,26 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                                 drawerSection = 1
                                 scope.launch { drawerState.open() }
                             },
+                            openSosTrigger = openSosTrigger,
+                            onSosTriggerHandled = { openSosTrigger = false },
                             ragDao = ragDao,
                             bottomPadding = if (isKeyboardOpen) 4.dp else 84.dp
+                        )
+                        MainTab.MATTERS  -> MattersScreen(
+                            ragDao = ragDao,
+                            onOpenMatter = { matterId ->
+                                navController.navigate("matter_detail/$matterId")
+                            },
+                            onStartNewIntake = {
+                                currentSessionId = null
+                                selectedTab = MainTab.CHAT
+                            }
                         )
                         MainTab.ABOUT    -> AboutScreen(onBack = { selectedTab = MainTab.CHAT })
                         MainTab.SETTINGS -> SettingsScreen(ragDao = ragDao, onBack = { selectedTab = MainTab.CHAT })
                     }
                 }
-                if (!isKeyboardOpen && selectedTab != MainTab.CHAT) {
+                if (!isKeyboardOpen && selectedTab != MainTab.CHAT && selectedTab != MainTab.MATTERS) {
                     Spacer(modifier = Modifier.height(84.dp))
                 }
             }
@@ -455,6 +482,13 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                         selected = selectedTab == MainTab.CHAT,
                         colors   = colors,
                         onClick  = { selectedTab = MainTab.CHAT }
+                    )
+                    NavBarItem(
+                        icon     = Icons.Outlined.Folder,
+                        label    = strings.myMattersTitle,
+                        selected = selectedTab == MainTab.MATTERS,
+                        colors   = colors,
+                        onClick  = { selectedTab = MainTab.MATTERS }
                     )
                     NavBarItem(
                         icon     = Icons.Outlined.BookmarkBorder,
@@ -483,6 +517,7 @@ fun MainScreen(navController: NavController, ragDao: RagDao? = null) {
                 }
             }
         }
+
     }
 }
 }

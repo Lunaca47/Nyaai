@@ -5,6 +5,9 @@ import android.net.Uri
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.nyaai.data.document.DocumentIntelligencePipeline
+import com.nyaai.data.document.DocumentIntelligenceResult
+import com.nyaai.data.matter.Matter
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +19,7 @@ class DocumentScannerService(private val context: Context) {
 
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-    suspend fun extractTextFromUri(uri: Uri): Result<String> = withContext(Dispatchers.IO) {
+    suspend fun extractRawTextFromUri(uri: Uri): Result<String> = withContext(Dispatchers.IO) {
         val mimeType = context.contentResolver.getType(uri) ?: ""
         val isPdf = mimeType.contains("pdf", ignoreCase = true) || uri.toString().endsWith(".pdf", ignoreCase = true)
 
@@ -29,6 +32,38 @@ class DocumentScannerService(private val context: Context) {
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    suspend fun extractTextFromUri(uri: Uri): Result<String> {
+        val rawResult = extractRawTextFromUri(uri)
+        return rawResult.map { rawText ->
+            val intelResult = DocumentIntelligencePipeline.process(rawText, uri.lastPathSegment ?: "document")
+            formatSecureLegalPrompt(intelResult)
+        }
+    }
+
+    suspend fun processDocumentFromUri(uri: Uri): Result<DocumentIntelligenceResult> {
+        val rawResult = extractRawTextFromUri(uri)
+        return rawResult.map { rawText ->
+            DocumentIntelligencePipeline.process(rawText, uri.lastPathSegment ?: "document")
+        }
+    }
+
+    fun attachToMatter(matter: Matter, result: DocumentIntelligenceResult): Matter {
+        val existingFactStatements = matter.facts.map { it.statement }.toSet()
+        val newFacts = result.derivedFacts.filter { it.statement !in existingFactStatements }
+
+        val existingTimelineDescs = matter.timeline.map { it.description }.toSet()
+        val newTimeline = result.derivedTimeline.filter { it.description !in existingTimelineDescs }
+
+        val newEvidence = matter.evidence + result.evidenceRecord
+
+        return matter.copy(
+            facts = matter.facts + newFacts,
+            timeline = matter.timeline + newTimeline,
+            evidence = newEvidence,
+            updatedAt = System.currentTimeMillis()
+        )
     }
 
     private fun extractFromPdf(uri: Uri): Result<String> {
@@ -47,8 +82,7 @@ class DocumentScannerService(private val context: Context) {
                 if (rawText.isBlank()) {
                     Result.failure(IllegalStateException("No readable text found in PDF (might be a scanned image)"))
                 } else {
-                    val sanitized = rawText.take(3000)
-                    Result.success(formatLegalPrompt(sanitized, "PDF Document"))
+                    Result.success(rawText.take(5000))
                 }
             } finally {
                 document.close()
@@ -66,8 +100,7 @@ class DocumentScannerService(private val context: Context) {
                         if (rawText.isBlank()) {
                             continuation.resume(Result.failure(IllegalStateException("No text detected in the image")))
                         } else {
-                            val sanitized = rawText.take(3000)
-                            continuation.resume(Result.success(formatLegalPrompt(sanitized, "Scanned Image/Notice")))
+                            continuation.resume(Result.success(rawText.take(5000)))
                         }
                     }
                     .addOnFailureListener { ex ->
@@ -79,13 +112,29 @@ class DocumentScannerService(private val context: Context) {
         }
     }
 
-    private fun formatLegalPrompt(extractedText: String, source: String): String {
+    private fun formatSecureLegalPrompt(result: DocumentIntelligenceResult): String {
         return buildString {
-            append("Analyze the following $source under Indian law:\n\n")
-            append("\"\"\"\n")
-            append(extractedText)
-            append("\n\"\"\"\n\n")
-            append("Please explain the legal implications, relevant acts (BNS/BNSS/BSA/Constitution), and recommended next steps.")
+            appendLine("📄 **DOCUMENT INTELLIGENCE ANALYSIS**")
+            appendLine("**Classified Type:** ${result.classification.docType.displayName} (${(result.classification.confidence * 100).toInt()}% confidence)")
+
+            if (result.isAdversarial) {
+                appendLine("⚠️ **SECURITY WARNING:** Adversarial instruction patterns were detected and neutralized within this document.")
+            }
+
+            if (result.entities.parties.isNotEmpty()) {
+                appendLine("**Parties Identified:** " + result.entities.parties.entries.joinToString(", ") { "${it.key}: ${it.value}" })
+            }
+            if (result.entities.amounts.isNotEmpty()) {
+                appendLine("**Monetary Values:** " + result.entities.amounts.joinToString(", ") { "${it.contextLabel}: ${it.amountFormatted}" })
+            }
+            if (result.entities.clauses.isNotEmpty()) {
+                appendLine("**Clauses Identified:** " + result.entities.clauses.joinToString("; ") { "${it.clauseType}: ${it.snippet}" })
+            }
+            appendLine()
+            val extractedText = result.evidenceRecord.extractedText ?: result.sanitizedText
+            appendLine(extractedText)
+            appendLine()
+            append("Please provide senior advocate legal guidance, identifying enforceable rights, statutory violations, and next procedural steps under Indian law.")
         }
     }
 }

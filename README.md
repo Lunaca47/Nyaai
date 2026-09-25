@@ -13,7 +13,7 @@ Nyaai is an open-source, on-device legal assistant designed to take complex lega
 You can test Nyaai without setting up Android Studio:
 
 - Web Version: [Launch Web Terminal and Scanner](https://lunaca47.github.io/Nyaai/)
-- Android App: Download the signed APK directly from [web/app-release.apk](web/app-release.apk) (11.4 MB) and install it on your device.
+- Android App: Download the signed APK directly from [docs/app-release.apk](docs/app-release.apk) (11.4 MB) and install it on your device.
 
 ---
 
@@ -165,8 +165,8 @@ Your Question
 ```text
 nyaai/
 ├── app/                  # Android Kotlin source code and assets
-├── web/                  # Web application source files
-├── docs/                 # GitHub Pages deployment bundle
+├── backend/              # FastAPI statutory RAG & verification backend
+├── docs/                 # GitHub Pages web client & web application
 ├── scripts/              # Dataset generation and indexing scripts
 └── release_package/      # Signed release binaries and store assets
 ```

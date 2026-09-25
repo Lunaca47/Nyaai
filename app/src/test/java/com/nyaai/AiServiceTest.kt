@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
 
-class FakeRagDao(
+open class FakeRagDao(
     private val sampleDocs: List<DocumentEntity> = emptyList(),
     private val sampleTraining: List<TrainingExampleEntity> = emptyList()
 ) : RagDao {
@@ -60,6 +60,15 @@ class FakeRagDao(
     override suspend fun getTrainingCount(): Int = sampleTraining.size
     override fun getTrainingCountFlow(): Flow<Int> = flowOf(sampleTraining.size)
     override suspend fun getPagedDocuments(limit: Int, offset: Int): List<DocumentEntity> = emptyList()
+    private val sampleMatters = mutableListOf<MatterEntity>()
+    override suspend fun insertMatter(matter: MatterEntity) { sampleMatters.add(matter) }
+    override suspend fun getMatter(matterId: String): MatterEntity? = sampleMatters.find { it.matterId == matterId }
+    override suspend fun getAllMatters(): List<MatterEntity> = sampleMatters
+    override suspend fun updateMatter(matter: MatterEntity) {
+        val idx = sampleMatters.indexOfFirst { it.matterId == matter.matterId }
+        if (idx != -1) sampleMatters[idx] = matter else sampleMatters.add(matter)
+    }
+    override suspend fun deleteMatter(matterId: String) { sampleMatters.removeAll { it.matterId == matterId } }
 }
 
 class AiServiceTest {
@@ -417,5 +426,38 @@ class AiServiceTest {
         assertTrue("Answer should contain Section 103 murder provision", answer.contains("103") || answer.contains("murder"))
         assertTrue("Confidence should be high (>= 0.95)", confidence >= 0.95)
     }
+
+    @Test
+    fun testCitationVerifierHardGateRejectsUngroundedGenerationAndFallsBackToProcedureEngine() = runTest {
+        // Fake ModelClient returning ungrounded/hallucinated citation Section 999
+        val fakeModelClient = object : com.nyaai.data.model.ModelClient {
+            override suspend fun generateContent(prompt: String): Result<String> {
+                return Result.success("According to Section 999 of the Fantasy Code, you get automatic damages.")
+            }
+        }
+
+        val doc = DocumentEntity(
+            sourcePath = "coi.pdf",
+            content = "Article 21: Protection of life and personal liberty."
+        ).apply { rowid = 1 }
+
+        val fakeDao = FakeRagDao(sampleDocs = listOf(doc))
+        val service = AiService(
+            ragDao = fakeDao,
+            apiKey = "dummy_key",
+            modelClient = fakeModelClient
+        )
+
+        val (answer, _) = service.generateAnswer("How to claim damages under law?", AppLanguage.ENGLISH)
+
+        // The ungrounded hallucinated model text with Section 999 MUST be rejected
+        assertFalse("Ungrounded text citing Fantasy Code must be rejected by hard gate", answer.contains("Fantasy Code"))
+        assertFalse("Ungrounded text citing Section 999 must not be returned", answer.contains("Section 999"))
+        // It must fall back to ProcedureEngine / grounded offline answer
+        assertTrue("Answer must fall back to procedure or grounded statutory answer",
+            answer.contains("Procedure") || answer.contains("Step") || answer.contains("Bharatiya") || answer.contains("Constitution") || answer.contains("Legal")
+        )
+    }
 }
+
 

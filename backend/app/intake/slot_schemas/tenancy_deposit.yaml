@@ -1,0 +1,39 @@
+domain: tenancy_deposit
+label: "Tenant Security Deposit Dispute"
+slots:
+  - name: state
+    question_template: "Which state or union territory is the rented property located in?"
+    impact_weight: 5
+    extractable_from_document: false
+    value_type: text
+  - name: lease_type
+    question_template: "Was your rental agreement written (on paper/registered) or was it an oral/verbal arrangement?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: enum
+    enum_values: [written, oral]
+  - name: deposit_amount
+    question_template: "How much security deposit did you pay to the landlord?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: number
+  - name: move_out_date
+    question_template: "When did you move out of the property, or when are you planning to move out?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: date
+  - name: landlord_stated_reason
+    question_template: "Has your landlord given any reason for not returning your deposit? If yes, what reason?"
+    impact_weight: 5
+    extractable_from_document: false
+    value_type: text
+  - name: written_demand_sent
+    question_template: "Have you sent a written demand or notice to your landlord asking for the deposit back?"
+    impact_weight: 3
+    extractable_from_document: false
+    value_type: boolean
+  - name: damage_claimed_by_landlord
+    question_template: "Is your landlord claiming that you caused any damage to the property?"
+    impact_weight: 4
+    extractable_from_document: false
+    value_type: boolean

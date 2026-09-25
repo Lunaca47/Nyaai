@@ -1,0 +1,28 @@
+domain: cyber_fraud
+label: "Cyber Fraud / Online Scam"
+slots:
+  - name: incident_date
+    question_template: "When did this incident happen?"
+    impact_weight: 5
+    extractable_from_document: true
+    value_type: date
+  - name: amount_involved
+    question_template: "How much money was involved or lost?"
+    impact_weight: 5
+    extractable_from_document: true
+    value_type: number
+  - name: platform_or_bank
+    question_template: "Which platform, app, or bank was involved in the fraud?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: text
+  - name: already_reported_to_bank
+    question_template: "Have you already reported this to your bank or the platform?"
+    impact_weight: 4
+    extractable_from_document: false
+    value_type: boolean
+  - name: screenshots_available
+    question_template: "Do you have screenshots of the fraud — messages, transactions, or the scam page?"
+    impact_weight: 3
+    extractable_from_document: false
+    value_type: boolean

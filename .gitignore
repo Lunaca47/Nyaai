@@ -6,7 +6,6 @@
 
 # Allow distribution release binaries
 !docs/*.apk
-!web/*.apk
 !release_package/binaries/*.apk
 
 
@@ -51,9 +50,14 @@ captures/
 .idea/modules.xml
 .idea/workspace.xml
 
-# Keystore files
+# Keystore and credential files
 *.jks
 *.keystore
+*.key
+*.pem
+credentials.json
+service-account*.json
+firebase-adminsdk*.json
 
 # Google Services / secrets in root (keep app/google-services.json if needed, ignore root duplicates)
 google-services*.json
@@ -61,7 +65,22 @@ google-services*.json
 
 # Environment variables
 .env
+.env.*
 backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Python caches and testing
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local diagnostic and scratch directories
+scratch/
 
 # OS files
 .DS_Store
@@ -75,4 +94,5 @@ fastlane/test_output
 fastlane/*.json
 fastlane/*.p12
 Gemfile.lock
+
 
