@@ -128,10 +128,45 @@ This document provides a sequential, step-by-step testing script for human verif
   - [ ] Cites **Section 70** (Form of warrant) and **Section 72** (Notification of substance of warrant) of BNSS 2023.
   - [ ] Confirms police officer executing warrant shall notify substance thereof and show warrant if required.
 
+#### Test 5F: Landmark Supreme Court Precedent Grounding (`PASSED`)
+- **Prompt**: `"Is registration of FIR mandatory for cognizable offenses under Section 173 BNSS Lalita Kumari?"`
+- **Verification on Android & Web**:
+  - [ ] Green `PASSED` citation badge displayed for judicial precedent.
+  - [ ] Grounds citation to **Lalita Kumari v. Govt. of U.P., (2014) 2 SCC 1** (Constitution Bench).
+  - [ ] Highlights ratio: Registration of FIR is mandatory under Section 154 CrPC / 173 BNSS if information discloses commission of a cognizable offense; no preliminary inquiry permissible in such cases.
+
+#### Test 5G: Superseded Judicial Precedent Detection (`ANNOTATED_SUPERSEDED_PRECEDENT`)
+- **Prompt**: `"Is preliminary inquiry required before arresting accused under SC ST Act Dr Subhash Kashinath Mahajan?"`
+- **Verification on Android & Web**:
+  - [ ] Amber `ANNOTATED_SUPERSEDED_PRECEDENT` warning badge displayed.
+  - [ ] Identifies **Dr. Subhash Kashinath Mahajan v. State of Maharashtra, (2018) 6 SCC 454**.
+  - [ ] Prominently displays statutory superseded caveat: Superseded by Parliament via Section 18A of the Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Act, 2018 (constitutionality upheld in *Prathvi Raj Chauhan*, (2020) 4 SCC 727; directions recalled by Supreme Court in (2020) 4 SCC 761).
+
+#### Test 5H: Hallucinated / Fabricated Case Precedent (`REJECTED_UNGROUNDED` Hard Gate)
+- **Prompt**: `"According to Ramesh Kumar v. State of Wonderland, criminal complaints can be quashed without hearing."`
+- **Verification on Android & Web**:
+  - [ ] Red `REJECTED_UNGROUNDED` citation badge displayed.
+  - [ ] Citation rejected as ungrounded: Precedent not verified in the 21 Supreme Court landmark corpus.
+  - [ ] Fallback procedural guidance provided warning user not to rely on unverified citations in formal filings.
+
+---
+
+### Suite 6: Matter Workspace Citations & Precedents Tab
+*Validates the Matter Detail screen Citations tab displaying both statutory provisions and judicial precedents with verified status badges.*
+
+| Step | Action | Expected Result | Pass/Fail |
+|------|--------|-----------------|-----------|
+| 6.1 | Open an active matter in the Matter Workspace. | Matter Detail screen loads with tab bar (Overview, Timeline, Action Plan, Evidence, Citations, Questions). | [ ] |
+| 6.2 | Tap on the **Citations** tab (Tab 4). | Citations screen displays two distinct sections: **Statutory Provisions** and **Judicial Precedents & Case Law**. | [ ] |
+| 6.3 | Verify statutory cards. | In-force statutes (e.g. BNSS Section 173, BNS Section 318) display green `PASSED` badge with confirmed currentness date (`2026-09`). | [ ] |
+| 6.4 | Verify landmark precedent cards. | Good-law precedents (e.g. *Lalita Kumari*, *Bhajan Lal*) display green `PASSED` badge with "Good Law • Grounded Supreme Court Landmark Precedent". | [ ] |
+| 6.5 | Verify superseded precedent cards. | Superseded precedents (e.g. *Dr. Subhash Kashinath Mahajan*) display amber `ANNOTATED_SUPERSEDED_PRECEDENT` badge with Section 18A amendment advisory. | [ ] |
+| 6.6 | Verify empty state. | If no authorities are linked to a new matter, displays `"No statutory provisions or case law precedents linked yet."` | [ ] |
+
 ---
 
 ## 3. Human Sign-Off Sheet
 
-| Tester Name | Platform Tested (Device / Web Browser) | Test Date | All 5 Suites Passed (Y/N) | Signature / Notes |
+| Tester Name | Platform Tested (Device / Web Browser) | Test Date | All 6 Suites Passed (Y/N) | Signature / Notes |
 |-------------|----------------------------------------|-----------|---------------------------|-------------------|
 |             |                                        |           |                           |                   |
