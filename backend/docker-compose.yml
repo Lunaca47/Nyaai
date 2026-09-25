@@ -17,18 +17,6 @@ services:
     volumes:
       - qdrantdata:/qdrant/storage
 
-  minio:
-    image: quay.io/minio/minio:latest
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - miniodata:/data
-
   api:
     build:
       context: .
@@ -40,17 +28,12 @@ services:
       - AUTH_SECRET_KEY=dry_run_dev_secret_key_nyaai_2026_refactor
       - DATABASE_URL=postgresql+asyncpg://nyaai:nyaai@postgres:5432/nyaai
       - QDRANT_URL=http://qdrant:6333
-      - MINIO_ENDPOINT=minio:9000
-      - MINIO_ACCESS_KEY=minioadmin
-      - MINIO_SECRET_KEY=minioadmin
       - ALLOW_IN_MEMORY_FALLBACK=True
     depends_on:
       - postgres
       - qdrant
-      - minio
 
 volumes:
   pgdata:
   qdrantdata:
-  miniodata:
 

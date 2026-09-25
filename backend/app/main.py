@@ -25,29 +25,35 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("Test environment active: skipping DB probe, running with in-memory stores.")
 
-    # Load ingested statutory codex if available
-    codex_path = os.path.join("backend", "data", "statutory_codex.json")
-    if os.path.exists(codex_path):
-        try:
-            with open(codex_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                loaded_chunks = [
-                    DocumentChunk(
-                        id=d["id"],
-                        act=d["act"],
-                        section=d["section"],
-                        title=d["title"],
-                        content=d["content"],
-                        jurisdiction=d.get("jurisdiction", "central"),
-                        status=d.get("status", "in_force"),
-                        effective_date=d.get("effective_date", "2024-07-01"),
-                    )
-                    for d in data
-                ]
-                hybrid_search_engine.add_documents(loaded_chunks)
-                logger.info(f"Loaded {len(loaded_chunks)} documents from statutory codex into retrieval engine.")
-        except Exception as e:
-            logger.warning(f"Could not load statutory codex: {e}")
+    # Load ingested statutory codex if available and not already loaded
+    if len(hybrid_search_engine.documents) <= len(hybrid_search_engine.DEFAULT_STATUTES if hasattr(hybrid_search_engine, 'DEFAULT_STATUTES') else 5):
+        candidate_paths = [
+            os.path.join("backend", "data", "statutory_codex.json"),
+            os.path.join(os.path.dirname(__file__), "..", "data", "statutory_codex.json"),
+            os.path.join("data", "statutory_codex.json"),
+        ]
+        codex_path = next((p for p in candidate_paths if os.path.exists(p)), None)
+        if codex_path:
+            try:
+                with open(codex_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    loaded_chunks = [
+                        DocumentChunk(
+                            id=d["id"],
+                            act=d["act"],
+                            section=d["section"],
+                            title=d["title"],
+                            content=d["content"],
+                            jurisdiction=d.get("jurisdiction", "central"),
+                            status=d.get("status", "in_force"),
+                            effective_date=d.get("effective_date", "2024-07-01"),
+                        )
+                        for d in data
+                    ]
+                    hybrid_search_engine.add_documents(loaded_chunks)
+                    logger.info(f"Loaded {len(loaded_chunks)} documents from statutory codex into retrieval engine.")
+            except Exception as e:
+                logger.warning(f"Could not load statutory codex: {e}")
 
     yield
     try:
