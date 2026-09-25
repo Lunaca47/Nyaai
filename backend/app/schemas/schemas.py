@@ -226,11 +226,35 @@ class CaseLawEntry(BaseModel):
 class CaseLawQuery(BaseModel):
     query: Optional[str] = None
     statute: Optional[str] = None
+    domain: Optional[str] = None
     precedent_status: Optional[str] = None
     limit: int = 10
 
 class CaseLawListResponse(BaseModel):
     cases: List[CaseLawEntry]
+    total: int
+
+class CaseLawQueryResult(BaseModel):
+    case_id: str
+    case_name: str
+    citation: str
+    court: str
+    judgment_date: str
+    bench_strength: int
+    bench_judges: List[str]
+    statutory_provisions: List[str]
+    legal_domain: str
+    ratio_decidendi: str
+    key_principles: List[str]
+    precedent_status: str
+    currentness_check: str
+    source_url: str
+    relevance_score: float
+    retrieval_mode: str
+
+class CaseLawRetrievalResponse(BaseModel):
+    query: str
+    results: List[CaseLawQueryResult]
     total: int
 
 

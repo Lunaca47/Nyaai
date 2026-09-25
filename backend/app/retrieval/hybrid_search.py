@@ -24,6 +24,38 @@ class DocumentChunk:
     source_url: str = ""
 
 
+@dataclass
+class CaseLawChunk:
+    case_id: str
+    case_name: str
+    citation: str
+    court: str = "Supreme Court of India"
+    judgment_date: str = ""
+    bench_strength: int = 2
+    bench_judges: List[str] = field(default_factory=list)
+    statutory_provisions: List[str] = field(default_factory=list)
+    legal_domain: str = ""
+    ratio_decidendi: str = ""
+    key_principles: List[str] = field(default_factory=list)
+    precedent_status: str = "GOOD_LAW"
+    currentness_check: str = ""
+    source_url: str = ""
+    verification_status: str = "VERIFIED"
+
+    def get_full_text(self) -> str:
+        principles = " ".join(self.key_principles)
+        provisions = " ".join(self.statutory_provisions)
+        judges = ", ".join(self.bench_judges)
+        return (
+            f"{self.case_name}. Citation: {self.citation}. Court: {self.court} ({self.judgment_date}). "
+            f"Bench: {self.bench_strength} Judges ({judges}). Domain: {self.legal_domain}. "
+            f"Statutory Provisions: {provisions}. "
+            f"Ratio Decidendi: {self.ratio_decidendi} "
+            f"Key Principles: {principles} "
+            f"Precedent Status: {self.precedent_status}. {self.currentness_check}"
+        )
+
+
 # Core statutory codex seeded in memory
 DEFAULT_STATUTES: List[DocumentChunk] = [
     DocumentChunk(
@@ -559,6 +591,43 @@ def load_default_documents() -> List[DocumentChunk]:
     return list(DEFAULT_STATUTES)
 
 
+def load_default_case_law() -> List[CaseLawChunk]:
+    """Load case law precedents from case_law_corpus.json."""
+    candidate_paths = [
+        os.path.join("backend", "data", "case_law_corpus.json"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "data", "case_law_corpus.json"),
+        os.path.join("data", "case_law_corpus.json"),
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                return [
+                    CaseLawChunk(
+                        case_id=d["case_id"],
+                        case_name=d["case_name"],
+                        citation=d["citation"],
+                        court=d.get("court", "Supreme Court of India"),
+                        judgment_date=d.get("judgment_date", ""),
+                        bench_strength=d.get("bench_strength", 2),
+                        bench_judges=d.get("bench_judges", []),
+                        statutory_provisions=d.get("statutory_provisions", []),
+                        legal_domain=d.get("legal_domain", ""),
+                        ratio_decidendi=d.get("ratio_decidendi", ""),
+                        key_principles=d.get("key_principles", []),
+                        precedent_status=d.get("precedent_status", "GOOD_LAW"),
+                        currentness_check=d.get("currentness_check", ""),
+                        source_url=d.get("source_url", ""),
+                        verification_status=d.get("verification_status", "VERIFIED"),
+                    )
+                    for d in data
+                ]
+            except Exception as e:
+                logger.warning(f"Failed to load case_law_corpus from {p}: {e}")
+    return []
+
+
 class DenseSemanticRetriever:
     """
     Genuine dense vector semantic retriever using sentence-transformers/all-MiniLM-L6-v2.
@@ -656,23 +725,179 @@ class DenseSemanticRetriever:
         return scores
 
 
+class CaseLawBM25:
+    """
+    BM25 Okapi retriever specifically calibrated for Case Law Precedents.
+    Maintains completely distinct vocabulary, document lengths, and IDF calculations
+    from statutory provisions to eliminate length-normalization collision.
+    """
+    def __init__(self, corpus: List[CaseLawChunk], k1: float = 1.5, b: float = 0.75):
+        self.k1 = k1
+        self.b = b
+        self.corpus = corpus
+        self.corpus_size = len(corpus)
+        self.doc_lengths = []
+        self.doc_term_freqs: List[Counter] = []
+        self.doc_freqs: Counter = Counter()
+
+        total_length = 0
+        for chunk in corpus:
+            tokens = tokenize(chunk.get_full_text())
+            doc_len = len(tokens)
+            self.doc_lengths.append(doc_len)
+            total_length += doc_len
+            tf = Counter(tokens)
+            self.doc_term_freqs.append(tf)
+            for token in set(tokens):
+                self.doc_freqs[token] += 1
+
+        self.avg_doc_len = total_length / self.corpus_size if self.corpus_size > 0 else 1.0
+        self.idf: Dict[str, float] = {}
+        for token, df in self.doc_freqs.items():
+            self.idf[token] = math.log(1.0 + (self.corpus_size - df + 0.5) / (df + 0.5))
+
+    def score(self, query_tokens: List[str]) -> List[float]:
+        scores = [0.0] * self.corpus_size
+        for token in query_tokens:
+            if token not in self.idf:
+                continue
+            idf = self.idf[token]
+            for i, tf_dict in enumerate(self.doc_term_freqs):
+                tf = tf_dict.get(token, 0)
+                if tf > 0:
+                    denom = tf + self.k1 * (1.0 - self.b + self.b * (self.doc_lengths[i] / self.avg_doc_len))
+                    term_score = idf * (tf * (self.k1 + 1.0)) / denom
+                    scores[i] += term_score
+
+        # Case citation and party name exact boost
+        for i, chunk in enumerate(self.corpus):
+            name_tokens = [t for t in tokenize(chunk.case_name) if len(t) > 3 and t not in ("state", "union", "india")]
+            if name_tokens and any(t in query_tokens for t in name_tokens):
+                scores[i] += 4.0
+        return scores
+
+
+class DenseCaseLawRetriever:
+    """
+    Dense semantic retriever for Case Law chunks using all-MiniLM-L6-v2 embeddings.
+    Loads pre-encoded embeddings from case_law_embeddings.npy sidecar.
+    """
+    def __init__(self, corpus: List[CaseLawChunk]):
+        self.corpus = corpus
+        self.corpus_size = len(corpus)
+        self.doc_embeddings: Optional[np.ndarray] = None
+        self.doc_vectors = None
+        self._init_embeddings()
+
+    def _init_embeddings(self):
+        paths = [
+            (
+                os.path.join("backend", "data", "case_law_embeddings.npy"),
+                os.path.join("backend", "data", "case_law_embeddings_ids.json"),
+            ),
+            (
+                os.path.join(os.path.dirname(__file__), "..", "..", "data", "case_law_embeddings.npy"),
+                os.path.join(os.path.dirname(__file__), "..", "..", "data", "case_law_embeddings_ids.json"),
+            ),
+            (
+                os.path.join("data", "case_law_embeddings.npy"),
+                os.path.join("data", "case_law_embeddings_ids.json"),
+            ),
+        ]
+        precomputed_mat = None
+        id_to_idx = {}
+        for npy_p, ids_p in paths:
+            if os.path.exists(npy_p) and os.path.exists(ids_p):
+                try:
+                    precomputed_mat = np.load(npy_p)
+                    with open(ids_p, "r", encoding="utf-8") as f:
+                        ids_list = json.load(f)
+                    id_to_idx = {cid: i for i, cid in enumerate(ids_list)}
+                    break
+                except Exception as e:
+                    logger.warning(f"Failed to load precomputed case law embeddings: {e}")
+
+        model = get_sentence_transformer()
+        if precomputed_mat is not None and model is not None:
+            aligned = []
+            missing_texts = []
+            missing_indices = []
+
+            for i, chunk in enumerate(self.corpus):
+                if chunk.case_id in id_to_idx:
+                    aligned.append(precomputed_mat[id_to_idx[chunk.case_id]])
+                else:
+                    aligned.append(None)
+                    missing_texts.append(chunk.get_full_text())
+                    missing_indices.append(i)
+
+            if missing_texts and model is not None:
+                new_embs = model.encode(missing_texts, normalize_embeddings=True, convert_to_numpy=True)
+                for idx, emb in zip(missing_indices, new_embs):
+                    aligned[idx] = emb
+
+            if len(aligned) > 0 and all(v is not None for v in aligned):
+                self.doc_embeddings = np.array(aligned, dtype=np.float32)
+                return
+
+        # Fallback if sentence-transformer model is unavailable
+        self.doc_vectors = [self._embed_text_fallback(c.get_full_text()) for c in self.corpus]
+
+    def _embed_text_fallback(self, text: str) -> Dict[str, float]:
+        tokens = tokenize(text)
+        vec: Dict[str, float] = Counter(tokens)
+        for t in tokens:
+            if len(t) >= 4:
+                for k in range(len(t) - 2):
+                    ngram = f"##{t[k:k+3]}"
+                    vec[ngram] = vec.get(ngram, 0.0) + 0.5
+        norm = math.sqrt(sum(v * v for v in vec.values()))
+        if norm > 0:
+            for k in vec:
+                vec[k] /= norm
+        return vec
+
+    def score(self, query: str) -> List[float]:
+        if self.doc_embeddings is not None:
+            model = get_sentence_transformer()
+            if model is not None:
+                q_vec = model.encode(query, normalize_embeddings=True, convert_to_numpy=True)
+                scores = np.dot(self.doc_embeddings, q_vec)
+                return [float(s) for s in scores]
+
+        q_vec = self._embed_text_fallback(query)
+        scores = []
+        for d_vec in (self.doc_vectors or []):
+            dot = sum(q_vec[k] * d_vec.get(k, 0.0) for k in q_vec)
+            scores.append(max(0.0, dot))
+        return scores
+
+
 class HybridLegalSearchEngine:
     """
     Unified Hybrid Search Engine:
-    - Sparse BM25 retrieval
+    - Sparse BM25 retrieval (statutory corpus)
     - Dense semantic retrieval with SentenceTransformer (all-MiniLM-L6-v2)
+    - Dedicated Case Law retrieval leg (BM25 + Dense RRF fusion)
     - Reciprocal Rank Fusion (RRF, k=60)
     - Metadata filtering (status != 'repealed', act filter)
     - Jurisdiction boosting (1.25x for user jurisdiction)
     - Query-type routing
     """
-    def __init__(self, documents: Optional[List[DocumentChunk]] = None):
+    def __init__(
+        self,
+        documents: Optional[List[DocumentChunk]] = None,
+        case_law_entries: Optional[List[CaseLawChunk]] = None,
+    ):
         self.documents = list(documents if documents is not None else load_default_documents())
+        self.case_law_entries = list(case_law_entries if case_law_entries is not None else load_default_case_law())
         self._reindex()
 
     def _reindex(self):
         self.sparse_retriever = BM25Okapi(self.documents)
         self.dense_retriever = DenseSemanticRetriever(self.documents)
+        self.case_sparse_retriever = CaseLawBM25(self.case_law_entries)
+        self.case_dense_retriever = DenseCaseLawRetriever(self.case_law_entries)
 
     def add_documents(self, new_docs: List[DocumentChunk]):
         existing_ids = {d.id for d in self.documents}
@@ -680,6 +905,18 @@ class HybridLegalSearchEngine:
         if added:
             self.documents.extend(added)
             self._reindex()
+
+    def add_case_law(self, new_cases: List[CaseLawChunk]):
+        existing_ids = {c.case_id for c in self.case_law_entries}
+        added = [c for c in new_cases if c.case_id not in existing_ids]
+        if added:
+            self.case_law_entries.extend(added)
+            self._reindex()
+
+    def _is_exact_case_query(self, query: str) -> bool:
+        """Detect if query references specific case names or legal citations."""
+        citation_pattern = r'\b(?:\d{4}\s+(?:SCC|AIR|SCR)|\(\d{4}\)\s+\d+\s+SCC|v\.|vs\.)\b'
+        return bool(re.search(citation_pattern, query, re.IGNORECASE))
 
     def _is_exact_citation_query(self, query: str) -> bool:
         """Detect if query is an exact citation lookup like 'Section 138' or 'Article 21'."""
@@ -761,6 +998,74 @@ class HybridLegalSearchEngine:
                 continue
             seen_provisions.add(key)
             deduped.append((doc, score, mode))
+            if len(deduped) >= limit:
+                break
+        return deduped
+
+    def search_case_law(
+        self,
+        query: str,
+        legal_domain: Optional[str] = None,
+        precedent_status: Optional[str] = None,
+        limit: int = 5,
+    ) -> List[Tuple[CaseLawChunk, float, str]]:
+        """
+        Executes hybrid retrieval over case law precedents.
+        Kept strictly distinct from statutory retrieval to eliminate BM25 document length collisions.
+        """
+        if not self.case_law_entries:
+            return []
+
+        q_tokens = tokenize(query)
+        is_exact = self._is_exact_case_query(query)
+
+        # 1. Sparse BM25 scoring
+        sparse_scores = self.case_sparse_retriever.score(q_tokens)
+        sparse_ranked_indices = sorted(range(len(self.case_law_entries)), key=lambda i: sparse_scores[i], reverse=True)
+        sparse_rank_map = {idx: rank + 1 for rank, idx in enumerate(sparse_ranked_indices)}
+
+        # 2. Dense semantic scoring
+        dense_scores = self.case_dense_retriever.score(query)
+        dense_ranked_indices = sorted(range(len(self.case_law_entries)), key=lambda i: dense_scores[i], reverse=True)
+        dense_rank_map = {idx: rank + 1 for rank, idx in enumerate(dense_ranked_indices)}
+
+        # 3. Reciprocal Rank Fusion (RRF, k=60)
+        rrf_k = 60
+        fused_results: List[Tuple[CaseLawChunk, float, str]] = []
+
+        for i, chunk in enumerate(self.case_law_entries):
+            # Metadata filtering
+            if legal_domain and legal_domain.lower() not in chunk.legal_domain.lower():
+                continue
+            if precedent_status and precedent_status.upper() != chunk.precedent_status.upper():
+                continue
+
+            if is_exact:
+                w_sparse = 0.85
+                w_dense = 0.15
+                mode = "sparse-heavy"
+            else:
+                w_sparse = 0.5
+                w_dense = 0.5
+                mode = "hybrid"
+
+            r_sparse = sparse_rank_map[i]
+            r_dense = dense_rank_map[i]
+            rrf_score = (w_sparse / (rrf_k + r_sparse)) + (w_dense / (rrf_k + r_dense))
+
+            # Must have non-zero relevance from at least one leg
+            if sparse_scores[i] > 0 or dense_scores[i] > 0.15:
+                fused_results.append((chunk, rrf_score, mode))
+
+        fused_results.sort(key=lambda x: x[1], reverse=True)
+
+        deduped: List[Tuple[CaseLawChunk, float, str]] = []
+        seen_ids = set()
+        for chunk, score, mode in fused_results:
+            if chunk.case_id in seen_ids:
+                continue
+            seen_ids.add(chunk.case_id)
+            deduped.append((chunk, score, mode))
             if len(deduped) >= limit:
                 break
         return deduped
