@@ -57,19 +57,23 @@ All runtime configuration is managed through environment variables:
 # Build and tag image using Google Cloud Build
 gcloud builds submit --tag gcr.io/PROJECT_ID/nyaai-backend:v2 backend/
 
-# Deploy container to Cloud Run
+# Deploy container to Cloud Run (generate a fresh, high-entropy HMAC secret key)
 gcloud run deploy nyaai-backend \
   --image gcr.io/PROJECT_ID/nyaai-backend:v2 \
   --platform managed \
   --region asia-south1 \
   --allow-unauthenticated \
-  --set-env-vars ENVIRONMENT=production,AUTH_SECRET_KEY=SECURE_HEX_KEY,CORS_ORIGINS=https://lunaca47.github.io \
+  --set-env-vars ENVIRONMENT=production,AUTH_SECRET_KEY=$(openssl rand -hex 32),CORS_ORIGINS=https://lunaca47.github.io \
   --set-secrets GEMINI_API_KEY=nyaai-gemini-key:latest
 ```
 
 ### 2. Render / Fly.io / Railway Deployment
 1. **Dockerfile Path**: `backend/Dockerfile` | **Context**: `backend/`.
-2. **Environment Variables**: Populate `ENVIRONMENT=production`, `AUTH_SECRET_KEY`, `CORS_ORIGINS`, and LLM keys.
+2. **Environment Variables**:
+   - `ENVIRONMENT=production`
+   - `AUTH_SECRET_KEY`: Generate a unique 64-hex-character secret using `openssl rand -hex 32` (never use or copy static default keys).
+   - `CORS_ORIGINS=https://lunaca47.github.io`
+   - `GEMINI_API_KEY`: Live Google AI Studio API key.
 3. **Health Check Path**: `/api/v1/health` (HTTP 200).
 4. **Custom Domain / DNS**: Add a CNAME record in your DNS provider pointing your domain (e.g. `api.nyaai.org`) to the assigned service URL. Update `docs/config.js` to point to your new backend URL.
 
@@ -84,6 +88,7 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 cp .env.example .env
+# Generate a secret: openssl rand -hex 32
 # Configure ENVIRONMENT=development and AUTH_SECRET_KEY in .env
 
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
