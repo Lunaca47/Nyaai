@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
         logger.info("Test environment active: skipping DB probe, running with in-memory stores.")
 
     # Load ingested statutory codex if available and not already loaded
-    if len(hybrid_search_engine.documents) <= len(hybrid_search_engine.DEFAULT_STATUTES if hasattr(hybrid_search_engine, 'DEFAULT_STATUTES') else 5):
+    if len(hybrid_search_engine.documents) <= 5:
         candidate_paths = [
             os.path.join("backend", "data", "statutory_codex.json"),
             os.path.join(os.path.dirname(__file__), "..", "data", "statutory_codex.json"),

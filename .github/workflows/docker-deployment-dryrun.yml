@@ -38,14 +38,21 @@ jobs:
           done
 
           echo "=== Waiting for backend API to be ready ==="
+          API_READY=0
           for i in {1..30}; do
             if curl -s http://localhost:8000/health | grep -q "ok"; then
               echo "Backend is ready!"
+              API_READY=1
               break
             fi
             echo "Waiting for API ($i/30)..."
             sleep 2
           done
+          if [ $API_READY -ne 1 ]; then
+            echo "Backend API failed to become ready within timeout!"
+            docker compose -f backend/docker-compose.yml logs api
+            exit 1
+          fi
 
       - name: Verify Live Health Probes
         run: |

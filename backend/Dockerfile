@@ -6,7 +6,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PORT=8000 \
     ENVIRONMENT=development \
-    AUTH_SECRET_KEY=local_docker_dev_secret_key_nyaai_2026
+    AUTH_SECRET_KEY=local_docker_dev_secret_key_nyaai_2026 \
+    HOME=/home/nyaai \
+    HF_HOME=/tmp/huggingface \
+    TORCH_HOME=/tmp/torch \
+    SENTENCE_TRANSFORMERS_HOME=/tmp/sentence_transformers
 
 WORKDIR /app
 
@@ -27,9 +31,11 @@ COPY data/ ./data/
 COPY alembic/ ./alembic/
 COPY alembic.ini .
 
-# Security: Create and run as non-root user
-RUN addgroup --system nyaai && adduser --system --ingroup nyaai nyaai && \
-    chown -R nyaai:nyaai /app
+# Security: Create and run as non-root user with home directory and cache access
+RUN addgroup --system nyaai && \
+    adduser --system --ingroup nyaai --home /home/nyaai --shell /bin/bash nyaai && \
+    mkdir -p /home/nyaai /tmp/huggingface /tmp/torch /tmp/sentence_transformers && \
+    chown -R nyaai:nyaai /app /home/nyaai /tmp/huggingface /tmp/torch /tmp/sentence_transformers
 USER nyaai
 
 # Expose HTTP port
