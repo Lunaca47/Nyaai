@@ -258,11 +258,11 @@ def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, 
     cited_act_keywords = []
     if "negotiable" in cit_lower or "ni act" in cit_lower:
         cited_act_keywords = ["negotiable", "ni act"]
-    elif "bharatiya nyaya" in cit_lower or "bns" in cit_lower or "ipc" in cit_lower or "penal" in cit_lower:
-        cited_act_keywords = ["nyaya", "bns", "penal", "ipc"]
-    elif "bharatiya nagarik" in cit_lower or "bnss" in cit_lower or "crpc" in cit_lower or "criminal procedure" in cit_lower:
+    elif "bharatiya nagarik" in cit_lower or bool(re.search(r'\bbnss\b', cit_lower)) or "crpc" in cit_lower or "criminal procedure" in cit_lower:
         cited_act_keywords = ["nagarik", "bnss", "crpc", "criminal procedure"]
-    elif "bharatiya sakshya" in cit_lower or "bsa" in cit_lower or "iea" in cit_lower or "evidence" in cit_lower:
+    elif "bharatiya nyaya" in cit_lower or bool(re.search(r'\bbns\b', cit_lower)) or "ipc" in cit_lower or "penal" in cit_lower:
+        cited_act_keywords = ["nyaya", "bns", "penal", "ipc"]
+    elif "bharatiya sakshya" in cit_lower or bool(re.search(r'\bbsa\b', cit_lower)) or "iea" in cit_lower or "evidence" in cit_lower:
         cited_act_keywords = ["sakshya", "bsa", "iea", "evidence"]
     elif "model tenancy" in cit_lower or "mta" in cit_lower:
         cited_act_keywords = ["tenancy", "mta"]

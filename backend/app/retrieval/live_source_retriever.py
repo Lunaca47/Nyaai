@@ -317,11 +317,15 @@ class LiveOfficialSourceRetriever:
         live_results = self.search_indiacode_live(query, limit=1)
         if live_results:
             doc = live_results[0]
-            self.cache.put(cache_key, doc)
-            return doc, "live_fetch"
+            # If a specific section was requested, verify the live result contains it
+            if sec and sec.lower() not in doc.section.lower() and sec.lower() not in doc.title.lower() and sec.lower() not in doc.content.lower():
+                logger.info(f"[LiveRetriever] Live result '{doc.title}' lacks requested section '{sec}'. Engaging fallback to local corpus...")
+            else:
+                self.cache.put(cache_key, doc)
+                return doc, "live_fetch"
 
         # 4. Graceful Degradation: Fallback to Local Pre-Verified Corpus
-        logger.info(f"[LiveRetriever] Live official search returned 0 items. Falling back to local pre-verified corpus.")
+        logger.info(f"[LiveRetriever] Live official search ungrounded or empty. Falling back to local pre-verified corpus.")
         fallback_doc = self._find_in_local_corpus(query, local_corpus, act, sec)
         if fallback_doc:
             return fallback_doc, "fallback_local_preverified"

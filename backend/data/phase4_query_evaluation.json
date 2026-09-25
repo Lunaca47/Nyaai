@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Q1",
+    "type": "REACHABLE",
+    "query": "Arbitration agreement in writing under Section 7 of Arbitration and Conciliation Act",
+    "domain": "indiacode.gov.in",
+    "url": "https://indiacode.gov.in",
+    "retrieval_mode": "live_fetch",
+    "cold_latency_ms": 418.76,
+    "warm_latency_ms": 0.07,
+    "verifier_outcome": "PASSED",
+    "excerpt": "Official verified provision from India Code: The Arbitration & Conciliation Act 1996. Indexed under DSpace item ID: e7283d27-161c-4275-922b-f30fe6390ba0...."
+  },
+  {
+    "id": "Q2",
+    "type": "REACHABLE",
+    "query": "Master Direction on digital lending default loss guarantee guidelines",
+    "domain": "rbi.org.in",
+    "url": "https://www.rbi.org.in/scripts/BS_CircularIndexDisplay.aspx",
+    "retrieval_mode": "live_fetch",
+    "cold_latency_ms": 1020.69,
+    "warm_latency_ms": 0.08,
+    "verifier_outcome": "PASSED",
+    "excerpt": "Official verified publication from rbi.org.in: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transition..."
+  },
+  {
+    "id": "Q3",
+    "type": "REACHABLE",
+    "query": "Mandatory registration of FIR in cognizable offences Lalita Kumari v. Govt. of U.P.",
+    "domain": "sci.gov.in",
+    "url": "https://www.sci.gov.in/",
+    "retrieval_mode": "live_fetch",
+    "cold_latency_ms": 319.07,
+    "warm_latency_ms": 0.05,
+    "verifier_outcome": "REJECTED_UNGROUNDED",
+    "excerpt": "Official verified publication from sci.gov.in: <!DOCTYPE html> <html lang=\"en-US\"> <head>     <meta charset=\"UTF-8\" />     <meta http-equiv=\"X-UA-Compatible\" co..."
+  },
+  {
+    "id": "Q4",
+    "type": "REACHABLE",
+    "query": "Delhi High Court arbitration rules and digital filing directions",
+    "domain": "delhihighcourt.nic.in",
+    "url": "https://delhihighcourt.nic.in/",
+    "retrieval_mode": "live_fetch",
+    "cold_latency_ms": 839.5,
+    "warm_latency_ms": 0.1,
+    "verifier_outcome": "PASSED",
+    "excerpt": "Official verified publication from delhihighcourt.nic.in: <!DOCTYPE html> <html lang=\"en\" dir=\"ltr\">   <head>     <meta charset=\"utf-8\" /> <meta name=\"descripti..."
+  },
+  {
+    "id": "Q5",
+    "type": "REACHABLE",
+    "query": "Zero FIR and mandatory recording of information under Section 173 of Bharatiya Nagarik Suraksha Sanhita",
+    "domain": "indiacode.gov.in",
+    "url": "https://www.indiacode.nic.in/handle/123456789/20063",
+    "retrieval_mode": "fallback_local_preverified",
+    "cold_latency_ms": 1891.9,
+    "warm_latency_ms": 0.71,
+    "verifier_outcome": "PASSED",
+    "excerpt": "Page 54: section 173, and after making such inquiry as he thinks necessary and submission made in this regard by the police officer, order such an investigation..."
+  },
+  {
+    "id": "Q6",
+    "type": "UNREACHABLE",
+    "query": "Security deposit cap under Section 11 of the Model Tenancy Act",
+    "domain": "mohua.gov.in",
+    "url": "https://ibclaw.in/wp-content/uploads/2021/08/Model-Tenancy-Act-English-02_06_2021.pdf",
+    "retrieval_mode": "fallback_local_preverified",
+    "cold_latency_ms": 1.05,
+    "warm_latency_ms": 1.27,
+    "verifier_outcome": "ANNOTATED_MODEL_LAW",
+    "excerpt": "The security deposit to be paid by the tenant in advance shall not exceed two months' rent for residential premises, and shall not exceed six months' rent for n..."
+  },
+  {
+    "id": "Q7",
+    "type": "BLOCKED_AUTOMATION",
+    "query": "Case status lookup for CNR DLHC010000012024",
+    "domain": "services.ecourts.gov.in",
+    "url": "https://services.ecourts.gov.in/ecourtindia_v6/?cino=DLHC010000012024",
+    "retrieval_mode": "clean_blocker_notification",
+    "cold_latency_ms": 3.05,
+    "warm_latency_ms": 1.62,
+    "verifier_outcome": "PASSED_CLEAN_BLOCKER",
+    "excerpt": "Parsed CNR: DLHC010000012024 (High Court of Delhi, Year 2024, Case #1). Official Deep Link: https://services.ecourts.gov.in/ecourtindia_v6/?cino=DLHC010000012024. Blocker Note: The official eCourts National Portal enforces a mandatory Securimage visual/audi..."
+  }
+]
