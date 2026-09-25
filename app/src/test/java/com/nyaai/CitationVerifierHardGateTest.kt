@@ -231,6 +231,57 @@ class CitationVerifierHardGateTest {
         assertEquals("Incidental MTA mention with grounded non-MTA citation must be PASSED", GateAction.PASSED, gated.action)
         assertNotEquals("Must not be ANNOTATED_MODEL_LAW", GateAction.ANNOTATED_MODEL_LAW, gated.action)
     }
+
+    @Test
+    fun testFabricatedCasePrecedentRejectedUngrounded() {
+        val fabricatedResponse = "As held in Ramesh Sharma v. State of Narnia, (2024) 99 SCC 999, all loan defaults are non-actionable."
+        val realDoc = DocumentEntity(sourcePath = "bns.pdf", content = "Section 318 BNS: Cheating definition and punishment.")
+
+        val gated = citationVerifier.enforceHardGate(
+            responseText = fabricatedResponse,
+            retrievedDocuments = listOf(realDoc)
+        )
+
+        assertEquals("Fabricated case law citation must be REJECTED_UNGROUNDED", GateAction.REJECTED_UNGROUNDED, gated.action)
+        assertTrue("Fabricated case must trigger fallback", gated.shouldFallback)
+    }
+
+    @Test
+    fun testSupersededPrecedentSubhashMahajanAnnotated() {
+        val mahajanResponse = "According to Dr. Subhash Kashinath Mahajan v. State of Maharashtra, (2018) 6 SCC 454, no arrest can be made under SC/ST Act without prior approval."
+        val doc = DocumentEntity(
+            sourcePath = "case_law_corpus.json",
+            content = "Dr. Subhash Kashinath Mahajan v. State of Maharashtra. Citation: (2018) 6 SCC 454. Precedent Status: SUPERSEDED_BY_STATUTE. Superseded by Parliament through Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Act, 2018 inserting Section 18A."
+        )
+
+        val gated = citationVerifier.enforceHardGate(
+            responseText = mahajanResponse,
+            retrievedDocuments = listOf(doc)
+        )
+
+        assertEquals("Grounded superseded precedent must produce ANNOTATED_SUPERSEDED_PRECEDENT", GateAction.ANNOTATED_SUPERSEDED_PRECEDENT, gated.action)
+        assertFalse(gated.shouldFallback)
+        assertTrue("Must contain superseded notice", gated.gatedText.contains("SUPERSEDED PRECEDENT"))
+        assertTrue("Must mention Section 18A", gated.gatedText.contains("Section 18A"))
+    }
+
+    @Test
+    fun testGroundedGoodLawPrecedentPassed() {
+        val goodLawResponse = "In Lalita Kumari v. Govt. of U.P., (2014) 2 SCC 1, the Supreme Court mandated FIR registration."
+        val doc = DocumentEntity(
+            sourcePath = "case_law_corpus.json",
+            content = "Lalita Kumari v. Govt. of U.P. Citation: (2014) 2 SCC 1. Precedent Status: GOOD_LAW. Registration of FIR is mandatory."
+        )
+
+        val gated = citationVerifier.enforceHardGate(
+            responseText = goodLawResponse,
+            retrievedDocuments = listOf(doc)
+        )
+
+        assertEquals("Grounded good law precedent must pass", GateAction.PASSED, gated.action)
+        assertFalse(gated.shouldFallback)
+        assertEquals(goodLawResponse, gated.gatedText)
+    }
 }
 
 

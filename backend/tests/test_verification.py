@@ -193,3 +193,70 @@ async def test_incidental_mta_mention_with_grounded_non_mta_citation_passed_not_
         assert data["action"] == "PASSED", f"Expected PASSED, got {data['action']}"
         assert data["action"] != "ANNOTATED_MODEL_LAW"
 
+@pytest.mark.asyncio
+async def test_case_law_fabricated_ungrounded_rejected():
+    """Negative-proof test: Fabricated case precedent with zero grounded sources must be REJECTED_UNGROUNDED."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "As held in Ramesh Sharma v. State of Narnia, (2024) 99 SCC 999, all financial debts are cancelled.",
+            "cited_citations": ["Ramesh Sharma v. State of Narnia, (2024) 99 SCC 999"],
+            "retrieved_sources": [
+                "Negotiable Instruments Act, 1881 Section 138: Dishonour of cheque for insufficiency of funds."
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "REJECTED_UNGROUNDED", f"Expected REJECTED_UNGROUNDED, got {data['action']}"
+        assert data["is_grounded"] is False
+        assert any("ungrounded" in w.lower() for w in data["warnings"])
+
+@pytest.mark.asyncio
+async def test_case_law_superseded_precedent_subhash_mahajan():
+    """Negative-proof test: Subhash Kashinath Mahajan citation, grounded, must produce ANNOTATED_SUPERSEDED_PRECEDENT."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "According to Dr. Subhash Kashinath Mahajan v. State of Maharashtra, (2018) 6 SCC 454, anticipatory bail is maintainable under the SC/ST Act.",
+            "cited_citations": ["Dr. Subhash Kashinath Mahajan v. State of Maharashtra, (2018) 6 SCC 454"],
+            "retrieved_sources": [
+                {
+                    "case_id": "CASE_SC_2018_SUBHASH_MAHAJAN",
+                    "case_name": "Dr. Subhash Kashinath Mahajan v. State of Maharashtra",
+                    "citation": "(2018) 6 SCC 454",
+                    "precedent_status": "SUPERSEDED_BY_STATUTE",
+                    "currentness_check": "Superseded by Parliament through Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Act, 2018 inserting Section 18A. Constitutionality upheld by 3-Judge Bench in Prathvi Raj Chauhan v. Union of India (2020) 4 SCC 727; Review Bench recalled Mahajan directions in Union of India v. State of Maharashtra (2020) 4 SCC 761.",
+                    "ratio_decidendi": "Introduced procedural safeguards including preliminary inquiry and pre-arrest approval under SC/ST Act."
+                }
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "ANNOTATED_SUPERSEDED_PRECEDENT", f"Expected ANNOTATED_SUPERSEDED_PRECEDENT, got {data['action']}"
+        assert any("SUPERSEDED" in w.upper() or "18A" in w for w in data["warnings"])
+
+@pytest.mark.asyncio
+async def test_case_law_good_law_passed():
+    """Grounded good law precedent must produce PASSED."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "In Lalita Kumari v. Govt. of U.P., (2014) 2 SCC 1, registration of FIR was held mandatory.",
+            "cited_citations": ["Lalita Kumari v. Govt. of U.P., (2014) 2 SCC 1"],
+            "retrieved_sources": [
+                {
+                    "case_id": "CASE_SC_2014_LALITA_KUMARI",
+                    "case_name": "Lalita Kumari v. Govt. of U.P.",
+                    "citation": "(2014) 2 SCC 1",
+                    "precedent_status": "GOOD_LAW",
+                    "ratio_decidendi": "Registration of FIR is mandatory under Section 154 if cognizable offence is disclosed."
+                }
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "PASSED", f"Expected PASSED, got {data['action']}"
+

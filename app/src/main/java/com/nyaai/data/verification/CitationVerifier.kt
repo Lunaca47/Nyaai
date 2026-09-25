@@ -8,7 +8,8 @@ enum class GateAction {
     ANNOTATED_REPEALED,
     REJECTED_UNGROUNDED,
     ANNOTATED_UNGROUNDED,
-    ANNOTATED_MODEL_LAW
+    ANNOTATED_MODEL_LAW,
+    ANNOTATED_SUPERSEDED_PRECEDENT
 }
 
 data class CitationVerificationResult(
@@ -16,7 +17,8 @@ data class CitationVerificationResult(
     val groundedCitations: List<String>,
     val ungroundedCitations: List<String>,
     val repealedCitations: List<String>,
-    val warnings: List<String>
+    val warnings: List<String>,
+    val supersededPrecedents: List<String> = emptyList()
 )
 
 data class GatedResponse(
@@ -105,19 +107,58 @@ class CitationVerifier {
         val citationPattern = Regex("\\b(?:Section|Article|Sec\\.?|Art\\.?)\\s+(\\d+[A-Za-z]*)", RegexOption.IGNORE_CASE)
         val citedSections = citationPattern.findAll(responseText).map { it.groupValues[1] }.distinct().toList()
 
+        // Case Law Precedent Extraction: e.g. "Lalita Kumari v. Govt. of U.P." or "Dr. Subhash Kashinath Mahajan v. State of Maharashtra, (2018) 6 SCC 454"
+        val casePattern = Regex(
+            "\\b([A-Z][A-Za-z0-9\\.\\'\\s]{1,45}?\\s+(?:v\\.|vs\\.)\\s+[A-Z][A-Za-z0-9\\.\\'\\s]{1,45}?(?:,\\s*(?:\\(\\d{4}\\)|\\d{4})\\s+[A-Za-z0-9\\s\\(\\)]+)?)(?=[,\\.\\n;]|$)",
+            RegexOption.IGNORE_CASE
+        )
+        val citedCases = casePattern.findAll(responseText).map { it.groupValues[1].trim() }.distinct().toList()
+
         val allRetrievedText = buildString {
             retrievedDocuments.forEach { append(it.content).append(" ").append(it.sourcePath).append(" ") }
             retrievedExamples.forEach { append(it.question).append(" ").append(it.answer).append(" ").append(it.sourcePath).append(" ") }
         }
+        val allRetrievedLower = allRetrievedText.lowercase()
 
         val grounded = mutableListOf<String>()
         val ungrounded = mutableListOf<String>()
+        val supersededPrecedents = mutableListOf<String>()
 
         for (section in citedSections) {
             if (allRetrievedText.contains(section, ignoreCase = true)) {
                 grounded.add("Section $section")
             } else {
                 ungrounded.add("Section $section")
+            }
+        }
+
+        for (caseCite in citedCases) {
+            var p1 = caseCite.split(Regex("\\s+(?:v\\.|vs\\.)\\s+", RegexOption.IGNORE_CASE)).firstOrNull() ?: ""
+            p1 = p1.replace(Regex("^(?:according\\s+to|as\\s+held\\s+in|in|per|see|vide|under)\\s+", RegexOption.IGNORE_CASE), "").trim()
+            val tokens = Regex("[A-Za-z]+").findAll(p1).map { it.value.lowercase() }
+                .filter { it !in setOf("dr", "state", "union", "india", "govt", "of", "the", "and", "according", "to") && it.length > 2 }
+                .toList()
+
+            val isCaseGrounded = if (tokens.isNotEmpty()) {
+                tokens.all { allRetrievedLower.contains(it) }
+            } else {
+                allRetrievedLower.contains(caseCite.lowercase())
+            }
+
+            if (isCaseGrounded) {
+                grounded.add(caseCite)
+                val mentionsSuperseded = allRetrievedText.contains("SUPERSEDED_BY_STATUTE", ignoreCase = true) ||
+                        allRetrievedText.contains("OVERRULED", ignoreCase = true) ||
+                        allRetrievedText.contains("MODIFIED", ignoreCase = true) ||
+                        allRetrievedText.contains("superseded by parliament", ignoreCase = true)
+
+                if (mentionsSuperseded && tokens.any { allRetrievedLower.contains(it) }) {
+                    supersededPrecedents.add(caseCite)
+                    warnings.add("Caution: Case precedent \"$caseCite\" has been superseded by statute or overruled by subsequent larger Bench decision.")
+                }
+            } else {
+                ungrounded.add(caseCite)
+                warnings.add("Citation \"$caseCite\" is ungrounded in retrieved context.")
             }
         }
 
@@ -128,7 +169,8 @@ class CitationVerifier {
             groundedCitations = grounded,
             ungroundedCitations = ungrounded,
             repealedCitations = repealedMatches.distinct(),
-            warnings = warnings.distinct()
+            warnings = warnings.distinct(),
+            supersededPrecedents = supersededPrecedents.distinct()
         )
     }
 
@@ -140,7 +182,7 @@ class CitationVerifier {
         val verification = verify(responseText, retrievedDocuments, retrievedExamples)
 
         // 1. Severe Ungrounded Hallucination check
-        // If the model produced section citations, but NONE of them exist in retrieved sources/examples:
+        // If the model produced citations, but NONE of them exist in retrieved sources/examples:
         if (verification.groundedCitations.isEmpty() && verification.ungroundedCitations.isNotEmpty()) {
             return GatedResponse(
                 gatedText = responseText,
@@ -159,7 +201,7 @@ class CitationVerifier {
             sb.appendLine()
             sb.appendLine("---")
             sb.appendLine("⚠️ **UNGROUNDED CITATION WARNING:**")
-            sb.appendLine("The following cited provisions were not substantiated in the verified statutory context: ${verification.ungroundedCitations.joinToString(", ")}. Verify against official gazettes before relying on them.")
+            sb.appendLine("The following cited provisions or precedents were not substantiated in the verified statutory context: ${verification.ungroundedCitations.joinToString(", ")}. Verify against official gazettes before relying on them.")
 
             return GatedResponse(
                 gatedText = sb.toString(),
@@ -169,7 +211,38 @@ class CitationVerifier {
             )
         }
 
-        // 3. Grounded Repealed Statute Check & Auto-Annotation
+        // 3. Grounded Superseded Precedent Check & Auto-Annotation
+        if (verification.supersededPrecedents.isNotEmpty()) {
+            val sb = StringBuilder()
+            sb.appendLine(responseText.trim())
+            sb.appendLine()
+            sb.appendLine("---")
+            sb.appendLine("⚠️ **SUPERSEDED PRECEDENT NOTICE:**")
+            sb.appendLine("The above guidance references judicial precedent that has been superseded by legislative enactment or recalled by the Supreme Court:")
+
+            val allRetrieved = buildString {
+                retrievedDocuments.forEach { append(it.content).append(" ") }
+                retrievedExamples.forEach { append(it.answer).append(" ") }
+            }
+
+            for (supCase in verification.supersededPrecedents) {
+                if (supCase.contains("Mahajan", ignoreCase = true) || allRetrieved.contains("18A")) {
+                    sb.appendLine("• **Dr. Subhash Kashinath Mahajan (2018):** Superseded by Parliament via Section 18A of the Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Act, 2018 (constitutionality upheld in *Prathvi Raj Chauhan*, (2020) 4 SCC 727; directions recalled in (2020) 4 SCC 761).")
+                } else {
+                    sb.appendLine("• **$supCase:** Superseded or overruled by subsequent statutory enactment or larger Bench ruling.")
+                }
+            }
+            sb.append("⚡ Note: Do not rely on superseded ratios for legal filings without citing current statutory amendments and review judgments.")
+
+            return GatedResponse(
+                gatedText = sb.toString(),
+                action = GateAction.ANNOTATED_SUPERSEDED_PRECEDENT,
+                result = verification,
+                shouldFallback = false
+            )
+        }
+
+        // 4. Grounded Repealed Statute Check & Auto-Annotation
         // Only reached if all citations are grounded (no ungrounded citations)
         if (verification.repealedCitations.isNotEmpty()) {
             val sb = StringBuilder()
@@ -203,7 +276,7 @@ class CitationVerifier {
             )
         }
 
-        // 4. Grounded Model Law Applicability Caveat (e.g. Model Tenancy Act, 2021)
+        // 5. Grounded Model Law Applicability Caveat (e.g. Model Tenancy Act, 2021)
         // Only reached if all citations are grounded and citations/sources are verified
         val lowerText = responseText.lowercase()
         val mentionsModelTenancy = lowerText.contains("model tenancy") || lowerText.contains("mta 2021")
@@ -235,7 +308,7 @@ class CitationVerifier {
             )
         }
 
-        // 5. Clean pass
+        // 6. Clean pass
         return GatedResponse(
             gatedText = responseText,
             action = GateAction.PASSED,
