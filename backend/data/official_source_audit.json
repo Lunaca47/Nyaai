@@ -1,0 +1,119 @@
+[
+  {
+    "domain": "indiacode.gov.in",
+    "name": "India Code (National DSpace 9.1 Portal)",
+    "endpoint": "https://indiacode.gov.in/",
+    "reachable": "YES",
+    "latency_sec": 0.47,
+    "status_code": 200,
+    "blockers": "None (Directly Fetchable HTML/PDF)"
+  },
+  {
+    "domain": "indiacode.gov.in/server/api",
+    "name": "India Code (Official REST Discovery API)",
+    "endpoint": "https://indiacode.gov.in/server/api",
+    "reachable": "YES",
+    "latency_sec": 0.31,
+    "status_code": 200,
+    "blockers": "CAPTCHA challenge detected"
+  },
+  {
+    "domain": "indiacode.nic.in",
+    "name": "India Code (Legacy NIC Domain - Redirects to .gov.in)",
+    "endpoint": "https://www.indiacode.nic.in/",
+    "reachable": "YES",
+    "latency_sec": 0.13,
+    "status_code": 200,
+    "blockers": "None (Directly Fetchable HTML/PDF)"
+  },
+  {
+    "domain": "legislative.gov.in",
+    "name": "Legislative Department (Min. of Law & Justice)",
+    "endpoint": "https://legislative.gov.in/",
+    "reachable": "YES",
+    "latency_sec": 0.19,
+    "status_code": 0,
+    "blockers": "SSL Handshake / Certificate failure (Reachable only with unverified SSL context), SSL Handshake / Certificate failure (Reachable only with unverified SSL context)"
+  },
+  {
+    "domain": "egazette.gov.in",
+    "name": "The Gazette of India (NIC)",
+    "endpoint": "https://egazette.gov.in/",
+    "reachable": "YES",
+    "latency_sec": 0.31,
+    "status_code": 0,
+    "blockers": "SSL Handshake / Certificate failure (Reachable only with unverified SSL context)"
+  },
+  {
+    "domain": "mohua.gov.in",
+    "name": "MoHUA (Model Tenancy Act)",
+    "endpoint": "https://mohua.gov.in/",
+    "reachable": "NO",
+    "latency_sec": 6.03,
+    "status_code": 0,
+    "blockers": "SSL Handshake / Certificate failure"
+  },
+  {
+    "domain": "rbi.org.in",
+    "name": "Reserve Bank of India (Regulatory Acts & Notifications)",
+    "endpoint": "https://www.rbi.org.in/",
+    "reachable": "YES",
+    "latency_sec": 1.57,
+    "status_code": 200,
+    "blockers": "None (Directly Fetchable HTML/PDF)"
+  },
+  {
+    "domain": "sci.gov.in",
+    "name": "Supreme Court of India (Official Portal)",
+    "endpoint": "https://www.sci.gov.in/",
+    "reachable": "YES",
+    "latency_sec": 0.22,
+    "status_code": 200,
+    "blockers": "None (Directly Fetchable HTML/PDF)"
+  },
+  {
+    "domain": "digiscr.sci.gov.in",
+    "name": "Digital Supreme Court Reports (e-SCR)",
+    "endpoint": "https://digiscr.sci.gov.in/",
+    "reachable": "NO",
+    "latency_sec": 0.01,
+    "status_code": 0,
+    "blockers": "Network unreachable: [Errno 11001] getaddrinfo failed"
+  },
+  {
+    "domain": "services.ecourts.gov.in",
+    "name": "eCourts Services (Case Status Portal)",
+    "endpoint": "https://services.ecourts.gov.in/ecourtindia_v6/",
+    "reachable": "YES",
+    "latency_sec": 0.67,
+    "status_code": 200,
+    "blockers": "CAPTCHA challenge detected, Requires JavaScript SPA rendering"
+  },
+  {
+    "domain": "delhihighcourt.nic.in",
+    "name": "Delhi High Court (Orders & Case Status)",
+    "endpoint": "https://delhihighcourt.nic.in/",
+    "reachable": "YES",
+    "latency_sec": 0.56,
+    "status_code": 200,
+    "blockers": "None (Directly Fetchable HTML/PDF)"
+  },
+  {
+    "domain": "bombayhighcourt.nic.in",
+    "name": "Bombay High Court (Official Portal)",
+    "endpoint": "https://bombayhighcourt.nic.in/",
+    "reachable": "NO",
+    "latency_sec": 6.02,
+    "status_code": 0,
+    "blockers": "Network unreachable: timed out"
+  },
+  {
+    "domain": "karnatakajudiciary.kar.nic.in",
+    "name": "Karnataka High Court",
+    "endpoint": "https://karnatakajudiciary.kar.nic.in/",
+    "reachable": "NO",
+    "latency_sec": 6.01,
+    "status_code": 0,
+    "blockers": "Network unreachable: timed out"
+  }
+]
