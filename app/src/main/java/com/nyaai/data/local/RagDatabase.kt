@@ -7,7 +7,17 @@ import kotlinx.coroutines.flow.Flow
 @Fts4
 data class DocumentEntity(
     val sourcePath: String,
-    val content: String
+    val content: String,
+    val jurisdiction: String = "central",
+    val act: String = "",
+    val section: String = "",
+    @ColumnInfo(name = "effective_date")
+    val effectiveDate: String = "",
+    val status: String = "in_force", // "in_force", "amended", "repealed"
+    @ColumnInfo(name = "last_verified_date")
+    val lastVerifiedDate: String = "",
+    @ColumnInfo(name = "source_url")
+    val sourceUrl: String = ""
 ) {
     @PrimaryKey
     @ColumnInfo(name = "rowid")
@@ -18,7 +28,8 @@ data class DocumentEntity(
 data class ChatSessionEntity(
     @PrimaryKey(autoGenerate = true) val sessionId: Long = 0,
     val title: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val matterId: String? = null
 )
 
 @Entity(
@@ -62,9 +73,24 @@ data class BookmarkEntity(
     val timestamp: Long = System.currentTimeMillis()
 )
 
+@Entity(tableName = "matters")
+data class MatterEntity(
+    @PrimaryKey val matterId: String,
+    val userId: String,
+    val title: String,
+    val domain: String,
+    val status: String,
+    val jurisdictionState: String?,
+    val jurisdictionConfidence: String,
+    val proceduralStage: String,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val caseStateJson: String
+)
+
 @Dao
 interface RagDao {
-    @Query("SELECT rowid, sourcePath, content FROM documents WHERE documents MATCH :query")
+    @Query("SELECT rowid, sourcePath, content, jurisdiction, act, section, effective_date, status, last_verified_date, source_url FROM documents WHERE documents MATCH :query")
     suspend fun search(query: String): List<DocumentEntity>
 
     @Insert
@@ -146,8 +172,24 @@ interface RagDao {
     @Query("SELECT COUNT(*) FROM training_examples")
     fun getTrainingCountFlow(): Flow<Int>
     
-    @Query("SELECT rowid, sourcePath, content FROM documents ORDER BY rowid ASC LIMIT :limit OFFSET :offset")
+    @Query("SELECT rowid, sourcePath, content, jurisdiction, act, section, effective_date, status, last_verified_date, source_url FROM documents ORDER BY rowid ASC LIMIT :limit OFFSET :offset")
     suspend fun getPagedDocuments(limit: Int, offset: Int): List<DocumentEntity>
+
+    // Matters
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMatter(matter: MatterEntity)
+
+    @Query("SELECT * FROM matters WHERE matterId = :matterId")
+    suspend fun getMatter(matterId: String): MatterEntity?
+
+    @Query("SELECT * FROM matters ORDER BY updatedAt DESC")
+    suspend fun getAllMatters(): List<MatterEntity>
+
+    @Update
+    suspend fun updateMatter(matter: MatterEntity)
+
+    @Query("DELETE FROM matters WHERE matterId = :matterId")
+    suspend fun deleteMatter(matterId: String)
 }
 
 val MIGRATION_7_8 = object : androidx.room.migration.Migration(7, 8) {
@@ -163,15 +205,54 @@ val MIGRATION_7_8 = object : androidx.room.migration.Migration(7, 8) {
     }
 }
 
+val MIGRATION_8_9 = object : androidx.room.migration.Migration(8, 9) {
+    override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+        // 1. Recreate virtual table documents with metadata columns
+        db.execSQL(
+            "CREATE VIRTUAL TABLE IF NOT EXISTS `documents_new` USING FTS4(" +
+            "`sourcePath` TEXT NOT NULL, `content` TEXT NOT NULL, " +
+            "`jurisdiction` TEXT NOT NULL, `act` TEXT NOT NULL, `section` TEXT NOT NULL, " +
+            "`effective_date` TEXT NOT NULL, `status` TEXT NOT NULL, " +
+            "`last_verified_date` TEXT NOT NULL, `source_url` TEXT NOT NULL)"
+        )
+        db.execSQL(
+            "INSERT INTO `documents_new`(rowid, `sourcePath`, `content`, `jurisdiction`, `act`, `section`, `effective_date`, `status`, `last_verified_date`, `source_url`) " +
+            "SELECT rowid, `sourcePath`, `content`, 'central', '', '', '', 'in_force', '', '' FROM `documents`"
+        )
+        db.execSQL("DROP TABLE `documents`")
+        db.execSQL("ALTER TABLE `documents_new` RENAME TO `documents`")
+
+        // 2. Add matterId to chat_sessions
+        db.execSQL("ALTER TABLE `chat_sessions` ADD COLUMN `matterId` TEXT")
+
+        // 3. Create matters table
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `matters` (" +
+            "`matterId` TEXT PRIMARY KEY NOT NULL, " +
+            "`userId` TEXT NOT NULL, " +
+            "`title` TEXT NOT NULL, " +
+            "`domain` TEXT NOT NULL, " +
+            "`status` TEXT NOT NULL, " +
+            "`jurisdictionState` TEXT, " +
+            "`jurisdictionConfidence` TEXT NOT NULL, " +
+            "`proceduralStage` TEXT NOT NULL, " +
+            "`createdAt` INTEGER NOT NULL, " +
+            "`updatedAt` INTEGER NOT NULL, " +
+            "`caseStateJson` TEXT NOT NULL)"
+        )
+    }
+}
+
 @Database(
     entities = [
         DocumentEntity::class,
         ChatSessionEntity::class,
         MessageEntity::class,
         TrainingExampleEntity::class,
-        BookmarkEntity::class
+        BookmarkEntity::class,
+        MatterEntity::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 abstract class RagDatabase : RoomDatabase() {

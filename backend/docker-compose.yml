@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: nyaai
+      POSTGRES_USER: nyaai
+      POSTGRES_PASSWORD: nyaai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrantdata:/qdrant/storage
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - AUTH_SECRET_KEY=dry_run_dev_secret_key_nyaai_2026_refactor
+      - DATABASE_URL=postgresql+asyncpg://nyaai:nyaai@postgres:5432/nyaai
+      - QDRANT_URL=http://qdrant:6333
+      - ALLOW_IN_MEMORY_FALLBACK=True
+    depends_on:
+      - postgres
+      - qdrant
+
+volumes:
+  pgdata:
+  qdrantdata:
+

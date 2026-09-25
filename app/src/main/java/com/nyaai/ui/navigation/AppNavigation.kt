@@ -12,12 +12,13 @@ import com.nyaai.ui.state.LocalLogOutAction
 import com.nyaai.ui.state.LocalOpenLoginAction
 
 object AppRoutes {
-    const val SPLASH   = "splash"
-    const val WELCOME  = "welcome"
-    const val LOGIN    = "login"
-    const val HOME     = "home"
-    const val ABOUT    = "about"
-    const val SETTINGS = "settings"
+    const val SPLASH        = "splash"
+    const val WELCOME       = "welcome"
+    const val LOGIN         = "login"
+    const val HOME          = "home"
+    const val ABOUT         = "about"
+    const val SETTINGS      = "settings"
+    const val MATTER_DETAIL = "matter_detail/{matterId}"
 }
 
 @Composable
@@ -85,6 +86,16 @@ fun AppNavigation(ragDao: RagDao? = null) {
             composable(AppRoutes.HOME) {
                 MainScreen(navController = navController, ragDao = ragDao)
             }
+
+            composable(AppRoutes.MATTER_DETAIL) { backStackEntry ->
+                val matterId = backStackEntry.arguments?.getString("matterId") ?: ""
+                MatterDetailScreen(
+                    matterId = matterId,
+                    ragDao = ragDao,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
+

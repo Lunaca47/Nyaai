@@ -1,0 +1,494 @@
+{
+  "mean_precision_at_3": 0.9382716049382716,
+  "grounded_count": 27,
+  "fallback_count": 0,
+  "total_cases": 27,
+  "cases": [
+    {
+      "index": 1,
+      "domain": "Tenancy & Eviction",
+      "query": "My landlord refuses to refund my security deposit of 1.5 lakhs after I vacated the flat on proper notice.",
+      "top_3_statutes": [
+        "Model Tenancy Act, 2021 \u00a7Section 11 (Security deposit \u2014 Statutory cap an...)",
+        "Model Tenancy Act, 2021 \u00a7Section 9 (Revision of rent \u2014 Terms of tenancy...)",
+        "Model Tenancy Act, 2021 \u00a7Section 10 (Rent Authority to determine revised...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 2,
+      "domain": "Tenancy & Eviction",
+      "query": "Landlord disconnected electricity and water supply to forcefully evict tenant without court order.",
+      "top_3_statutes": [
+        "Model Tenancy Act, 2021 \u00a7Section 20 (Restriction on withholding essentia...)",
+        "Delhi Rent Control Act, 1958 \u00a7Section 14 (Protection of tenant against evicti...)",
+        "Maharashtra Rent Control Act, 1999 \u00a7Section 15 (No ejectment ordinarily if tenant p...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 3,
+      "domain": "Tenancy & Eviction",
+      "query": "Landlord arbitrarily hiked rent by 30% mid-tenancy without any escalation clause in registered lease agreement.",
+      "top_3_statutes": [
+        "Model Tenancy Act, 2021 \u00a7Section 9 (Revision of rent \u2014 Terms of tenancy...)",
+        "Model Tenancy Act, 2021 \u00a7Section 10 (Rent Authority to determine revised...)",
+        "Model Tenancy Act, 2021 \u00a7Section 20 (Restriction on withholding essentia...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 4,
+      "domain": "Cheque Bounce (NI Act)",
+      "query": "A client gave me a cheque of 2 lakhs which bounced due to funds insufficient, what legal notice to send under Section 138?",
+      "top_3_statutes": [
+        "Negotiable Instruments Act, 1881 \u00a7Section 138 (Dishonour of cheque for insufficien...)",
+        "Negotiable Instruments Act, 1881 \u00a7Section 142 (Cognizance of offences \u2014 Complaint ...)",
+        "Negotiable Instruments Act, 1881 \u00a7Section 143A (Power to direct interim compensatio...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 5,
+      "domain": "Cheque Bounce (NI Act)",
+      "query": "Received cheque return memo from bank with reason account closed, 30 days statutory notice deadline under NI Act 138.",
+      "top_3_statutes": [
+        "Negotiable Instruments Act, 1881 \u00a7Section 138 (Dishonour of cheque for insufficien...)",
+        "Negotiable Instruments Act, 1881 \u00a7Section 142 (Cognizance of offences \u2014 Complaint ...)",
+        "Negotiable Instruments Act, 1881 \u00a7Section 143A (Power to direct interim compensatio...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 6,
+      "domain": "Cheque Bounce (NI Act)",
+      "query": "Accused failed to pay cheque amount within 15 days of statutory legal demand notice, filing complaint under Section 142 NI Act.",
+      "top_3_statutes": [
+        "Negotiable Instruments Act, 1881 \u00a7Section 142 (Cognizance of offences \u2014 Complaint ...)",
+        "Negotiable Instruments Act, 1881 \u00a7Section 138 (Dishonour of cheque for insufficien...)",
+        "Payment of Gratuity Act, 1972 \u00a7Section 7 (Determination of amount of gratuity...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        false
+      ],
+      "precision_at_3": 0.6666666666666666,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 7,
+      "domain": "Hit & Run / Motor Accident",
+      "query": "A speeding commercial truck hit my motorcycle from behind causing grievous hurt and fled the scene without reporting.",
+      "top_3_statutes": [
+        "Motor Vehicles Act, 1988 \u00a7Section 161 (Special provisions as to compensati...)",
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7Section 106 (Causing death by negligence (Hit-an...)",
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7section 122 (Page 38: section 122 voluntarily ca...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        false
+      ],
+      "precision_at_3": 0.6666666666666666,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 8,
+      "domain": "Hit & Run / Motor Accident",
+      "query": "Hit and run compensation claim under Section 161 Motor Vehicles Act for grievous hurt or death.",
+      "top_3_statutes": [
+        "Motor Vehicles Act, 1988 \u00a7Section 161 (Special provisions as to compensati...)",
+        "Motor Vehicles Act, 1988 \u00a7Section 164 (Payment of compensation in case of ...)",
+        "Motor Vehicles Act, 1988 \u00a7Section 134 & 187 (Duty of driver in case of accident ...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 9,
+      "domain": "Hit & Run / Motor Accident",
+      "query": "Driver was intoxicated and driving rashly, hit pedestrian, criminal charges under BNS 281 and BNS 106.",
+      "top_3_statutes": [
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7Section 106 (Causing death by negligence (Hit-an...)",
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7Section 281 (Rash driving or riding on a public ...)",
+        "Motor Vehicles Act, 1988 \u00a7Section 134 & 187 (Duty of driver in case of accident ...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 10,
+      "domain": "Police FIR Refusal",
+      "query": "Police station refuses to register FIR for stolen mobile phone and forced me to sign a lost article memo.",
+      "top_3_statutes": [
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(3) (Remedy on refusal to register FIR \u2014...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(4) (Remedy on refusal to register FIR \u2014...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 173 (Information in cognizable cases (FI...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 11,
+      "domain": "Police FIR Refusal",
+      "query": "Can police refuse to register FIR because incident happened outside jurisdiction, mandatory Zero FIR under Section 173 BNSS?",
+      "top_3_statutes": [
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 173 (Information in cognizable cases (FI...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(4) (Remedy on refusal to register FIR \u2014...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(3) (Remedy on refusal to register FIR \u2014...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 12,
+      "domain": "Police FIR Refusal",
+      "query": "SHO refused to register cognizable offense FIR, filing complaint to Superintendent of Police under Section 175(3) BNSS or Magistrate under 175(4).",
+      "top_3_statutes": [
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(4) (Remedy on refusal to register FIR \u2014...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Section 175(3) (Remedy on refusal to register FIR \u2014...)",
+        "Bharatiya Nagarik Suraksha Sanhita, 2023 \u00a7Page 1107 (Page 54: (4) Where a case relates t...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        false
+      ],
+      "precision_at_3": 0.6666666666666666,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 13,
+      "domain": "Cyber Financial Fraud",
+      "query": "Victim of UPI fraud lost 80000 rupees after clicking an unauthorized APK payment link sent on WhatsApp, how to freeze account via 1930?",
+      "top_3_statutes": [
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7Page 815 (Page 36: on behalf of such syndicat...)",
+        "Reserve Bank of India Directives / Banking Regulation Act, 1949 \u00a7RBI Circular DBR.No.Leg.BC.78/09.07.005/2017-18 (Limiting Liability of Customers in ...)",
+        "Information Technology Act, 2000 \u00a7Section 66D (Punishment for cheating by personat...)"
+      ],
+      "relevance_flags": [
+        false,
+        true,
+        true
+      ],
+      "precision_at_3": 0.6666666666666666,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 14,
+      "domain": "Cyber Financial Fraud",
+      "query": "Unauthorized credit card transactions executed internationally without OTP, RBI circular on zero liability for bank customer.",
+      "top_3_statutes": [
+        "Reserve Bank of India Directives / Banking Regulation Act, 1949 \u00a7RBI Master Direction DOR.AUT.REC.No.27/24.01.041/2022-23 Section 8 (Clause 8.7) & Section 10 (Credit and Debit Card Issuance and ...)",
+        "Reserve Bank of India Directives / Banking Regulation Act, 1949 \u00a7RBI Circular DBR.No.Leg.BC.78/09.07.005/2017-18 (Limiting Liability of Customers in ...)",
+        "Bharatiya Nyaya Sanhita, 2023 \u00a7Page 897 (Page 93: by whose authority he know...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        false
+      ],
+      "precision_at_3": 0.6666666666666666,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 15,
+      "domain": "Cyber Financial Fraud",
+      "query": "Cyber extortion blackmail through morphed defamatory pictures on social media under Section 66E and 67 Information Technology Act.",
+      "top_3_statutes": [
+        "Information Technology Act, 2000 \u00a7Section 67 (Punishment for publishing or transm...)",
+        "Information Technology Act, 2000 \u00a7Section 66E (Punishment for violation of privacy...)",
+        "Information Technology Act, 2000 \u00a7Section 43 (Penalty and compensation for damage...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 16,
+      "domain": "Consumer Disputes (CPA 2019)",
+      "query": "E-commerce company delivered damaged television and refuses refund or replacement under Consumer Protection Act 2019.",
+      "top_3_statutes": [
+        "Consumer Protection Act, 2019 \u00a7Section 39 (Findings of District Commission \u2014 O...)",
+        "Consumer Protection Act, 2019 \u00a7Section 35 (Manner in which complaint shall be ...)",
+        "Consumer Protection Act, 2019 \u00a7Section 83 (Product liability action against ma...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 17,
+      "domain": "Consumer Disputes (CPA 2019)",
+      "query": "Car dealer sold vehicle with inherent manufacturing engine defect, consumer complaint before District Commission under Section 35 CPA 2019.",
+      "top_3_statutes": [
+        "Consumer Protection Act, 2019 \u00a7Section 35 (Manner in which complaint shall be ...)",
+        "Consumer Protection Act, 2019 \u00a7Section 38 (Procedure on admission of complaint...)",
+        "Consumer Protection Act, 2019 \u00a7Section 39 (Findings of District Commission \u2014 O...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 18,
+      "domain": "Consumer Disputes (CPA 2019)",
+      "query": "Product liability claim against manufacturer for defective electronic device causing fire damage under Section 84 of CPA 2019.",
+      "top_3_statutes": [
+        "Consumer Protection Act, 2019 \u00a7Section 84 (Liability of product manufacturer i...)",
+        "Consumer Protection Act, 2019 \u00a7Section 83 (Product liability action against ma...)",
+        "Consumer Protection Act, 2019 \u00a7Section 2 (Definitions \u2014 Consumer, Defect, Def...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 19,
+      "domain": "Unpaid Wages & Gratuity",
+      "query": "Employer terminated me without paying 3 months earned wages and salary dues under Code on Wages and Payment of Wages Act.",
+      "top_3_statutes": [
+        "Payment of Wages Act, 1936 \u00a7Section 5 (Time of payment of wages \u2014 7th day ...)",
+        "Code on Wages, 2019 \u00a7Section 17 (Time limit for payment of wages and...)",
+        "Code on Wages, 2019 \u00a7Section 45 (Claims under Code and procedure for...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 20,
+      "domain": "Unpaid Wages & Gratuity",
+      "query": "Completed 5 years continuous service but company refuses to pay gratuity amount upon resignation under Payment of Gratuity Act 1972.",
+      "top_3_statutes": [
+        "Payment of Gratuity Act, 1972 \u00a7Section 4 (Payment of gratuity \u2014 Five years co...)",
+        "Payment of Gratuity Act, 1972 \u00a7Section 7 (Determination of amount of gratuity...)",
+        "Payment of Gratuity Act, 1972 \u00a7Section 9 (Penalties for failure to comply wit...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 21,
+      "domain": "Unpaid Wages & Gratuity",
+      "query": "Recovery of unpaid gratuity with compound interest under Section 8 of Payment of Gratuity Act 1972 before Controlling Authority.",
+      "top_3_statutes": [
+        "Payment of Gratuity Act, 1972 \u00a7Section 8 (Recovery of gratuity \u2014 Revenue Reco...)",
+        "Payment of Gratuity Act, 1972 \u00a7Section 7 (Determination of amount of gratuity...)",
+        "Payment of Gratuity Act, 1972 \u00a7Section 13 (Protection of gratuity against atta...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 22,
+      "domain": "Industrial Disputes / Termination",
+      "query": "Factory retrenched 40 workers without one month notice or retrenchment compensation under Section 25F of Industrial Disputes Act 1947.",
+      "top_3_statutes": [
+        "Industrial Disputes Act, 1947 \u00a7Section 25F (Conditions precedent to retrenchmen...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 2A (Dismissal, etc., of an individual w...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 33C (Recovery of money due from an emplo...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 23,
+      "domain": "Industrial Disputes / Termination",
+      "query": "Individual workman illegally dismissed without domestic inquiry, reference to Labour Court under Section 2A Industrial Disputes Act.",
+      "top_3_statutes": [
+        "Industrial Disputes Act, 1947 \u00a7Section 2A (Dismissal, etc., of an individual w...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 33C(2) (Recovery of money or computation of...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 25F (Conditions precedent to retrenchmen...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 24,
+      "domain": "Industrial Disputes / Termination",
+      "query": "Recovery of money due from employer under settlement through Labour Court application under Section 33C(2) of Industrial Disputes Act.",
+      "top_3_statutes": [
+        "Industrial Disputes Act, 1947 \u00a7Section 33C (Recovery of money due from an emplo...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 33C(2) (Recovery of money or computation of...)",
+        "Industrial Disputes Act, 1947 \u00a7Section 2A (Dismissal, etc., of an individual w...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 25,
+      "domain": "Domestic Violence & Maintenance",
+      "query": "Husband and in-laws subjecting married woman to domestic violence and threatening to throw her out of shared matrimonial household.",
+      "top_3_statutes": [
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 19 (Residence orders \u2014 Restraining disp...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 17 (Right to reside in a shared househo...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 3 (Definition of domestic violence \u2014 P...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 26,
+      "domain": "Domestic Violence & Maintenance",
+      "query": "Application for protection order and residence order under Section 12, Section 18 and Section 19 of DV Act 2005.",
+      "top_3_statutes": [
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 19 (Residence orders \u2014 Restraining disp...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 12 (Application to Magistrate for seeki...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 23 (Power to grant interim and ex parte...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    },
+    {
+      "index": 27,
+      "domain": "Domestic Violence & Maintenance",
+      "query": "Seeking monetary relief and interim maintenance for children under Section 20 and Section 23 of Domestic Violence Act.",
+      "top_3_statutes": [
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 20 (Monetary reliefs \u2014 Medical expenses...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 23 (Power to grant interim and ex parte...)",
+        "Protection of Women from Domestic Violence Act, 2005 \u00a7Section 12 (Application to Magistrate for seeki...)"
+      ],
+      "relevance_flags": [
+        true,
+        true,
+        true
+      ],
+      "precision_at_3": 1.0,
+      "gate_action": "ALLOW",
+      "answer_source": "Retrieved Statute Text (Grounded)"
+    }
+  ]
+}

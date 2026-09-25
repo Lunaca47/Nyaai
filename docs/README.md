@@ -1,50 +1,53 @@
-# 🌐 NYAAI — Futuristic Web Application
+# 🌐 NYAAI — Web Client (GitHub Pages)
 
-This directory (`web/`) contains the standalone, futuristic web application for **NYAAI (न्यायAI)**. It is completely isolated from the Android mobile application codebase (`app/`), allowing it to be hosted on GitHub Pages, Vercel, Netlify, or any static web hosting service.
+This directory (`docs/`) contains the web client for **NYAAI (न्यायAI)** deployed to GitHub Pages at [https://lunaca47.github.io/Nyaai/](https://lunaca47.github.io/Nyaai/).
+
+The client connects to the NYAAI FastAPI backend to run authentic hybrid statutory retrieval, LLM generation, and citation verification.
 
 ---
 
 ## ⚡ Key Features
 
-1. **Dynamic Neural Constellation & Scales Canvas**: Interactive HTML5 canvas rendering neural network constellations and mathematical legal justice wireframes reacting in real-time to mouse gestures.
-2. **Live Legal AI Terminal (Playground)**:
-   - Interactive chat simulator providing grounded statutory citations across BNS 2023, BNSS 2023, BSA 2023, and Constitution of India.
+1. **Grounded Legal Terminal**:
+   - Live statutory research calling the NYAAI backend pipeline (`/api/v1/retrieval/search`, `/api/v1/generate`, `/api/v1/verify`).
+   - Authentic citation verification badges matching the Android app (`PASSED`, `ANNOTATED_MODEL_LAW`, `ANNOTATED_UNGROUNDED`, `ANNOTATED_REPEALED`, `REJECTED_UNGROUNDED`).
    - Text-to-Speech (TTS) audio narration via Web Speech Synthesis API.
    - Speech-to-Text (STT) voice input via Web Speech Recognition API.
-   - Real-time confidence metrics (e.g. `98.7% High Confidence`).
-3. **On-Device Legal Document Scanner & OCR Simulator**:
+2. **On-Device Legal Document Scanner & OCR Simulator**:
    - Interactive document optical scan with sweeping laser grid animation.
-   - Simulated text bounding boxes on legal notices (Section 138 NI Act, Cyber Crime FIR under Section 173 BNSS, NDA Breach Notice).
-   - Structured extraction output detailing Document Type, Governing Provisions, Deadlines, and Recommended Action Steps.
-4. **3D Statutory Codex**:
-   - Real-time search filter across key provisions of Bharatiya Nyaya Sanhita, BNSS, BSA, and the Constitution of India.
-5. **National Legal SOS Radar**:
-   - One-click access to Indian emergency legal aid helplines (NALSA `15100`, Women Helpline `1091`, Cybercrime `1930`, Childline `1098`).
-6. **Production Release Download Hub**:
-   - Direct download access to `app-release.apk` (11.47 MB) with scannable QR code.
-7. **Multilingual Interface**:
+   - Simulated text bounding boxes on legal notices.
+3. **Statutory Codex Explorer**:
+   - Real-time search across Bharatiya Nyaya Sanhita, BNSS, BSA, and Constitution provisions.
+4. **National Legal SOS Radar**:
+   - Verified Indian emergency legal aid helplines (NALSA `15100`, Women Helpline `1091`, Cybercrime `1930`, Childline `1098`) fully functional offline.
+5. **Production Release Download Hub**:
+   - Direct download access to `app-release.apk` (11.4 MB) with scannable QR code.
+6. **Multilingual Interface**:
    - Dynamic UI localization across English, Hindi (हिन्दी), Bengali (বাংলা), Telugu (తెలుగు), and Tamil (தமிழ்).
 
 ---
 
 ## 🚀 How to Run Locally
 
-### Option 1: Python Built-in Server (Recommended)
+### 1. Start the Backend
 ```bash
-# Navigate to the web folder and start HTTP server
-cd web
-python -m http.server 8000
-```
-Open your browser at `http://localhost:8000`.
-
-### Option 2: Node.js / NPX Serve
-```bash
-cd web
-npx serve .
+cd backend
+# With venv activated:
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### Option 3: Open Directly
-Double-click `web/index.html` to open it in Chrome, Edge, Brave, or Firefox.
+### 2. Serve the Web Client
+```bash
+cd docs
+python -m http.server 3000
+```
+Open `http://localhost:3000` in your browser. The web client will automatically connect to `http://localhost:8000`.
+
+### 3. Configuring Remote Backend
+To connect the web client to a remote backend instance, specify the URL in the browser console or settings:
+```javascript
+localStorage.setItem("nyaai_api_url", "https://your-backend-service.run.app");
+```
 
 ---
 
@@ -54,8 +57,8 @@ Double-click `web/index.html` to open it in Chrome, Edge, Brave, or Firefox.
 1. Push this repository to GitHub.
 2. In GitHub, navigate to **Settings → Pages**.
 3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-4. Select `main` branch and folder `/web`.
-5. Click **Save**. Your site will be live at `https://Lunaca47.github.io/Nyaai/`.
+4. Select `main` branch and folder `/docs`.
+5. Click **Save**. Your site will be live at `https://lunaca47.github.io/Nyaai/`.
 
 ### Deploying to Vercel or Netlify
 1. Connect your GitHub repository.

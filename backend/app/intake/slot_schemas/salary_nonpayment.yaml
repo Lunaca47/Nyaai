@@ -1,0 +1,34 @@
+domain: salary_nonpayment
+label: "Salary Non-Payment / Wage Dispute"
+slots:
+  - name: employment_type
+    question_template: "What is your type of employment — full-time, part-time, contract, or daily wage?"
+    impact_weight: 5
+    extractable_from_document: true
+    value_type: enum
+    enum_values: [full_time, part_time, contract, daily_wage]
+  - name: state
+    question_template: "Which state is your workplace located in?"
+    impact_weight: 5
+    extractable_from_document: false
+    value_type: text
+  - name: written_contract_exists
+    question_template: "Do you have a written employment contract or appointment letter?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: boolean
+  - name: last_paydate
+    question_template: "When was the last time you received your salary?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: date
+  - name: employer_size
+    question_template: "Roughly how many employees does your company have?"
+    impact_weight: 3
+    extractable_from_document: false
+    value_type: text
+  - name: termination_involved
+    question_template: "Were you terminated or asked to resign? Or are you still employed but not being paid?"
+    impact_weight: 5
+    extractable_from_document: false
+    value_type: boolean

@@ -23,6 +23,7 @@ import com.nyaai.data.local.RagDatabase
 import com.nyaai.data.local.PdfExtractorService
 import com.nyaai.data.local.CloudDatasetSyncService
 import com.nyaai.data.local.MIGRATION_7_8
+import com.nyaai.data.local.MIGRATION_8_9
 
 import android.content.Context
 import kotlinx.coroutines.launch
@@ -43,17 +44,20 @@ class MainActivity : ComponentActivity() {
             RagDatabase::class.java, "nyaai_v9.db"
         )
         .createFromAsset("database/nyaai_preloaded.db")
-        .addMigrations(MIGRATION_7_8)
+        .addMigrations(MIGRATION_7_8, MIGRATION_8_9)
         .fallbackToDestructiveMigration()
         .build()
 
         val pdfExtractor = PdfExtractorService(applicationContext, db.ragDao())
         val cloudSync = CloudDatasetSyncService(applicationContext, db.ragDao())
+        val backendUrl = prefs.getString("backend_url", "http://10.0.2.2:8000") ?: "http://10.0.2.2:8000"
         val aiService = AiService(
             db.ragDao(), 
-            apiKey,
-            customApiKeyProvider = { prefs.getString("custom_gemini_api_key", null) }
+            apiKey = apiKey,
+            customApiKeyProvider = { prefs.getString("custom_gemini_api_key", null) },
+            backendBaseUrl = backendUrl
         )
+
         lifecycleScope.launch {
             pdfExtractor.initializeDatabaseFromAssets()
             cloudSync.syncDatasetIfNeeded()

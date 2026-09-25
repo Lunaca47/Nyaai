@@ -1,0 +1,30 @@
+domain: consumer_complaint
+label: "Consumer Complaint"
+slots:
+  - name: purchase_date
+    question_template: "When did you purchase the product or service?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: date
+  - name: purchase_price
+    question_template: "How much did you pay for it?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: number
+  - name: warranty_status
+    question_template: "Is the product still under warranty?"
+    impact_weight: 4
+    extractable_from_document: true
+    value_type: enum
+    enum_values: [under_warranty, expired, unknown, no_warranty]
+  - name: seller_type
+    question_template: "Did you buy it online (e.g., Amazon, Flipkart) or from a physical store?"
+    impact_weight: 3
+    extractable_from_document: false
+    value_type: enum
+    enum_values: [online, offline]
+  - name: prior_communication_with_seller
+    question_template: "Have you already contacted the seller or company about this issue? What was their response?"
+    impact_weight: 4
+    extractable_from_document: false
+    value_type: boolean

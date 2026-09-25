@@ -1,0 +1,19 @@
+domain: legal_aid_eligibility
+label: "Legal Aid Eligibility Check"
+slots:
+  - name: category
+    question_template: "Are you applying for legal aid as a woman, child, SC/ST member, person with disability, or based on income? (Under Legal Services Authority Act, Section 12)"
+    impact_weight: 5
+    extractable_from_document: false
+    value_type: enum
+    enum_values: [women, child, sc_st, disability, income_based, industrial_workman, custody, disaster_victim, other]
+  - name: rough_income
+    question_template: "What is your approximate monthly or annual income?"
+    impact_weight: 5
+    extractable_from_document: true
+    value_type: text
+  - name: matter_domain
+    question_template: "What type of legal matter do you need help with?"
+    impact_weight: 4
+    extractable_from_document: false
+    value_type: text

@@ -1,152 +1,156 @@
-# NYAAI RAG Backend — Setup Guide
+# NYAAI V2 — Statutory & RAG Backend
 
-## Overview
+Production FastAPI backend powering the NYAAI Android Application and the Web Client (`docs/`).
 
-This is the Python RAG backend for the NYAAI Indian Legal AI Assistant. It provides:
+Provides:
+- **Statutory Retrieval Service**: Hybrid search combining Sparse BM25 + Dense Semantic Scoring (all-MiniLM-L6-v2) + Reciprocal Rank Fusion ($k=60$) over 1,932 verified statutory provisions.
+- **Citation Verification Hard Gate**: Pre-generation and post-generation gate analyzing legal claims against ground truth statutory codex, enforcing colonial law migration (IPC/CrPC/IEA to BNS/BNSS/BSA), and flagging ungrounded claims.
+- **Server-Side Generation**: Isolated LLM generation (Gemini, Anthropic, Ollama) preventing API key exposure to clients.
+- **Matter Access Control**: Cryptographically signed token authentication (HMAC-SHA256 / PyJWT) with access-controlled matter storage and AES-256-GCM encryption.
+- **Rate Limiting**: Sliding window protection against automated abuse on browser-facing endpoints (`/api/v1/generate` and `/api/v1/retrieval/search`).
 
-- **Legal Scraper**: Fetches Constitution, BNS/BNSS/BSA, and 100 landmark cases
-- **Indexer**: Chunks, embeds, and indexes documents into ChromaDB + BM25
-- **RAG Server**: FastAPI server with hybrid retrieval, cross-encoder re-ranking, and Ollama LLM generation
+---
 
-## Prerequisites
+## Deployment & Hosting Guide
 
-- **Python 3.10+**
-- **Ollama** (for local LLM) — [Install Ollama](https://ollama.ai/download)
+## Deployment & Hosting Guide
 
-## Quick Start
+The web client is hosted as a static site on GitHub Pages (`https://lunaca47.github.io/Nyaai/`). GitHub Pages serves static files only and cannot execute server-side Python. To power the web client or Android remote sync in production, deploy this backend container to a cloud hosting platform.
 
-### 1. Setup Python Environment
+---
 
+### Operator vs Autonomous System Boundaries
+
+To maintain clear operational responsibilities, cloud deployment tasks are divided as follows:
+
+| Responsibility Area | Handled by Autonomous AI Agent | Operator / Human Administrator Responsibility |
+|---------------------|--------------------------------|----------------------------------------------|
+| **Containerization** | Multi-stage `Dockerfile`, entrypoints, and healthcheck endpoints | Provisioning cloud infrastructure (GCP Cloud Run, AWS App Runner, Fly.io, or Render) |
+| **Configuration Code** | `.env.example`, settings schema, and CORS middleware defaults | Supplying production secrets (`AUTH_SECRET_KEY`, `GEMINI_API_KEY`) in cloud dashboard |
+| **Statutory Data** | Codex consolidation, semantic deduplication, and embedding sidecars | Retaining off-site backups of production matter database |
+| **Networking & DNS** | Listening on `0.0.0.0:${PORT:-8000}`, `/health` probes | Purchasing domains, configuring DNS A/CNAME records, and pointing public endpoints |
+| **SSL/TLS Security** | Enforcing HTTPS redirection headers in production environment | Provisioning TLS/SSL certificates (automatic on Cloud Run/Render/Fly.io) |
+
+---
+
+### Environment Variables Reference
+
+All runtime configuration is managed through environment variables:
+
+| Variable | Requirement | Default | Description |
+|----------|-------------|---------|-------------|
+| `ENVIRONMENT` | **Required** | `development` | Set to `production` in live deployments (enforces strict HMAC secret checks and secure CORS). |
+| `AUTH_SECRET_KEY` | **Required** | None | 32+ character high-entropy secret used for HMAC-SHA256 guest & matter access token signing. Generate with: `openssl rand -hex 32`. |
+| `CORS_ORIGINS` | Optional | `https://lunaca47.github.io,http://localhost:8000` | Comma-separated list of allowed origins permitted to call the backend APIs from web browsers. |
+| `PORT` | Optional | `8000` | Port on which Uvicorn listens. (Cloud Run / Render automatically inject this). |
+| `LLM_PROVIDER` | Optional | `gemini` | Server-side model engine: `gemini`, `anthropic`, or `ollama`. |
+| `GEMINI_API_KEY` | Optional | None | Google Gemini API key for server-side grounded generation. Stored exclusively on backend. |
+| `ANTHROPIC_API_KEY` | Optional | None | Anthropic Claude API key (if `LLM_PROVIDER=anthropic`). |
+| `OLLAMA_BASE_URL` | Optional | `http://localhost:11434` | Endpoint for local/self-hosted Ollama model instances. |
+| `EMBEDDING_MODEL` | Optional | `sentence-transformers/all-MiniLM-L6-v2` | SentenceTransformer model identifier for semantic retrieval. |
+| `ALLOW_IN_MEMORY_FALLBACK` | Optional | `True` | Permits falling back to precomputed `.npy` statutory embeddings when vector DB is unlinked. |
+
+---
+
+### 1. Cloud Run Deployment (Google Cloud)
+```bash
+# Build and tag image using Google Cloud Build
+gcloud builds submit --tag gcr.io/PROJECT_ID/nyaai-backend:v2 backend/
+
+# Deploy container to Cloud Run
+gcloud run deploy nyaai-backend \
+  --image gcr.io/PROJECT_ID/nyaai-backend:v2 \
+  --platform managed \
+  --region asia-south1 \
+  --allow-unauthenticated \
+  --set-env-vars ENVIRONMENT=production,AUTH_SECRET_KEY=SECURE_HEX_KEY,CORS_ORIGINS=https://lunaca47.github.io \
+  --set-secrets GEMINI_API_KEY=nyaai-gemini-key:latest
+```
+
+### 2. Render / Fly.io / Railway Deployment
+1. **Dockerfile Path**: `backend/Dockerfile` | **Context**: `backend/`.
+2. **Environment Variables**: Populate `ENVIRONMENT=production`, `AUTH_SECRET_KEY`, `CORS_ORIGINS`, and LLM keys.
+3. **Health Check Path**: `/api/v1/health` (HTTP 200).
+4. **Custom Domain / DNS**: Add a CNAME record in your DNS provider pointing your domain (e.g. `api.nyaai.org`) to the assigned service URL. Update `docs/config.js` to point to your new backend URL.
+
+### 3. Local Development Setup
 ```bash
 cd backend
-
-# Create virtual environment
 python -m venv venv
-
-# Activate (Windows)
+# Windows:
 .\venv\Scripts\activate
-
-# Activate (macOS/Linux)
+# Linux/macOS:
 source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-```
-
-### 2. Configure Environment
-
-```bash
 cp .env.example .env
-# Edit .env if needed (defaults work fine for local development)
+# Configure ENVIRONMENT=development and AUTH_SECRET_KEY in .env
+
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### 3. Install Ollama & Pull Model
-
-```bash
-# Install Ollama from https://ollama.ai/download
-# Then pull the model:
-ollama pull gemma2:2b
-
-# Optional fallback model:
-ollama pull phi3:mini
-```
-
-### 4. Scrape Legal Data
-
-```bash
-# Scrape all sources (Constitution, BNS/BNSS/BSA, 100 cases)
-python legal_scraper.py --all
-
-# Or scrape selectively:
-python legal_scraper.py --constitution
-python legal_scraper.py --acts
-python legal_scraper.py --cases
-```
-
-### 5. Build Indexes
-
-```bash
-# Index scraped data
-python complete_indexer.py
-
-# Also include the Flutter app's existing dataset:
-python complete_indexer.py --include-app-data
-```
-
-### 6. Start the RAG Server
-
-```bash
-# Start with auto-reload (development)
-python rag_server.py
-
-# Or with uvicorn directly:
-uvicorn rag_server:app --host 0.0.0.0 --port 8000 --reload
-```
-
-### 7. Test the Server
-
-```bash
-# Health check
-curl http://localhost:8000/api/health
-
-# Query (retrieval only)
-curl -X POST http://localhost:8000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{"query": "What are my rights if arrested?"}'
-
-# Full chat (streaming)
-curl -X POST http://localhost:8000/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"query": "What is Article 21?", "stream": true}'
-```
-
-## Flutter App Configuration
-
-The Flutter app connects to the RAG server at `http://localhost:8000` by default.
-
-For testing on a physical device, use your machine's LAN IP:
-```
-http://192.168.x.x:8000
-```
-
-Update the server URL in `lib/services/rag_service_v2.dart`.
+---
 
 ## API Reference
 
-| Endpoint | Method | Description |
-|-----|--------|-------------|
-| `/api/chat` | POST | Full pipeline: retrieval → gate → LLM |
-| `/api/query` | POST | Retrieval only (debugging) |
-| `/api/health` | GET | Server status check |
-| `/api/models` | GET | Available Ollama models |
-| `/docs` | GET | Interactive API docs (Swagger) |
 
-## Architecture
+### Health
+- `GET /health` & `GET /api/v1/health`
+  Returns service status and active environment.
 
-```
-User Query → Embed (MiniLM) → ChromaDB Top-10 + BM25 Top-10
-    → Merge & Dedup → Cross-Encoder Re-rank → Top-3
-    → Confidence Gate:
-        > 0.75: Direct answer from chunks
-        0.4-0.75: Pass to Ollama LLM with grounding
-        < 0.4: "Insufficient information"
-    → Stream response to Flutter
-```
+### Authentication
+- `POST /api/v1/matters/auth/guest-token`
+  Issues a cryptographically signed HMAC token for anonymous or guest web sessions.
 
-## File Structure
+### Statutory Retrieval
+- `POST /api/v1/retrieval/search`
+  **Rate Limit**: 60 requests/minute per IP/token.
+  Payload:
+  ```json
+  {
+    "query": "cheque bounce demand notice 15 days",
+    "limit": 3,
+    "jurisdiction": "central"
+  }
+  ```
 
-```
-backend/
-├── config.py              # Configuration (env vars)
-├── legal_scraper.py       # Scrapes legal sources
-├── complete_indexer.py    # Builds ChromaDB + BM25 indexes
-├── rag_server.py          # FastAPI RAG server
-├── requirements.txt       # Python dependencies
-├── .env.example           # Environment template
-├── data/                  # Raw legal documents
-│   └── raw/               # Scraped output
-└── nyaai_index/           # Generated indexes
-    ├── chroma/            # ChromaDB persistence
-    ├── bm25_index.pkl     # BM25 index
-    └── chunk_metadata.pkl # Chunk metadata
-```
+### Generation
+- `POST /api/v1/generate`
+  **Rate Limit**: 20 requests/minute per IP/token.
+  Payload:
+  ```json
+  {
+    "prompt": "Explain tenant rights regarding security deposit return under Model Tenancy Act.",
+    "temperature": 0.2
+  }
+  ```
+
+### Verification Hard Gate
+- `POST /api/v1/verify`
+  Payload:
+  ```json
+  {
+    "response_text": "Under Section 138 of Negotiable Instruments Act...",
+    "retrieved_sources": [
+      {
+        "id": "nia_1881_s138",
+        "act": "Negotiable Instruments Act, 1881",
+        "section": "138",
+        "title": "Dishonour of cheque for insufficiency, etc., of funds in the account",
+        "content": "..."
+      }
+    ]
+  }
+  ```
+  Returns:
+  ```json
+  {
+    "action": "PASSED",
+    "is_grounded": true,
+    "verified_sources": [...],
+    "ungrounded_citations": [],
+    "model_laws": [],
+    "repealed_citations": [],
+    "annotated_response": "..."
+  }
+  ```
