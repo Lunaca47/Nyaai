@@ -1,0 +1,90 @@
+name: Docker Deployment Dry-Run & Schema Verification
+
+on:
+  push:
+    branches:
+      - feat/v2-case-navigation-refactor
+  workflow_dispatch:
+
+jobs:
+  docker-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Containers
+        run: |
+          echo "=== 1. Building Docker Containers ==="
+          docker compose -f backend/docker-compose.yml build
+
+      - name: Boot Docker Compose Stack
+        run: |
+          echo "=== 2. Starting Stack in Background ==="
+          docker compose -f backend/docker-compose.yml up -d
+          echo "=== Container Status ==="
+          docker compose -f backend/docker-compose.yml ps
+
+      - name: Wait for Containers to Initialize
+        run: |
+          echo "=== Waiting for Postgres to accept connections ==="
+          for i in {1..30}; do
+            if docker compose -f backend/docker-compose.yml exec -T postgres pg_isready -U nyaai; then
+              echo "Postgres is ready!"
+              break
+            fi
+            echo "Waiting for postgres ($i/30)..."
+            sleep 2
+          done
+
+          echo "=== Waiting for backend API to be ready ==="
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/health | grep -q "ok"; then
+              echo "Backend is ready!"
+              break
+            fi
+            echo "Waiting for API ($i/30)..."
+            sleep 2
+          done
+
+      - name: Verify Live Health Probes
+        run: |
+          echo "=== 3. GET /health ==="
+          curl -i http://localhost:8000/health
+          echo -e "\n=== 4. GET /api/v1/health ==="
+          curl -i http://localhost:8000/api/v1/health
+
+      - name: Apply Alembic Migrations Inside Container
+        run: |
+          echo "=== 5. Running alembic upgrade head inside api container ==="
+          docker compose -f backend/docker-compose.yml exec -T api alembic upgrade head
+
+      - name: Verify Postgres Schema & Tables
+        run: |
+          echo "=== 6. Querying Postgres tables via psql ==="
+          docker compose -f backend/docker-compose.yml exec -T postgres psql -U nyaai -d nyaai -c "\dt"
+
+      - name: Test Real Hybrid Retrieval Query
+        run: |
+          echo "=== 7. POST /api/v1/retrieval/search ==="
+          curl -s -X POST http://localhost:8000/api/v1/retrieval/search \
+            -H "Content-Type: application/json" \
+            -d '{"query": "Warrant of arrest for non-appearance", "limit": 3}' | jq .
+
+      - name: Test Real Citation Verification Gate
+        run: |
+          echo "=== 8. POST /api/v1/verify (Repealed IPC) ==="
+          curl -s -X POST http://localhost:8000/api/v1/verify \
+            -H "Content-Type: application/json" \
+            -d '{"response_text": "You can file a complaint under Section 420 IPC.", "cited_citations": ["IPC Section 420"]}' | jq .
+
+          echo "=== 9. POST /api/v1/verify (Grounded BNS) ==="
+          curl -s -X POST http://localhost:8000/api/v1/verify \
+            -H "Content-Type: application/json" \
+            -d '{"response_text": "Cheating is punishable under Section 318 of BNS.", "cited_citations": ["Section 318 BNS"], "retrieved_sources": [{"act": "Bharatiya Nyaya Sanhita, 2023", "section": "Section 318", "title": "Cheating", "content": "Cheating and dishonestly inducing delivery of property"}]}' | jq .
+
+      - name: Dump Container Logs on Failure
+        if: always()
+        run: |
+          echo "=== 10. Backend API Logs ==="
+          docker compose -f backend/docker-compose.yml logs api

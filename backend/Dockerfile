@@ -4,7 +4,9 @@ FROM python:3.11-slim as base
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PORT=8000
+    PORT=8000 \
+    ENVIRONMENT=development \
+    AUTH_SECRET_KEY=local_docker_dev_secret_key_nyaai_2026
 
 WORKDIR /app
 
@@ -19,9 +21,11 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Copy application code and statutory codex
+# Copy application code, migrations, and statutory codex
 COPY app/ ./app/
 COPY data/ ./data/
+COPY alembic/ ./alembic/
+COPY alembic.ini .
 
 # Security: Create and run as non-root user
 RUN addgroup --system nyaai && adduser --system --ingroup nyaai nyaai && \

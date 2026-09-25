@@ -68,6 +68,10 @@ class CitationVerifier {
             "section 173 crpc" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 193 (Police chargesheet)",
             "crpc 437" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 480 (Bail)",
             "crpc 439" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 482 (High Court bail powers)",
+            "crpc 70" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 72 (Form of warrant of arrest and duration)",
+            "section 70 crpc" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 72 (Form of warrant of arrest and duration)",
+            "crpc 71" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 73 (Power to direct security to be taken upon warrant)",
+            "section 71 crpc" to "Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) Section 73 (Power to direct security to be taken upon warrant)",
             "iea 65b" to "Bharatiya Sakshya Adhiniyam, 2023 (BSA) Section 63 (Electronic records admissibility)",
             "section 65b iea" to "Bharatiya Sakshya Adhiniyam, 2023 (BSA) Section 63 (Electronic records admissibility)"
         )

@@ -44,6 +44,10 @@ SECTION_MIGRATIONS = {
     "SECTION 173 CRPC": "BNSS Section 193 (Police investigation chargesheet)",
     "CRPC 437": "BNSS Section 480 (Bail in non-bailable offences)",
     "CRPC 439": "BNSS Section 482 (Special powers of High Court/Sessions on bail)",
+    "CRPC 70": "BNSS Section 72 (Form of warrant of arrest and duration)",
+    "SECTION 70 CRPC": "BNSS Section 72 (Form of warrant of arrest and duration)",
+    "CRPC 71": "BNSS Section 73 (Power to direct security to be taken upon warrant)",
+    "SECTION 71 CRPC": "BNSS Section 73 (Power to direct security to be taken upon warrant)",
     "IEA 65B": "BSA Section 63 (Admissibility of electronic records)",
     "SECTION 65B IEA": "BSA Section 63 (Admissibility of electronic records)",
 }

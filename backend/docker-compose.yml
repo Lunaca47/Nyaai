@@ -31,7 +31,28 @@ services:
     volumes:
       - miniodata:/data
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - AUTH_SECRET_KEY=dry_run_dev_secret_key_nyaai_2026_refactor
+      - DATABASE_URL=postgresql+asyncpg://nyaai:nyaai@postgres:5432/nyaai
+      - QDRANT_URL=http://qdrant:6333
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - ALLOW_IN_MEMORY_FALLBACK=True
+    depends_on:
+      - postgres
+      - qdrant
+      - minio
+
 volumes:
   pgdata:
   qdrantdata:
   miniodata:
+
