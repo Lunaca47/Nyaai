@@ -60,7 +60,7 @@
     </h1>
 
     <p class="hero-subtitle">
-      Instant statutory retrieval, on-device legal OCR, and plain-language criminal code synthesis across Bharatiya Nyaya Sanhita, BNSS, BSA, and the Constitution of India.
+      Hybrid statutory retrieval (BM25 + dense semantic embeddings), deterministic CitationVerifier gating, client-side encrypted matter management, and plain-language legal synthesis across reformed Indian criminal and civil codes.
     </p>
 
     <div class="hero-buttons">
@@ -72,20 +72,20 @@
     <!-- Live Telemetry Strip -->
     <div class="metrics-row">
       <div class="metric-card">
-        <div class="metric-number">1,838+</div>
-        <div class="metric-label">Indexed Legal Sections</div>
+        <div class="metric-number">1,705</div>
+        <div class="metric-label">Substantive Provisions</div>
       </div>
       <div class="metric-card">
-        <div class="metric-number">4 Acts</div>
-        <div class="metric-label">BNS • BNSS • BSA • COI</div>
+        <div class="metric-number">10+ Codes</div>
+        <div class="metric-label">BNS • BNSS • BSA • COI • Consumer</div>
       </div>
       <div class="metric-card">
-        <div class="metric-number">&lt; 100ms</div>
-        <div class="metric-label">Offline Query Speed</div>
+        <div class="metric-number">5-Stage</div>
+        <div class="metric-label">CitationVerifier Gate</div>
       </div>
       <div class="metric-card">
-        <div class="metric-number">100%</div>
-        <div class="metric-label">On-Device Private OCR</div>
+        <div class="metric-number">AES-256</div>
+        <div class="metric-label">Client-Side Encrypted Matters</div>
       </div>
     </div>
   </header>
@@ -105,7 +105,7 @@
           <div class="showcase-icon" style="background: var(--pastel-blue-bg); color: var(--primary-blue);">⚡</div>
           <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Interactive AI Terminal</h3>
           <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-            Ask complex legal questions and receive answers grounded directly in specific statutory sections with confidence metrics, speech synthesis read-aloud, and speech-to-text input.
+            Ask complex legal questions and receive answers synthesized by FastAPI, grounded via BM25 + dense hybrid retrieval, and strictly gated by CitationVerifier with confidence scoring.
           </p>
         </div>
         <a href="terminal.html" class="btn-primary" style="align-self: flex-start;">Open Terminal →</a>
@@ -117,7 +117,7 @@
           <div class="showcase-icon" style="background: var(--pastel-gold-bg); color: var(--primary-gold);">📄</div>
           <h3 style="font-size: 1.3rem; margin-bottom: 8px;">On-Device Document Scanner</h3>
           <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-            Scan paper legal notices, agreements, and FIR copies. Extract actionable legal deadlines, statutory violation clauses, and recommended steps with zero cloud leakage.
+            Scan paper legal notices, agreements, and FIR copies. Extract actionable legal deadlines, statutory violation clauses, and recommended steps using client-side OCR without unauthorized cloud storage.
           </p>
         </div>
         <a href="scanner.html" class="btn-honey" style="align-self: flex-start;">Scan Document →</a>
@@ -129,7 +129,7 @@
           <div class="showcase-icon" style="background: var(--pastel-sage-bg); color: var(--primary-emerald);">📚</div>
           <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Indian Statutory Codex</h3>
           <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-            Searchable, structured repository of the complete new criminal laws (BNS 2023, BNSS 2023, BSA 2023) and the Constitution of India. Search sections by keywords instantly.
+            Searchable repository of 1,705 substantive statutory provisions across BNS 2023, BNSS 2023, BSA 2023, the Constitution of India, Consumer Protection, and IT Act.
           </p>
         </div>
         <a href="codex.html" class="btn-secondary" style="align-self: flex-start;">Browse Codex →</a>
@@ -151,12 +151,12 @@
       <div class="showcase-card">
         <div>
           <div class="showcase-icon" style="background: var(--pastel-purple-bg); color: var(--pastel-purple-text);">🔒</div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Zero-Knowledge Privacy</h3>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Citation Verification &amp; Privacy</h3>
           <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-            Local SQLite FTS4 preloaded knowledge base and on-device ML Kit OCR guarantee that private legal consultations, photos, and voice data never leave your device.
+            Deterministic CitationVerifier hard gate prevents hallucinations and flags repealed pre-2024 laws (IPC, CrPC). Client-side AES-GCM-256 encrypted matter workspace keeps case facts private, with on-device SQLite fallback when offline.
           </p>
         </div>
-        <span class="badge-pastel-sage" style="align-self: flex-start;">✓ 100% On-Device</span>
+        <span class="badge-pastel-sage" style="align-self: flex-start;">✓ Citation-Gated &amp; Encrypted</span>
       </div>
 
       <!-- Feature 6 -->
@@ -165,7 +165,7 @@
           <div class="showcase-icon" style="background: var(--pastel-blue-bg); color: var(--primary-blue);">📲</div>
           <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Production Android App</h3>
           <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-            Signed production APK (11.47 MB) with R8 minification, verified with APK Signature Scheme v2. Download and sideload directly on any Android 7.0+ device.
+            Signed production APK (11.97 MB) with Jetpack Compose, Room DB, encrypted matter management, and offline statutory fallback. Download directly for Android 7.0+.
           </p>
         </div>
         <a href="download.html" class="btn-primary" style="align-self: flex-start;">Download APK →</a>

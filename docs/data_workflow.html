@@ -73,66 +73,79 @@
   <div class="container">
     <h1>Nyaai (न्यायAI) — Data Architecture & Workflow Flowchart</h1>
     <p class="lead">
-      Interactive visual architecture showing the end-to-end data journey: from statutory ingestion and on-device SQLite FTS4 indexing to Gemini 2.5 Flash synthesis and autonomous client-side feedback learning.
+      Interactive visual architecture showing the V2 end-to-end data journey: from 1,705 substantive statutory provisions and hybrid BM25+dense vector search to LLM synthesis, deterministic CitationVerifier gating, and client-side encrypted matter management.
     </p>
 
     <div class="mermaid-box">
       <div class="mermaid">
 flowchart TD
-    subgraph Data_Prep ["1. Data Ingestion and Build Pipeline (Offline Indexing)"]
-        A1["Official Statutory PDFs<br>(BNS, BNSS, BSA, Constitution)"]
-        A2["Curated Q&A Corpus<br>(10,240 Verified Legal Pairs)"]
-        A3["Python Bundler and Parser<br>(scripts/build_preloaded_db.py)"]
-        A4[("SQLite FTS4 Database<br>nyaai_preloaded.db")]
+    subgraph Data_Prep ["1. Data Ingestion and Indexing Pipeline"]
+        A1["1,705 Substantive Statutory Provisions<br>(BNS, BNSS, BSA, COI, Consumer, IT)"]
+        A2["220 Statutory Reference Stubs<br>(Schedules, forms, repeals)"]
+        A3["BM25 Index & Dense Vectors<br>(all-MiniLM-L6-v2, 384-dim)"]
+        A4[("Preloaded SQLite Database<br>nyaai_preloaded.db (Offline Fallback)")]
         
         A1 --> A3
         A2 --> A3
-        A3 -->|"Tokenization and FTS4 Indexing"| A4
+        A1 --> A4
     end
 
     subgraph Input_Channels ["2. Client Ingestion Layer"]
         U1["Voice Query<br>(Native Dialect STT in 5 Languages)"]
-        U2["Text Query<br>(Mobile App or Web Terminal)"]
+        U2["Legal Query / Case Intake<br>(Mobile App or Web Terminal)"]
         U3["Document Image / PDF<br>(Legal Notice, FIR, Contract)"]
-        U4["On-Device ML Kit OCR<br>(Extracts clauses, dates, violations)"]
+        U4["Client-Side OCR<br>(Extracts clauses, dates, violations)"]
         
         U3 --> U4
         U4 --> U2
         U1 --> U2
     end
 
-    subgraph RAG_Engine ["3. On-Device Retrieval Engine (FTS4)"]
-        R1["Query Normalizer and Keyword Extractor"]
-        R2["Fast Multi-Token and Section Matcher"]
-        R3["Ranked Statutory Chunks + Confidence Score"]
+    subgraph RAG_Engine ["3. Hybrid Statutory Retrieval Engine"]
+        R1["Intake Slot-Filling & Entity Extraction"]
+        R2["Lexical BM25 Okapi Matcher"]
+        R3["Dense Vector Cosine Similarity"]
+        R4["Reciprocal Rank Fusion (RRF, k=60)<br>+ Jurisdiction Boosting"]
         
         U2 --> R1
-        A4 -.->|"Preloaded and Embedded"| R2
         R1 --> R2
-        R2 --> R3
+        R1 --> R3
+        A3 -.-> R2
+        A3 -.-> R3
+        R2 --> R4
+        R3 --> R4
     end
 
-    subgraph Decision_Branch ["4. Synthesis and Grounding Layer"]
-        D1{"Internet Available and<br>Gemini API Configured?"}
+    subgraph Gating_Layer ["4. Synthesis & CitationVerifier Hard Gate"]
+        S1["Statutory Grounded Synthesis<br>(Structured Plain-Language Guidance)"]
+        CV{"CitationVerifier Deterministic Gate"}
+        V_PASS["PASSED<br>(Grounded & Current)"]
+        V_REP["ANNOTATED_REPEALED<br>(Mapped from IPC/CrPC)"]
+        V_MOD["ANNOTATED_MODEL_LAW<br>(State List Entry 18 Caveat)"]
+        V_UNG["ANNOTATED_UNGROUNDED<br>(Partial Context Warning)"]
+        V_REJ["REJECTED_UNGROUNDED<br>(Hallucination Blocked)"]
         
-        S_ONLINE["Online AI Synthesis<br>(Google Gemini 2.5 Flash)"]
-        S_OFFLINE["Offline Local Retrieval<br>(Direct Codified Excerpts)"]
-        
-        R3 --> D1
-        D1 -->|"Yes"| S_ONLINE
-        D1 -->|"No / Offline"| S_OFFLINE
+        R4 --> S1
+        S1 --> CV
+        CV --> V_PASS
+        CV --> V_REP
+        CV --> V_MOD
+        CV --> V_UNG
+        CV --> V_REJ
     end
 
-    subgraph Output_Loop ["5. Presentation and Autonomous Feedback Loop"]
-        OUT["Plain-Language Legal Assessment<br>+ Exact Section Citation<br>+ Confidence Metric<br>+ Speech Read-Aloud"]
-        FB["User Feedback Click<br>(Helpful / Train)"]
-        LOCAL_STORE[("Local Storage<br>Custom Q&A Cache")]
+    subgraph Output_Loop ["5. Encrypted Matter Workspace & Response"]
+        OUT["Grounded Client Guidance<br>+ Verified Citations<br>+ Procedural Roadmap"]
+        MATTER["Matter Workspace<br>(AES-GCM-256 Encrypted Facts,<br>Evidence Checklist, Timelines)"]
+        OFFLINE["Offline Fallback Mode<br>(Direct Codified Excerpts from SQLite)"]
         
-        S_ONLINE --> OUT
-        S_OFFLINE --> OUT
-        OUT --> FB
-        FB -->|"Auto-Learned Entry"| LOCAL_STORE
-        LOCAL_STORE -.->|"Unshifted into KB"| R2
+        V_PASS --> OUT
+        V_REP --> OUT
+        V_MOD --> OUT
+        V_UNG --> OUT
+        V_REJ -.->|"Fallback"| OFFLINE
+        OUT --> MATTER
+        A4 -.-> OFFLINE
     end
 
     classDef prep fill:#EEF2FF,stroke:#4F46E5,stroke-width:1.5px,color:#1E1B4B;
@@ -143,24 +156,24 @@ flowchart TD
 
     class A1,A2,A3,A4 prep;
     class U1,U2,U3,U4 input;
-    class R1,R2,R3 rag;
-    class D1,S_ONLINE,S_OFFLINE decision;
-    class OUT,FB,LOCAL_STORE output;
+    class R1,R2,R3,R4 rag;
+    class S1,CV,V_PASS,V_REP,V_MOD,V_UNG,V_REJ decision;
+    class OUT,MATTER,OFFLINE output;
       </div>
     </div>
 
     <div class="notes-grid">
       <div class="note-card">
-        <h3>1. 100% Offline Capable</h3>
-        <p>Preloaded with 1,838 codified sections and 10,240 verified Q&As directly inside SQLite FTS4 (< 50ms latency).</p>
+        <h3>1. Hybrid Retrieval & Grounding</h3>
+        <p>1,705 substantive statutory provisions indexed with BM25 Okapi + dense vector embeddings (all-MiniLM-L6-v2) fused via RRF (k=60).</p>
       </div>
       <div class="note-card">
-        <h3>2. Dual Vision & Voice OCR</h3>
-        <p>Google ML Kit OCR processes notices on-device without cloud uploads. Voice STT routes across 5 Indian languages.</p>
+        <h3>2. Deterministic Verification Gate</h3>
+        <p>Strict 5-verdict CitationVerifier hard gate prevents hallucinations, blocks ungrounded citations, and flags repealed pre-2024 acts.</p>
       </div>
       <div class="note-card">
-        <h3>3. Autonomous Feedback</h3>
-        <p>User feedback updates local on-device caches instantly to customize subsequent queries.</p>
+        <h3>3. Encrypted Matter Management</h3>
+        <p>Client-side AES-GCM-256 encrypted matters with chronological timelines, evidence preservation checklists, and offline SQLite fallback.</p>
       </div>
     </div>
   </div>

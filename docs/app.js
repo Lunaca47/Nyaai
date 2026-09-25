@@ -958,9 +958,9 @@ const i18n = {
       "card4Title": "National Legal SOS",
       "card4Desc": "One-touch access to official toll-free emergency legal helplines across India (NALSA free legal aid, NCW Women helpline, National Cybercrime, and Childline).",
       "card4Btn": "View Helplines →",
-      "card5Title": "Zero-Knowledge Privacy",
-      "card5Desc": "Local SQLite FTS4 preloaded knowledge base and on-device ML Kit OCR guarantee that private legal consultations, photos, and voice data never leave your device.",
-      "card5Badge": "✓ 100% On-Device",
+      "card5Title": "Citation Verification & Privacy",
+      "card5Desc": "FastAPI statutory retrieval and CitationVerifier deterministic gates prevent hallucinations and flag repealed laws, while client-side AES-GCM-256 encrypted matter workspace keeps case facts private.",
+      "card5Badge": "✓ Citation-Gated & Encrypted",
       "card6Title": "Cross-Platform Ready",
       "card6Desc": "Available as a high-performance modern web application and production-signed native Android APK with room persistence and offline fallback.",
       "card6Btn": "Download App →"
@@ -1000,7 +1000,7 @@ const i18n = {
     "codex": {
       "badge": "📚 Statutory Knowledge Base",
       "title": "The Indian Statutory Codex",
-      "desc": "Instant indexed access across 1,838+ sections of India's new criminal codes and constitutional jurisprudence.",
+      "desc": "Instant indexed access across 1,705 substantive statutory provisions of India's new criminal codes and constitutional jurisprudence.",
       "searchPlaceholder": "Search by section, keyword, or topic (e.g., murder, bail, FIR, electronic evidence, privacy)..."
     },
     "sos": {
@@ -1046,8 +1046,8 @@ const i18n = {
       "desc": "Native Android application optimized with R8 code shrinking and verified with 2048-bit RSA release keys.",
       "cardBadge": "Signed Production Build Verified",
       "cardTitle": "NYAAI for Android (Release APK)",
-      "cardDesc": "Includes pre-packaged legal database (4.27 MB, Schema v8) containing 1,838 sections across BNS 2023, BNSS 2023, BSA 2023, and Constitution of India for instant < 100ms startup.",
-      "btnDownload": "⬇️ Download Signed APK (11.47 MB)",
+      "cardDesc": "Includes pre-packaged legal database (4.27 MB, Schema v8) containing 1,705 substantive statutory provisions across BNS 2023, BNSS 2023, BSA 2023, and Constitution of India for instant < 100ms startup.",
+      "btnDownload": "⬇️ Download Signed APK (11.97 MB)",
       "btnMirror": "⚡ GitHub Releases Mirror",
       "btnWeb": "🌐 View Web Version"
     }
@@ -1134,7 +1134,7 @@ const i18n = {
     "codex": {
       "badge": "📚 वैधानिक ज्ञानकोश",
       "title": "भारतीय कानूनी कोडेक्स",
-      "desc": "भारत के नए आपराधिक संहिताओं और संवैधानिक न्यायशास्त्र की 1,838+ धाराओं तक त्वरित अनुक्रमित पहुंच।",
+      "desc": "भारत के नए आपराधिक संहिताओं और संवैधानिक न्यायशास्त्र की 1,705 धाराओं तक त्वरित अनुक्रमित पहुंच।",
       "searchPlaceholder": "धारा, कीवर्ड या विषय द्वारा खोजें (उदा. हत्या, जमानत, FIR, इलेक्ट्रॉनिक साक्ष्य, निजता)..."
     },
     "sos": {
@@ -1180,8 +1180,8 @@ const i18n = {
       "desc": "मूल एंड्रॉइड ऐप R8 कोड ऑप्टिमाइजेशन और 2048-बिट RSA कुंजियों के साथ सत्यापित।",
       "cardBadge": "हस्ताक्षरित प्रोडक्शन बिल्ड सत्यापित",
       "cardTitle": "न्यायAI एंड्रॉइड के लिए (रिलीज़ APK)",
-      "cardDesc": "तुरंत < 100ms स्टार्टअप के लिए BNS, BNSS, BSA और संविधान की 1,838 धाराओं वाला प्री-पैकेज्ड डेटाबेस (4.27 MB, Schema v8) शामिल है।",
-      "btnDownload": "⬇️ हस्ताक्षरित APK डाउनलोड करें (11.47 MB)",
+      "cardDesc": "तुरंत < 100ms स्टार्टअप के लिए BNS, BNSS, BSA और संविधान की 1,705 धाराओं वाला प्री-पैकेज्ड डेटाबेस (4.27 MB, Schema v8) शामिल है।",
+      "btnDownload": "⬇️ हस्ताक्षरित APK डाउनलोड करें (11.97 MB)",
       "btnMirror": "⚡ GitHub रिलीज़ मिरर",
       "btnWeb": "🌐 वेब संस्करण देखें"
     }
@@ -1268,7 +1268,7 @@ const i18n = {
     "codex": {
       "badge": "📚 সংবিধিবদ্ধ জ্ঞানকোষ",
       "title": "ভারতীয় সংবিধিবদ্ধ কোডেক্স",
-      "desc": "ভারতের নতুন ফৌজদারি কোড এবং সাংবিধানিক আইনের ১,৮৩৮+ ধারায় তাত্ক্ষণিক অনুসন্ধান।",
+      "desc": "ভারতের নতুন ফৌজদারি কোড এবং সাংবিধানিক আইনের ১,৭০৫ ধারায় তাত্ক্ষণিক অনুসন্ধান।",
       "searchPlaceholder": "ধারা, কিওয়ার্ড বা বিষয় দ্বারা অনুসন্ধান করুন (যেমন হত্যা, জামিন, FIR, ডিজিটাল প্রমাণ, গোপনীয়তা)..."
     },
     "sos": {
@@ -1314,8 +1314,8 @@ const i18n = {
       "desc": "নেটিভ অ্যান্ড্রয়েড অ্যাপ যা R8 অপ্টিমাইজেশন এবং ২০৪৮-বিট RSA কী সহ যাচাইকৃত।",
       "cardBadge": "স্বাক্ষরিত প্রোডাকশন বিল্ড যাচাইকৃত",
       "cardTitle": "অ্যান্ড্রয়েডের জন্য ন্যায়AI (রিলিজ APK)",
-      "cardDesc": "তাত্ক্ষণিক < ১০০ms স্টার্টআপের জন্য ১,৮৩৮টি ধারা সমৃদ্ধ প্রি-প্যাকেজড ডেটাবেস (৪.২৭ MB, Schema v8) অন্তর্ভুক্ত।",
-      "btnDownload": "⬇️ স্বাক্ষরিত APK ডাউনলোড করুন (১১.৪৭ MB)",
+      "cardDesc": "তাত্ক্ষণিক < ১০০ms স্টার্টআপের জন্য ১,৭০৫টি ধারা সমৃদ্ধ প্রি-প্যাকেজড ডেটাবেস (৪.২৭ MB, Schema v8) অন্তর্ভুক্ত।",
+      "btnDownload": "⬇️ স্বাক্ষরিত APK ডাউনলোড করুন (১১.৯৭ MB)",
       "btnMirror": "⚡ GitHub রিলিজ মিরর",
       "btnWeb": "🌐 ওয়েব সংস্করণ দেখুন"
     }
@@ -1402,7 +1402,7 @@ const i18n = {
     "codex": {
       "badge": "📚 చట్టబద్ధమైన నాలెడ్జ్ బేస్",
       "title": "భారతీయ చట్టబద్ధమైన కోడెక్స్",
-      "desc": "భారతదేశపు కొత్త క్రిమినల్ కోడ్‌లు మరియు రాజ్యాంగ న్యాయశాస్త్రం యొక్క 1,838+ విభాగాలకు తక్షణ శోధన ప్రాప్యత.",
+      "desc": "భారతదేశపు కొత్త క్రిమినల్ కోడ్‌లు మరియు రాజ్యాంగ న్యాయశాస్త్రం యొక్క 1,705 విభాగాలకు తక్షణ శోధన ప్రాప్యత.",
       "searchPlaceholder": "సెక్షన్, కీవర్డ్ లేదా అంశం ద్వారా శోధించండి (ఉదా. హత్య, బెయిల్, FIR, ఎలక్ట్రానిక్ సాక్ష్యం, గోప్యత)..."
     },
     "sos": {
@@ -1448,8 +1448,8 @@ const i18n = {
       "desc": "స్థానిక Android అప్లికేషన్ R8 కోడ్ ఆప్టిమైజేషన్ మరియు 2048-బిట్ RSA కీలతో ధృవీకరించబడింది.",
       "cardBadge": "సంతకం చేసిన ప్రొడక్షన్ బిల్డ్ ధృవీకరించబడింది",
       "cardTitle": "Android కోసం న్యాయ్AI (విడుదల APK)",
-      "cardDesc": "తక్షణ < 100ms స్టార్టప్ కోసం BNS, BNSS, BSA మరియు రాజ్యాంగం యొక్క 1,838 విభాగాలతో కూడిన డేటాబేస్ (4.27 MB, Schema v8) చేర్చబడింది.",
-      "btnDownload": "⬇️ సంతకం చేసిన APK డౌన్‌లోడ్ చేయండి (11.47 MB)",
+      "cardDesc": "తక్షణ < 100ms స్టార్టప్ కోసం BNS, BNSS, BSA మరియు రాజ్యాంగం యొక్క 1,705 విభాగాలతో కూడిన డేటాబేస్ (4.27 MB, Schema v8) చేర్చబడింది.",
+      "btnDownload": "⬇️ సంతకం చేసిన APK డౌన్‌లోడ్ చేయండి (11.97 MB)",
       "btnMirror": "⚡ GitHub విడుదలల మిర్రర్",
       "btnWeb": "🌐 వెబ్ వెర్షన్ చూడండి"
     }
@@ -1536,7 +1536,7 @@ const i18n = {
     "codex": {
       "badge": "📚 சட்ட அறிவுத் தளம்",
       "title": "இந்திய சட்டக் கோடெக்ஸ்",
-      "desc": "இந்தியாவின் புதிய குற்றவியல் சட்டங்கள் மற்றும் அரசியலமைப்புச் சட்டத்தின் 1,838+ பிரிவுகளுக்கான உடனடி அணுகல்.",
+      "desc": "இந்தியாவின் புதிய குற்றவியல் சட்டங்கள் மற்றும் அரசியலமைப்புச் சட்டத்தின் 1,705 பிரிவுகளுக்கான உடனடி அணுகல்.",
       "searchPlaceholder": "பிரிவு, முக்கிய சொல் அல்லது தலைப்பு மூலம் தேடுங்கள் (எ.கா. கொலை, ஜாமீன், எஃப்ஐஆர், மின்னணு ஆதாரம், தனியுரிமை)..."
     },
     "sos": {
@@ -1582,8 +1582,8 @@ const i18n = {
       "desc": "2048-பிட் RSA விசைகளுடன் சரிபார்க்கப்பட்ட நேட்டிவ் ஆண்ட்ராய்டு செயலி.",
       "cardBadge": "தயாரிப்பு கட்டமைப்பு சரிபார்க்கப்பட்டது",
       "cardTitle": "ஆண்ட்ராய்டுக்கான நியாய்AI (வெளியீட்டு APK)",
-      "cardDesc": "உடனடி < 100ms தொடக்கத்திற்கு 1,838 பிரிவுகளைக் கொண்ட சட்ட தரவுத்தளத்தை (4.27 MB, Schema v8) கொண்டுள்ளது.",
-      "btnDownload": "⬇️ கையொப்பமிட்ட APK-ஐப் பதிவிறக்கு (11.47 MB)",
+      "cardDesc": "உடனடி < 100ms தொடக்கத்திற்கு 1,705 பிரிவுகளைக் கொண்ட சட்ட தரவுத்தளத்தை (4.27 MB, Schema v8) கொண்டுள்ளது.",
+      "btnDownload": "⬇️ கையொப்பமிட்ட APK-ஐப் பதிவிறக்கு (11.97 MB)",
       "btnMirror": "⚡ GitHub வெளியீடுகள் கண்ணாடி",
       "btnWeb": "🌐 வலைப் பதிப்பைப் பார்"
     }
