@@ -146,13 +146,52 @@ def _format_source_content(s: Any) -> str:
         return " ".join(p for p in parts if p)
     return str(s)
 
-def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, Optional[str], Optional[str]]:
+ERROR_PAGE_INDICATORS = [
+    "404 not found",
+    "page not found",
+    "access denied",
+    "403 forbidden",
+    "500 internal server error",
+    "502 bad gateway",
+    "503 service unavailable",
+    "site under maintenance",
+    "temporarily down",
+    "captcha",
+    "security check",
+    "error occurred while processing"
+]
+
+def _is_error_or_landing_page(s: Any) -> bool:
+    """Detect if retrieved source content is an HTTP error page, CAPTCHA wall, or invalid shell."""
+    text = _format_source_content(s).lower().strip()
+    if not text or len(text) < 25:
+        return True
+    if any(ind in text for ind in ERROR_PAGE_INDICATORS):
+        if len(text) < 250 or "404" in text or "page not found" in text or "access denied" in text or "captcha" in text:
+            return True
+    return False
+
+def _extract_source_metadata(s: Any) -> Tuple[str, Optional[str], Optional[str]]:
+    """Extract (source_type, source_url, fetched_at) from retrieved source."""
+    if isinstance(s, dict):
+        st = s.get("source_type", "local_corpus")
+        su = s.get("source_url")
+        fa = s.get("fetched_at")
+        return st, su, fa
+    elif hasattr(s, "source_type"):
+        st = getattr(s, "source_type", "local_corpus")
+        su = getattr(s, "source_url", None)
+        fa = getattr(s, "fetched_at", None)
+        return st, su, fa
+    return "local_corpus", None, None
+
+def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, Optional[str], Optional[str], str, Optional[str], Optional[str]]:
     """
     Check if citation appears in retrieved context.
-    Returns (is_grounded, precedent_status_warning, replacement_or_check).
+    Returns (is_grounded, precedent_status_warning, replacement_or_check, source_type, source_url, fetched_at).
     """
     if not retrieved_sources:
-        return False, None, None
+        return False, None, None, "local_corpus", None, None
 
     if is_case_citation(citation):
         # Case Law Precedent Grounding & Precedent Status verification
@@ -169,6 +208,8 @@ def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, 
 
         matched_source = None
         for s in retrieved_sources:
+            if _is_error_or_landing_page(s):
+                continue
             s_text = _format_source_content(s).lower()
             if isinstance(s, dict):
                 c_name = s.get("case_name", "").lower()
@@ -185,6 +226,7 @@ def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, 
                 break
 
         if matched_source is not None:
+            st, su, fa = _extract_source_metadata(matched_source)
             # Grounded! Now check precedent status
             if isinstance(matched_source, dict):
                 status = matched_source.get("precedent_status", "GOOD_LAW").upper()
@@ -203,21 +245,75 @@ def check_grounding(citation: str, retrieved_sources: List[Any]) -> Tuple[bool, 
 
             if status in ("SUPERSEDED_BY_STATUTE", "MODIFIED", "OVERRULED"):
                 warn = f"Precedent '{citation}' is {status}. {check_note}".strip()
-                return True, warn, check_note
-            return True, None, None
+                return True, warn, check_note, st, su, fa
+            return True, None, None, st, su, fa
         else:
-            return False, None, None
+            return False, None, None, "local_corpus", None, None
 
     # Statutory section grounding
-    str_sources = [_format_source_content(s) for s in retrieved_sources]
-    combined_sources = " ".join(str_sources).lower()
-    numbers = re.findall(r'\d+[A-Z]?', citation, re.IGNORECASE)
-    if not numbers:
-        return (citation.lower() in combined_sources), None, None
-    for num in numbers:
-        if num.lower() in combined_sources:
-            return True, None, None
-    return False, None, None
+    numbers = re.findall(r'\b\d+[A-Za-z]*(?:\(\w+\))*', citation, re.IGNORECASE)
+    cit_lower = citation.lower()
+
+    # Detect specified Act in citation
+    cited_act_keywords = []
+    if "negotiable" in cit_lower or "ni act" in cit_lower:
+        cited_act_keywords = ["negotiable", "ni act"]
+    elif "bharatiya nyaya" in cit_lower or "bns" in cit_lower or "ipc" in cit_lower or "penal" in cit_lower:
+        cited_act_keywords = ["nyaya", "bns", "penal", "ipc"]
+    elif "bharatiya nagarik" in cit_lower or "bnss" in cit_lower or "crpc" in cit_lower or "criminal procedure" in cit_lower:
+        cited_act_keywords = ["nagarik", "bnss", "crpc", "criminal procedure"]
+    elif "bharatiya sakshya" in cit_lower or "bsa" in cit_lower or "iea" in cit_lower or "evidence" in cit_lower:
+        cited_act_keywords = ["sakshya", "bsa", "iea", "evidence"]
+    elif "model tenancy" in cit_lower or "mta" in cit_lower:
+        cited_act_keywords = ["tenancy", "mta"]
+    elif "right to information" in cit_lower or "rti" in cit_lower:
+        cited_act_keywords = ["information", "rti"]
+    elif "motor vehicle" in cit_lower or "mva" in cit_lower:
+        cited_act_keywords = ["motor", "mva"]
+
+    for s in retrieved_sources:
+        if _is_error_or_landing_page(s):
+            continue
+
+        s_text = _format_source_content(s).lower()
+        st, su, fa = _extract_source_metadata(s)
+
+        if isinstance(s, dict):
+            s_act = s.get("act", "").lower()
+            s_sec = s.get("section", "").lower().replace("section", "").replace("sec.", "").strip()
+
+            # If citation specified an Act, verify the source act aligns
+            if cited_act_keywords and s_act:
+                if not any(k in s_act for k in cited_act_keywords):
+                    continue
+
+            # If numbers are specified in citation, verify section number
+            if numbers:
+                target_num = numbers[0].lower().replace("section", "").replace("sec.", "").strip()
+                if s_sec and s_sec != "general":
+                    if target_num not in s_sec and s_sec not in target_num:
+                        continue
+                if target_num not in s_text:
+                    continue
+                return True, None, None, st, su, fa
+            else:
+                if any(w in s_text for w in cit_lower.split() if len(w) > 3):
+                    return True, None, None, st, su, fa
+        else:
+            # String source
+            if numbers:
+                target_num = numbers[0].lower().replace("section", "").replace("sec.", "").strip()
+                if target_num in s_text:
+                    if cited_act_keywords:
+                        if any(k in s_text for k in cited_act_keywords) or not any(k in s_text for k in ["bns", "bnss", "bsa", "ipc", "crpc", "rti", "mta", "tenancy", "negotiable"]):
+                            return True, None, None, st, su, fa
+                    else:
+                        return True, None, None, st, su, fa
+            else:
+                if cit_lower in s_text:
+                    return True, None, None, st, su, fa
+
+    return False, None, None, "local_corpus", None, None
 
 @router.post("", response_model=VerifyResponse)
 async def verify_citations(request: VerifyCitationRequest):
@@ -238,7 +334,7 @@ async def verify_citations(request: VerifyCitationRequest):
     for cit in candidates:
         is_current, curr_warn, replacement = check_currentness(cit)
         is_applicable, app_warn = check_applicability(cit)
-        is_grounded, prec_warn, prec_check = check_grounding(cit, request.retrieved_sources)
+        is_grounded, prec_warn, prec_check, src_type, src_url, fetched_at = check_grounding(cit, request.retrieved_sources)
 
         if prec_warn:
             superseded_precedents.append((cit, prec_warn))
@@ -264,6 +360,9 @@ async def verify_citations(request: VerifyCitationRequest):
             current=is_current and not bool(prec_warn),
             warning=prec_warn or curr_warn,
             replacement=replacement,
+            source_type=src_type,
+            source_url=src_url,
+            fetched_at=fetched_at,
         ))
 
     # Check Model Law applicability

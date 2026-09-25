@@ -168,6 +168,9 @@ class CitationVerificationResult(BaseModel):
     current: bool
     warning: Optional[str] = None
     replacement: Optional[str] = None
+    source_type: str = "local_corpus"  # "local_corpus" | "live_fetch"
+    source_url: Optional[str] = None
+    fetched_at: Optional[str] = None
 
 class VerifyResponse(BaseModel):
     is_grounded: bool

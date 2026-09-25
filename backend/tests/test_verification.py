@@ -260,3 +260,105 @@ async def test_case_law_good_law_passed():
         data = resp.json()
         assert data["action"] == "PASSED", f"Expected PASSED, got {data['action']}"
 
+
+@pytest.mark.asyncio
+async def test_live_fetch_unrelated_text_rejected_ungrounded():
+    """
+    NEGATIVE-PROOF TEST:
+    A live fetch that grabbed the WRONG section or an unrelated Act must be rejected
+    by CitationVerifier as REJECTED_UNGROUNDED.
+    """
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "Under Section 138 of the Negotiable Instruments Act, 1881, cheque bounce is punishable.",
+            "cited_citations": ["Section 138 Negotiable Instruments Act"],
+            "retrieved_sources": [
+                {
+                    "act": "Right to Information Act, 2005",
+                    "section": "Section 10",
+                    "title": "Severability",
+                    "content": "Where a request for access to information is rejected for the reason that it relates to information which is exempt from disclosure...",
+                    "source_type": "live_fetch",
+                    "source_url": "https://indiacode.gov.in/handle/123456789/2065",
+                    "fetched_at": "2026-09-25T12:00:00Z"
+                }
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "REJECTED_UNGROUNDED", f"Expected REJECTED_UNGROUNDED, got {data['action']}"
+        assert data["is_grounded"] is False
+        assert data["citations"][0]["grounded"] is False
+        assert any("ungrounded" in w.lower() for w in data["warnings"])
+
+
+@pytest.mark.asyncio
+async def test_live_fetch_error_or_landing_page_rejected_ungrounded():
+    """
+    NEGATIVE-PROOF TEST:
+    A live fetch that returned an HTTP 404 or generic error landing page must be rejected
+    by CitationVerifier as REJECTED_UNGROUNDED.
+    """
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "Section 138 Negotiable Instruments Act governs cheque dishonour proceedings.",
+            "cited_citations": ["Section 138 Negotiable Instruments Act"],
+            "retrieved_sources": [
+                {
+                    "act": "India Code Official Registry",
+                    "section": "General",
+                    "title": "404 Not Found - Page Not Found",
+                    "content": "404 Not Found. The requested page could not be located on indiacode.gov.in server.",
+                    "source_type": "live_fetch",
+                    "source_url": "https://indiacode.gov.in/dead_endpoint_test",
+                    "fetched_at": "2026-09-25T12:00:00Z"
+                }
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "REJECTED_UNGROUNDED", f"Expected REJECTED_UNGROUNDED, got {data['action']}"
+        assert data["is_grounded"] is False
+        assert data["citations"][0]["grounded"] is False
+        assert any("ungrounded" in w.lower() for w in data["warnings"])
+
+
+@pytest.mark.asyncio
+async def test_live_fetch_valid_matching_accepted_with_metadata():
+    """
+    POSITIVE-PROOF TEST:
+    A valid live fetch with matching substantive text must be accepted as PASSED
+    and carry source_type == 'live_fetch', source_url, and fetched_at metadata.
+    """
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        resp = await ac.post("/api/v1/verify", json={
+            "response_text": "Under Section 138 of the Negotiable Instruments Act, 1881, dishonour of cheque for insufficiency of funds is punishable.",
+            "cited_citations": ["Section 138 Negotiable Instruments Act"],
+            "retrieved_sources": [
+                {
+                    "act": "Negotiable Instruments Act, 1881",
+                    "section": "Section 138",
+                    "title": "Dishonour of cheque for insufficiency, etc., of funds in the account",
+                    "content": "Where any cheque drawn by a person on an account maintained by him with a banker for payment of any amount of money to another person from out of that account for the discharge, in whole or in part, of any debt or other liability, is returned by the bank unpaid...",
+                    "source_type": "live_fetch",
+                    "source_url": "https://indiacode.gov.in/handle/123456789/2189",
+                    "fetched_at": "2026-09-25T12:00:00Z"
+                }
+            ],
+            "jurisdiction": "central"
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["action"] == "PASSED", f"Expected PASSED, got {data['action']}"
+        assert data["is_grounded"] is True
+        cit = data["citations"][0]
+        assert cit["grounded"] is True
+        assert cit["source_type"] == "live_fetch"
+        assert cit["source_url"] == "https://indiacode.gov.in/handle/123456789/2189"
+        assert cit["fetched_at"] == "2026-09-25T12:00:00Z"
+
