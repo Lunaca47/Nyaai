@@ -1,0 +1,22 @@
+{
+  "indiacode_query:zero fir and mandatory recording of information under section 173 of bharatiya nagarik suraksha sanhita": {
+    "key": "indiacode_query:zero fir and mandatory recording of information under section 173 of bharatiya nagarik suraksha sanhita",
+    "url": "https://indiacode.gov.in",
+    "fetched_at": 1790340301.0913885,
+    "fetched_at_iso": "2026-09-25T12:45:01.091393+00:00",
+    "ttl_seconds": 2592000,
+    "document": {
+      "id": "indiacode-72592ac7",
+      "act": "India Code Official Registry",
+      "section": "General",
+      "title": "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+      "content": "Official verified provision from India Code: The Bharatiya Nagarik Suraksha Sanhita, 2023. Indexed under DSpace item ID: 72592ac7-d084-4545-95d3-0c98dc49fac3.",
+      "jurisdiction": "central",
+      "status": "in_force",
+      "effective_date": "2024-07-01",
+      "source_url": "https://indiacode.gov.in",
+      "source_type": "live_fetch",
+      "fetched_at": "2026-09-25T12:45:01.091393+00:00"
+    }
+  }
+}

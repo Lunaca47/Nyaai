@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import engine
-from app.routers import matters, intake, generation, verification, retrieval
+from app.routers import matters, intake, generation, verification, retrieval, case_status
 from app.retrieval.hybrid_search import hybrid_search_engine, DocumentChunk
 
 logger = logging.getLogger(__name__)
@@ -97,6 +97,7 @@ app.include_router(intake.router, prefix="/api/v1/intake", tags=["intake"])
 app.include_router(generation.router, prefix="/api/v1/generate", tags=["generation"])
 app.include_router(verification.router, prefix="/api/v1/verify", tags=["verification"])
 app.include_router(retrieval.router, prefix="/api/v1/retrieval", tags=["retrieval"])
+app.include_router(case_status.router, prefix="/api/v1/case-status", tags=["case-status"])
 
 @app.get("/health")
 @app.get("/api/v1/health")

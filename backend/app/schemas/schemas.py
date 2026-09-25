@@ -265,4 +265,29 @@ class CaseLawRetrievalResponse(BaseModel):
     results: List[CaseLawQueryResult]
     total: int
 
+# ---------------------------------------------------------------------------
+# Case Status Schemas
+# ---------------------------------------------------------------------------
+
+class CaseStatusRequest(BaseModel):
+    cnr: Optional[str] = None
+    court: Optional[str] = None
+    case_type: Optional[str] = None
+    case_number: Optional[str] = None
+    year: Optional[int] = None
+
+class CaseStatusResponse(BaseModel):
+    cnr: Optional[str] = None
+    is_valid_format: bool
+    status: str
+    court_name: Optional[str] = None
+    case_number: Optional[str] = None
+    filing_year: Optional[int] = None
+    official_portal_url: str
+    deep_link_url: Optional[str] = None
+    court_specific_url: Optional[str] = None
+    blocker_reason: Optional[str] = None
+    instructions: Optional[str] = None
+    retrieval_mode: str = "clean_blocker_notification"
+
 
